@@ -15,3 +15,9 @@ interface UserSettingsInteractor{
     fun updateUserSettings(updatedSettings: UserSettings): Single<Unit>
 
 }
+
+interface MainScreenModel {
+
+    fun checkShouldPromptUserForSimSource(): Single<Boolean>
+
+}
