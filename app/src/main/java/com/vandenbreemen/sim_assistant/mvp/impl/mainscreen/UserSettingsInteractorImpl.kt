@@ -26,4 +26,17 @@ class UserSettingsInteractorImpl(private val application: Application) :UserSett
             it.onSuccess(loadedSettings)
         }).subscribeOn(io())
     }
+
+    override fun updateUserSettings(updatedSettings: UserSettings): Single<Unit> {
+        return Single.create(SingleOnSubscribe<Unit> {
+            val database = Room.databaseBuilder(application.applicationContext,
+                    AppDatabase::class.java, "test-database").build()
+
+            val dao = database.dao()
+
+            dao.updateUserSettings(updatedSettings)
+
+            it.onSuccess(Unit)
+        }).subscribeOn(io())
+    }
 }

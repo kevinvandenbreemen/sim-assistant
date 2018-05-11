@@ -12,5 +12,6 @@ interface MainScreenPresenter {
 interface UserSettingsInteractor{
 
     fun getUserSettings(): Single<UserSettings>
+    fun updateUserSettings(updatedSettings: UserSettings): Single<Unit>
 
 }

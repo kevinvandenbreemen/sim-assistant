@@ -1,9 +1,8 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.UserSettingsInteractor
-import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
-import io.reactivex.plugins.RxJavaPlugins
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,6 +29,16 @@ class UserSettingsInteractorImplTest{
     fun simSourceShouldBeUnknownByDefault(){
         val userSettings = userSettingsInteractor.getUserSettings().blockingGet()
         assertEquals("Unknown source", -1L, userSettings.dataSource)
+    }
+
+    @Test
+    fun shouldUpdateUserSettings(){
+        var userSettings = userSettingsInteractor.getUserSettings().blockingGet()
+        val updatedSettings = userSettings.copy(dataSource = 1L)
+        userSettingsInteractor.updateUserSettings(updatedSettings).blockingGet()
+
+        userSettings  = userSettingsInteractor.getUserSettings().blockingGet()
+        assertEquals("Updated source", 1L, userSettings.dataSource)
     }
 
 }
