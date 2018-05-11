@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey
 @Entity
 data class UserSettings(
 
-        @PrimaryKey(autoGenerate = true)
+        @PrimaryKey(autoGenerate = false)
         val id:Long,
         val dataSource:Long
 )
