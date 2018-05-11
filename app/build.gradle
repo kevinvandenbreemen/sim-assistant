@@ -31,6 +31,7 @@ project.ext{
     room_version = "1.1.0"
     robolectricVersion = "3.8"
     awaitilityVersion = "3.1.0"
+    rxAndroidVersion = "2.0.2"
 }
 
 dependencies {
@@ -50,6 +51,11 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     provided 'javax.annotation:jsr250-api:1.0'
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    compile "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+    //  Testing Code
+    //  =============
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
