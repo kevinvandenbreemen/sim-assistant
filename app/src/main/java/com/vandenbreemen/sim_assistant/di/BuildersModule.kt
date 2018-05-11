@@ -1,0 +1,13 @@
+package com.vandenbreemen.sim_assistant.di
+
+import com.vandenbreemen.sim_assistant.MainActivity
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
+
+@Module
+abstract class BuildersModule {
+
+    @ContributesAndroidInjector
+    abstract fun buildMainActivity(): MainActivity
+
+}
