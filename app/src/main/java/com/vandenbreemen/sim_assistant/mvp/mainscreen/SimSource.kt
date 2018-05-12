@@ -4,4 +4,12 @@ enum class SimSource {
 
     GOOGLE_GROUP
 
+    ;
+
+    fun getId(): Long {
+        return when (this) {
+            GOOGLE_GROUP -> 1L
+        }
+    }
+
 }

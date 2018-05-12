@@ -1,6 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.mainscreen
 
 import com.vandenbreemen.sim_assistant.data.UserSettings
+import io.reactivex.Completable
 import io.reactivex.Single
 
 interface MainScreenPresenter {
@@ -20,5 +21,6 @@ interface MainScreenModel {
 
     fun checkShouldPromptUserForSimSource(): Single<Boolean>
     fun getPossibleSimSources(): List<SimSource>
+    fun setSimSource(simSource: SimSource): Completable
 
 }
