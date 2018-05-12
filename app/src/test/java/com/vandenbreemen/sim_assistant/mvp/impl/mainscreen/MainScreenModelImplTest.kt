@@ -1,6 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenModel
+import junit.framework.TestCase.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -22,6 +23,11 @@ class MainScreenModelImplTest {
     fun shouldRequireSelectingSimSourceOnFirstAppUse() {
         val requiresPrompting = mainScreenModel.checkShouldPromptUserForSimSource().blockingGet()
         assertTrue("Needs prompting", requiresPrompting)
+    }
+
+    @Test
+    fun shouldProvideListOfSimSourcesUserCanUse() {
+        assertFalse("Sim sources", mainScreenModel.getPossibleSimSources().isEmpty())
     }
 
 }

@@ -19,5 +19,6 @@ interface UserSettingsInteractor{
 interface MainScreenModel {
 
     fun checkShouldPromptUserForSimSource(): Single<Boolean>
+    fun getPossibleSimSources(): List<SimSource>
 
 }
