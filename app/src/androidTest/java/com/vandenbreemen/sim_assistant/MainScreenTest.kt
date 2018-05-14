@@ -2,10 +2,10 @@ package com.vandenbreemen.sim_assistant
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import org.hamcrest.CoreMatchers.allOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,13 +25,17 @@ class MainScreenTest {
     @Test
     fun shouldPromptUserForSimSource(){
 
-        //  TODO    Implement data backend using Room
-        //  See https://developer.android.com/topic/libraries/architecture/room
-
         activityRule.launchActivity(null)
 
         onView(withId(R.id.selectSimSource)).check(matches(isDisplayed()))
 
+    }
+
+    @Test
+    fun shouldShowGoogleGroupAsSimSourceOption() {
+        activityRule.launchActivity(null)
+        onView(allOf(withParent(withId(R.id.selectSimSource)), withText("Google Group")))
+                .check(matches(isDisplayed()))
     }
 
 }
