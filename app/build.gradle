@@ -32,6 +32,7 @@ project.ext{
     robolectricVersion = "3.8"
     awaitilityVersion = "3.1.0"
     rxAndroidVersion = "2.0.2"
+    mockitoVersion = "2.18.0"
 }
 
 dependencies {
@@ -74,6 +75,10 @@ dependencies {
 
     //  Awaitility
     testCompile "org.awaitility:awaitility:$awaitilityVersion"
+
+    //  Mockito
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile "org.mockito:mockito-inline:$mockitoVersion"
 
 
 }

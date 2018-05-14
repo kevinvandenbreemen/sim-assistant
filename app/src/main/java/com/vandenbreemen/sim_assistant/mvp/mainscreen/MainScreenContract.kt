@@ -4,9 +4,14 @@ import com.vandenbreemen.sim_assistant.data.UserSettings
 import io.reactivex.Completable
 import io.reactivex.Single
 
+interface MainScreenView{
+    abstract fun showSimSourceSelector(simSources: List<SimSource>)
+
+}
+
 interface MainScreenPresenter {
 
-    fun start()
+    fun start():Completable
 
 }
 
