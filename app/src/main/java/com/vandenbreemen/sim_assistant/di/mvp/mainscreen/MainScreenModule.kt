@@ -16,13 +16,7 @@ class MainScreenModule {
     @Provides
     fun providesMainScreenPresenter(activity:MainActivity):MainScreenPresenter{
         return MainScreenPresenterImpl(MainScreenModelImpl(UserSettingsInteractorImpl(activity.application)),
-                object: MainScreenView{
-                    override fun showSimSourceSelector(simSources: List<SimSource>) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                }
-                )
+                activity )
     }
 
 }
