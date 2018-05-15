@@ -22,7 +22,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    testOptions{
+        unitTests{
+            includeAndroidResources true
+        }
+    }
 }
+
+
 
 project.ext{
     testRunnerVersion = "1.0.2"

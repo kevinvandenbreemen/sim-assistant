@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">sim-assistant</string>
     <string name="select_sim_source">Select source of Sims</string>
+    <string name="sim_src_google_group">Google Group</string>
 </resources>

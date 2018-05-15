@@ -21,4 +21,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/sim_src_google_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sim_src_google_group"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="69dp" />
 </android.support.constraint.ConstraintLayout>
