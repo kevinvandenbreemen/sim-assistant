@@ -11,7 +11,7 @@ class MainScreenPresenterImpl(val mainScreenModelImpl: MainScreenModel, val view
 
     override fun start():Completable{
 
-        return mainScreenModelImpl.checkShouldPromptUserForSimSource().flatMapCompletable { shouldCheck->
+        return mainScreenModelImpl.checkShouldPromptUserForSimSource().observeOn(mainThread()).flatMapCompletable { shouldCheck ->
             CompletableSource {
                 if(shouldCheck){
                     view.showSimSourceSelector(mainScreenModelImpl.getPossibleSimSources())

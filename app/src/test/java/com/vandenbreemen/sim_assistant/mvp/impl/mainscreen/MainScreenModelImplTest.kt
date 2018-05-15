@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
+import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenModel
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
 import junit.framework.TestCase.assertFalse
@@ -17,7 +18,7 @@ class MainScreenModelImplTest {
 
     @Before
     fun setup() {
-        mainScreenModel = MainScreenModelImpl(UserSettingsInteractorImpl(RuntimeEnvironment.application))
+        mainScreenModel = MainScreenModelImpl(UserSettingsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp))
     }
 
     @Test

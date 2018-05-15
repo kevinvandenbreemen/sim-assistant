@@ -1,7 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
-import android.app.Application
 import android.arch.persistence.room.Room
+import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.data.AppDatabase
 import com.vandenbreemen.sim_assistant.data.DAO
 import com.vandenbreemen.sim_assistant.data.UserSettings
@@ -11,11 +11,13 @@ import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers.io
 import java.util.function.Consumer
 
-class UserSettingsInteractorImpl(private val application: Application) :UserSettingsInteractor {
+class UserSettingsInteractorImpl(private val application: SimAssistantApp) : UserSettingsInteractor {
 
     private fun doWithDatabase(function: Consumer<DAO>){
         val database = Room.databaseBuilder(application.applicationContext,
-                AppDatabase::class.java, "test-database").build()
+                AppDatabase::class.java, "test-database")
+                .allowMainThreadQueries()
+                .build()
 
         val dao = database.dao()
 
@@ -40,7 +42,7 @@ class UserSettingsInteractorImpl(private val application: Application) :UserSett
                 it.onSuccess(loadedSettings)
             })
 
-        }).subscribeOn(io())
+        })
     }
 
     override fun updateUserSettings(updatedSettings: UserSettings): Single<Unit> {

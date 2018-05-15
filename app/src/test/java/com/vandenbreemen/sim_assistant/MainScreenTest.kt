@@ -3,6 +3,8 @@ package com.vandenbreemen.sim_assistant
 import android.view.ViewGroup
 import android.widget.Button
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
+import io.reactivex.plugins.RxJavaPlugins
 import junit.framework.TestCase.assertNotNull
 import org.awaitility.Awaitility.await
 import org.hamcrest.CoreMatchers.`is`
@@ -23,7 +25,7 @@ class MainScreenFunctionalTest {
 
     @Before
     fun setup() {
-
+        RxJavaPlugins.setIoSchedulerHandler { mainThread() }
     }
 
     @Test

@@ -1,10 +1,13 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
+import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenModel
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
+import io.reactivex.plugins.RxJavaPlugins
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -40,8 +43,11 @@ class MainScreenPresenterImplTest{
 
     @Before
     fun setup(){
+
+        RxJavaPlugins.setIoSchedulerHandler { mainThread() }
+
         mainScreenPresenter = MainScreenPresenterImpl(
-                MainScreenModelImpl(UserSettingsInteractorImpl(RuntimeEnvironment.application)),
+                MainScreenModelImpl(UserSettingsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)),
                 view
         )
     }

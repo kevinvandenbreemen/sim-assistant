@@ -8,7 +8,6 @@ import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
 import dagger.android.AndroidInjection
-import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainScreenView {
@@ -25,7 +24,6 @@ class MainActivity : AppCompatActivity(), MainScreenView {
     override fun onResume() {
         super.onResume()
         presenter.start()
-                .observeOn(mainThread())
                 .subscribe()
     }
 

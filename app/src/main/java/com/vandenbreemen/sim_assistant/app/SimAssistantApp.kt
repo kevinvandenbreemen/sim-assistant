@@ -13,6 +13,16 @@ class SimAssistantApp: Application(), HasActivityInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
+    private var isInUnitTest = false
+
+    fun setInUnitTest() {
+        isInUnitTest = true
+    }
+
+    fun isInUnitTest(): Boolean {
+        return this.isInUnitTest
+    }
+
     override fun onCreate() {
         super.onCreate()
 
