@@ -7,6 +7,8 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
+import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
 import com.vandenbreemen.sim_assistant.util.ElapsedTimeIdlingResource
 import org.junit.After
 import org.junit.Before
@@ -56,6 +58,9 @@ class MainScreenTest {
         onView(withText("Google Group")).perform(click())
 
         onView(withId(R.id.googleGroupDetails)).check(matches(isDisplayed()))
+
+        writeTo(R.id.googleGroupName, "sb118-apollo")
+        clickOn(R.id.ok)
     }
 
 }
