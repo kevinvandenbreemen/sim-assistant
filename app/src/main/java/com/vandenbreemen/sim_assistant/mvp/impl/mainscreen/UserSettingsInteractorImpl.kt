@@ -14,10 +14,15 @@ import java.util.function.Consumer
 class UserSettingsInteractorImpl(private val application: SimAssistantApp) : UserSettingsInteractor {
 
     private fun doWithDatabase(function: Consumer<DAO>){
-        val database = Room.databaseBuilder(application.applicationContext,
+
+        val builder = Room.databaseBuilder(application.applicationContext,
                 AppDatabase::class.java, "test-database")
-                .allowMainThreadQueries()
-                .build()
+
+        if (application.isInUnitTest()) {
+            builder.allowMainThreadQueries()
+        }
+
+        val database = builder.build()
 
         val dao = database.dao()
 

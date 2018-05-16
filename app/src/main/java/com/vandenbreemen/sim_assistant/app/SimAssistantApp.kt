@@ -8,19 +8,13 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
-class SimAssistantApp: Application(), HasActivityInjector {
+open class SimAssistantApp : Application(), HasActivityInjector {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
-    private var isInUnitTest = false
-
-    fun setInUnitTest() {
-        isInUnitTest = true
-    }
-
-    fun isInUnitTest(): Boolean {
-        return this.isInUnitTest
+    open fun isInUnitTest(): Boolean {
+        return false
     }
 
     override fun onCreate() {
