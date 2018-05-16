@@ -2,4 +2,7 @@
     <string name="app_name">sim-assistant</string>
     <string name="select_sim_source">Select source of Sims</string>
     <string name="sim_src_google_group">Google Group</string>
+    <string name="google_group_details">Google Group Details</string>
+    <string name="google_group_name">Enter Group Name</string>
+    <string name="ok">OK</string>
 </resources>
