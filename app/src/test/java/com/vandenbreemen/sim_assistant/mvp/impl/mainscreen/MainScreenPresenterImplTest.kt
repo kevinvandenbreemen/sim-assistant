@@ -82,4 +82,19 @@ class MainScreenPresenterImplTest{
         verify(view).promptForGoogleGroupDetails()
     }
 
+    @Test
+    fun shouldConfigureSourceAsGoogleGroupOnceGoogleGroupNameSpecified() {
+
+        //  Arrange
+        val presenter = MainScreenPresenterImpl(mockedModel, view)
+        presenter.start().blockingAwait()
+
+        //  Act
+        presenter.setGoogleGroupName("sb118-apollo")
+
+        //  Assert
+        verify(mockedModel).addGoogleGroup("sb118-apollo")
+
+    }
+
 }
