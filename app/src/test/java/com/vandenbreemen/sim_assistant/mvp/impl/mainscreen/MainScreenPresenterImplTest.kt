@@ -70,4 +70,16 @@ class MainScreenPresenterImplTest{
         verify(mockedModel).checkShouldPromptUserForSimSource()
     }
 
+    @Test
+    fun shouldPromptForGoogleGroupDetails() {
+        //  Arrange
+        mainScreenPresenter.start().blockingAwait()
+
+        //  Act
+        mainScreenPresenter.selectSimSource(SimSource.GOOGLE_GROUP)
+
+        //  Assert
+        verify(view).promptForGoogleGroupDetails()
+    }
+
 }

@@ -27,6 +27,13 @@ class MainActivity : AppCompatActivity(), MainScreenView {
                 .subscribe()
     }
 
+    override fun promptForGoogleGroupDetails() {
+        val popupContainer = findViewById<ViewGroup>(R.id.popupContainer)
+        val googleGroupUi = layoutInflater.inflate(R.layout.layout_google_group_details, popupContainer, false)
+        popupContainer.removeAllViews()
+        popupContainer.addView(googleGroupUi)
+    }
+
     override fun showSimSourceSelector(simSources: List<SimSource>) {
         val popupContainer = findViewById<ViewGroup>(R.id.popupContainer)
         val simSourceSelectUi = layoutInflater.inflate(R.layout.layout_sim_source_selector, popupContainer, false)
@@ -35,6 +42,9 @@ class MainActivity : AppCompatActivity(), MainScreenView {
             val fieldName = "sim_src_${source.name}".toLowerCase()
             val idIdentifier = resources.getIdentifier(fieldName, "id", packageName)
             val view = simSourceSelectUi.findViewById<View>(idIdentifier)
+
+            view.setOnClickListener(View.OnClickListener { view -> presenter.selectSimSource(source) })
+
             view.tag = source.name
         }
 

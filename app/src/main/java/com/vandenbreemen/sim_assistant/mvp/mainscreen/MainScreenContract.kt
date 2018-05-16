@@ -6,12 +6,14 @@ import io.reactivex.Single
 
 interface MainScreenView{
     abstract fun showSimSourceSelector(simSources: List<SimSource>)
+    fun promptForGoogleGroupDetails()
 
 }
 
 interface MainScreenPresenter {
 
     fun start():Completable
+    fun selectSimSource(simSource: SimSource)
 
 }
 
