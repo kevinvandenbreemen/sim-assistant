@@ -1,10 +1,12 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenModel
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
@@ -47,7 +49,9 @@ class MainScreenPresenterImplTest{
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
 
         mainScreenPresenter = MainScreenPresenterImpl(
-                MainScreenModelImpl(UserSettingsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)),
+                MainScreenModelImpl(UserSettingsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp),
+                        GoogleGroupsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)
+                        ),
                 view
         )
     }
@@ -87,13 +91,15 @@ class MainScreenPresenterImplTest{
 
         //  Arrange
         val presenter = MainScreenPresenterImpl(mockedModel, view)
-        presenter.start().blockingAwait()
+        `when`(mockedModel.addGoogleGroup("sb118-apollo")).thenReturn(Completable.complete())
+        `when`(mockedModel.setSimSource(SimSource.GOOGLE_GROUP)).thenReturn(Completable.complete())
 
         //  Act
         presenter.setGoogleGroupName("sb118-apollo")
 
         //  Assert
         verify(mockedModel).addGoogleGroup("sb118-apollo")
+        verify(mockedModel).setSimSource(SimSource.GOOGLE_GROUP)
 
     }
 

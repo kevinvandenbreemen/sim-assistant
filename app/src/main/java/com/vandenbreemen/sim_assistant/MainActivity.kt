@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
@@ -30,6 +32,11 @@ class MainActivity : AppCompatActivity(), MainScreenView {
     override fun promptForGoogleGroupDetails() {
         val popupContainer = findViewById<ViewGroup>(R.id.popupContainer)
         val googleGroupUi = layoutInflater.inflate(R.layout.layout_google_group_details, popupContainer, false)
+
+        //  Set up OK button
+        googleGroupUi.findViewById<Button>(R.id.ok).setOnClickListener(View.OnClickListener {
+            view -> presenter.setGoogleGroupName(findViewById<EditText>(R.id.googleGroupName).text.toString()) })
+
         popupContainer.removeAllViews()
         popupContainer.addView(googleGroupUi)
     }

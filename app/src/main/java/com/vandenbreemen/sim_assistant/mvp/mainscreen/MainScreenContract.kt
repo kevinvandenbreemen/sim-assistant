@@ -14,6 +14,7 @@ interface MainScreenPresenter {
 
     fun start():Completable
     fun selectSimSource(simSource: SimSource)
+    fun setGoogleGroupName(name: String)
 
 }
 
@@ -29,5 +30,7 @@ interface MainScreenModel {
     fun checkShouldPromptUserForSimSource(): Single<Boolean>
     fun getPossibleSimSources(): List<SimSource>
     fun setSimSource(simSource: SimSource): Completable
+    fun addGoogleGroup(groupName: String):Completable
+    fun getGoogleGroups(): Single<List<String>>
 
 }

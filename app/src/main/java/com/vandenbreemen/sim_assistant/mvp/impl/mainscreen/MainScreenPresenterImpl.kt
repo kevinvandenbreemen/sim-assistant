@@ -27,4 +27,14 @@ class MainScreenPresenterImpl(val mainScreenModelImpl: MainScreenModel, val view
         }
     }
 
+    override fun setGoogleGroupName(name: String) {
+        mainScreenModelImpl.addGoogleGroup(name).andThen(
+                mainScreenModelImpl.setSimSource(SimSource.GOOGLE_GROUP)
+        ).andThen(
+                Completable.create {
+
+                }
+        ).observeOn(mainThread()).subscribe()
+    }
+
 }

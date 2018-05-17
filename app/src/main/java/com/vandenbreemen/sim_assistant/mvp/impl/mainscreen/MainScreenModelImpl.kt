@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
+import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsInteractor
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenModel
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.UserSettingsInteractor
@@ -8,7 +9,19 @@ import io.reactivex.CompletableSource
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers.io
 
-class MainScreenModelImpl(private val userSettingsInteractor: UserSettingsInteractor) : MainScreenModel {
+class MainScreenModelImpl(private val userSettingsInteractor: UserSettingsInteractor,
+                          private val googleGroupsInteractor: GoogleGroupsInteractor) : MainScreenModel {
+    override fun addGoogleGroup(groupName: String):Completable {
+        return googleGroupsInteractor.addGoogleGroup(groupName)
+    }
+
+    override fun getGoogleGroups(): Single<List<String>> {
+        return googleGroupsInteractor.getGoogleGroups().flatMap {groups->
+            Single.just(
+                    groups.map { item->item.groupName }
+            )
+        }
+    }
 
     companion object {
         const val UNKNOWN_SIM_SOURCE = -1L

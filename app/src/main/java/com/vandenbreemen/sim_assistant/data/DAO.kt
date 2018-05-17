@@ -17,5 +17,11 @@ interface DAO {
     @Query("SELECT * from usersettings WHERE id=1")
     fun getUserSettings(): UserSettings?
 
+    @Insert
+    fun storeGoogleGroup(googleGroup: GoogleGroup)
+
+    @Query("SELECT * from googlegroup")
+    fun getGoogleGroups(): List<GoogleGroup>
+
 
 }
