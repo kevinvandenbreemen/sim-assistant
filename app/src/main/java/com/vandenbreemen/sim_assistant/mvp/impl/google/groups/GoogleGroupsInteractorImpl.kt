@@ -1,9 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.google.groups
 
-import android.arch.persistence.room.Room
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
-import com.vandenbreemen.sim_assistant.data.AppDatabase
-import com.vandenbreemen.sim_assistant.data.DAO
 import com.vandenbreemen.sim_assistant.data.GoogleGroup
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsInteractor
 import com.vandenbreemen.sim_assistant.mvp.impl.DatabaseInteractor
@@ -24,7 +21,7 @@ class GoogleGroupsInteractorImpl(private val application: SimAssistantApp) :Data
     override fun addGoogleGroup(groupName: String): Completable {
         return Completable.fromAction( {
             doWithDatabase(Consumer { dao->
-                val googleGroup = GoogleGroup(null, groupName)
+                val googleGroup = GoogleGroup(groupName)
                 dao.storeGoogleGroup(googleGroup)
             })
         }).subscribeOn(io())

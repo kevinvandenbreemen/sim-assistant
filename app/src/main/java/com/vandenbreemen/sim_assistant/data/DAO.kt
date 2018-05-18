@@ -20,7 +20,7 @@ interface DAO {
     @Insert
     fun storeGoogleGroup(googleGroup: GoogleGroup)
 
-    @Query("SELECT * from googlegroup")
+    @Query("SELECT * from google_group")
     fun getGoogleGroups(): List<GoogleGroup>
 
 
