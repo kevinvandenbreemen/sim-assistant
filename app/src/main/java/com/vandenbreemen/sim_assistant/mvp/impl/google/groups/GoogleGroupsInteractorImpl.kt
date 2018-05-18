@@ -6,6 +6,7 @@ import com.vandenbreemen.sim_assistant.data.AppDatabase
 import com.vandenbreemen.sim_assistant.data.DAO
 import com.vandenbreemen.sim_assistant.data.GoogleGroup
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsInteractor
+import com.vandenbreemen.sim_assistant.mvp.impl.DatabaseInteractor
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
@@ -18,28 +19,7 @@ import java.util.function.Consumer
  * <h2>Other Details</h2>
  * @author kevin
  */
-class GoogleGroupsInteractorImpl(private val application: SimAssistantApp) :GoogleGroupsInteractor {
-
-    private fun doWithDatabase(function: Consumer<DAO>){
-
-        val builder = Room.databaseBuilder(application.applicationContext,
-                AppDatabase::class.java, "test-database")
-
-        if (application.isInUnitTest()) {
-            builder.allowMainThreadQueries()
-        }
-
-        val database = builder.build()
-
-        val dao = database.dao()
-
-        try{
-            function.accept(dao)
-        }
-        finally{
-            database.close()
-        }
-    }
+class GoogleGroupsInteractorImpl(private val application: SimAssistantApp) :DatabaseInteractor(application), GoogleGroupsInteractor {
 
     override fun addGoogleGroup(groupName: String): Completable {
         return Completable.fromAction( {
