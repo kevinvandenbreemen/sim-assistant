@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.data.AppDatabase
 import com.vandenbreemen.sim_assistant.data.DAO
+import com.vandenbreemen.sim_assistant.data.DATABASE_NAME
 import java.util.function.Consumer
 
 /**
@@ -17,7 +18,7 @@ open class DatabaseInteractor(private val application: SimAssistantApp) {
     protected fun doWithDatabase(function: Consumer<DAO>){
 
         val builder = Room.databaseBuilder(application.applicationContext,
-                AppDatabase::class.java, "test-database")
+                AppDatabase::class.java, DATABASE_NAME)
                 .addMigrations(AppDatabase.MIGRATION_1_2)
 
         if (application.isInUnitTest()) {

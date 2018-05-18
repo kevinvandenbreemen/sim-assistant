@@ -5,6 +5,8 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.migration.Migration
 
+val DATABASE_NAME = "sims-database"
+
 @Database(entities = [UserSettings::class, GoogleGroup::class], version = 2)
 abstract class AppDatabase : RoomDatabase(){
 

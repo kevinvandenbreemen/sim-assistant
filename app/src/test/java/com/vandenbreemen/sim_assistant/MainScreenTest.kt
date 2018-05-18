@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.vandenbreemen.sim_assistant.data.AppDatabase
+import com.vandenbreemen.sim_assistant.data.DATABASE_NAME
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
@@ -71,7 +72,7 @@ class MainScreenFunctionalTest {
         mainActivity.findViewById<Button>(R.id.ok).performClick()
 
         val database = Room.databaseBuilder(RuntimeEnvironment.application.applicationContext,
-                AppDatabase::class.java, "test-database")
+                AppDatabase::class.java, DATABASE_NAME)
                 .allowMainThreadQueries()
                 .build()
 
