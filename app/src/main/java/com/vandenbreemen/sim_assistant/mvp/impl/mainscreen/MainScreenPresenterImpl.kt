@@ -7,6 +7,7 @@ import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
+import io.reactivex.functions.Consumer
 
 class MainScreenPresenterImpl(val mainScreenModelImpl: MainScreenModel, val view: MainScreenView) :MainScreenPresenter {
     override fun selectSimSource(simSource: SimSource) {
@@ -28,7 +29,9 @@ class MainScreenPresenterImpl(val mainScreenModelImpl: MainScreenModel, val view
     }
 
     override fun setGoogleGroupName(name: String) {
-        mainScreenModelImpl.addGoogleGroup(name).andThen(
+        mainScreenModelImpl.addGoogleGroup(name)
+                .doOnError(Consumer { err->view.showError(err.localizedMessage) })
+                .andThen(
                 mainScreenModelImpl.setSimSource(SimSource.GOOGLE_GROUP)
         ).andThen(
                 Completable.create {

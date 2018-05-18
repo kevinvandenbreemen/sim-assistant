@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
+import com.vandenbreemen.sim_assistant.api.message.ApplicationError
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsInteractor
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenModel
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource

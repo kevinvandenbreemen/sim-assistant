@@ -103,4 +103,17 @@ class MainScreenPresenterImplTest{
 
     }
 
+    @Test
+    fun shouldPreventSpecifyingBlankGoogleGroupName(){
+
+        //  Arrange
+        mainScreenPresenter.start().blockingAwait()
+
+        //  Act
+        mainScreenPresenter.setGoogleGroupName("")
+
+        //  Assert
+        verify(view).showError("Please specify group name")
+    }
+
 }

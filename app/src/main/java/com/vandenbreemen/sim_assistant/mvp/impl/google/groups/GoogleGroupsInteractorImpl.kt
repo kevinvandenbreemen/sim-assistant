@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.google.groups
 
+import com.vandenbreemen.sim_assistant.api.message.ApplicationError
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.data.GoogleGroup
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsInteractor
@@ -19,12 +20,19 @@ import java.util.function.Consumer
 class GoogleGroupsInteractorImpl(private val application: SimAssistantApp) :DatabaseInteractor(application), GoogleGroupsInteractor {
 
     override fun addGoogleGroup(groupName: String): Completable {
-        return Completable.fromAction( {
+        return Completable.create {
+            emitter ->
+            if(groupName.isNullOrBlank()){
+                emitter.onError(ApplicationError("Please specify group name"))
+                return@create
+            }
+
             doWithDatabase(Consumer { dao->
                 val googleGroup = GoogleGroup(groupName)
                 dao.storeGoogleGroup(googleGroup)
             })
-        }).subscribeOn(io())
+            emitter.onComplete()
+        }.subscribeOn(io())
     }
 
     override fun getGoogleGroups(): Single<List<GoogleGroup>> {

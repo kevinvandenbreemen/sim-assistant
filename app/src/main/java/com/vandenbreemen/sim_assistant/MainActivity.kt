@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
@@ -39,6 +41,10 @@ class MainActivity : AppCompatActivity(), MainScreenView {
 
         popupContainer.removeAllViews()
         popupContainer.addView(googleGroupUi)
+    }
+
+    override fun showError(errorMessage: String) {
+        Toast.makeText(this, errorMessage, LENGTH_SHORT).show()
     }
 
     override fun showSimSourceSelector(simSources: List<SimSource>) {
