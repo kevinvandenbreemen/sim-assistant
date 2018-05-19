@@ -44,7 +44,7 @@ project.ext{
     rxAndroidVersion = "2.0.2"
     mockitoVersion = "2.18.0"
     baristaVersion = "2.4.0"
-    retrofitVersion = "2.1.0"
+    retrofitVersion = "2.3.0"
 }
 
 dependencies {
@@ -70,7 +70,7 @@ dependencies {
     //  Retrofit
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-simplexml:$retrofitVersion"
-    compile "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     //  Testing Code
     //  =============
