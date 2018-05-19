@@ -9,6 +9,7 @@ import io.reactivex.ObservableOnSubscribe
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
+import java.text.SimpleDateFormat
 
 private const val GOOGLE_GROUPS_BASE_URL = "https://groups.google.com/"
 
@@ -23,7 +24,11 @@ class GooglePostRepository(val groupName: String) : PostRepository {
         return googleGroupsApi.getRssFeed(groupName).flatMapObservable { rssFeed ->
             Observable.create(ObservableOnSubscribe<PostedSim> { observableEmitter ->
                 rssFeed.articleList!!.forEach { googleGroupPost ->
-                    observableEmitter.onNext(PostedSim(getPostBody(googleGroupPost)))
+                    observableEmitter.onNext(
+                            PostedSim(getPostBody(googleGroupPost),
+                                    SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time
+                            )
+                    )
                 }
                 observableEmitter.onComplete()
             })

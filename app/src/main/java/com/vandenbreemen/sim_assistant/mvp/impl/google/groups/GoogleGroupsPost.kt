@@ -12,6 +12,10 @@ data class GoogleGroupsPost(
 
         @set:Element(name = "link")
         @get:Element(name = "link")
-        var link: String? = null
+        var link: String? = null,
+
+        @get:Element
+        @set:Element
+        var pubDate: String? = null
 
 ) {}

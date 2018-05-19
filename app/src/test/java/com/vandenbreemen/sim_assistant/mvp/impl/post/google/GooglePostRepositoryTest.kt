@@ -23,7 +23,7 @@ class GooglePostRepositoryTest {
     fun shouldRetrieveListOfPosts() {
         val postedSim = googlePostRepository.getPosts().blockingFirst()
         assertNotNull("Post content", postedSim.content)
-        println(postedSim.content)
     }
+
 
 }
