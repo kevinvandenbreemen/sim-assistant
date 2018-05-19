@@ -17,7 +17,7 @@ class GoogleGroupsRSSFeed {
     @set:ElementList(name = "item", inline = true)
     @get:ElementList(name = "item", inline = true)
     @get:Path("channel")
-    var articleList: List<Post>? = null
+    var articleList: List<GoogleGroupsPost>? = null
 
 
 }

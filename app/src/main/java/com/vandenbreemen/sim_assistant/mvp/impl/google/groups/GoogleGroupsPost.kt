@@ -4,10 +4,14 @@ import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
 @Root(name = "item", strict = false)
-class Post {
+data class GoogleGroupsPost(
 
-    @set:Element(name = "title")
+        @set:Element(name = "title")
     @get:Element(name = "title")
-    var title: String? = null
+        var title: String? = null,
 
-}
+        @set:Element(name = "link")
+        @get:Element(name = "link")
+        var link: String? = null
+
+) {}

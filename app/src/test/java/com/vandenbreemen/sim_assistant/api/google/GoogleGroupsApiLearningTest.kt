@@ -21,7 +21,7 @@ class GoogleGroupsApiLearningTest {
 
         var complete = false
         googleGroupsApi.getRssFeed("uss-odyssey-oe").subscribe { rssFeed ->
-            println("Huzzah ${rssFeed.channelTitle}")
+            println("Huzzah ${rssFeed.channelTitle}:\n${rssFeed.articleList}")
             complete = true
         }
 
