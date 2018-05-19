@@ -15,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
     buildTypes {
         release {
@@ -24,6 +25,7 @@ android {
     }
 
     testOptions{
+        execution 'ANDROID_TEST_ORCHESTRATOR'
         unitTests{
             includeAndroidResources true
         }
@@ -69,6 +71,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
+    androidTestUtil "com.android.support.test:orchestrator:$testRunnerVersion"
     androidTestImplementation "com.android.support.test:rules:$testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 
