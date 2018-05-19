@@ -52,7 +52,6 @@ class MainScreenTest {
 
     @Test
     fun shouldPromptUserForGoogleGroupDetailsWhenSheSelectsGoogleGroups() {
-        //  googleGroupDetails
         activityRule.launchActivity(null)
 
         onView(withText("Google Group")).perform(click())
@@ -61,6 +60,20 @@ class MainScreenTest {
 
         writeTo(R.id.googleGroupName, "sb118-apollo")
         clickOn(R.id.ok)
+    }
+
+    @Test
+    fun shouldShowGoogleGroupContainerOnceGoogleGroupConfigured() {
+        activityRule.launchActivity(null)
+
+        onView(withText("Google Group")).perform(click())
+
+        onView(withId(R.id.googleGroupDetails)).check(matches(isDisplayed()))
+
+        writeTo(R.id.googleGroupName, "sb118-apollo")
+        clickOn(R.id.ok)
+
+        onView(withId(R.id.simList)).check(matches(isDisplayed()))
     }
 
 }
