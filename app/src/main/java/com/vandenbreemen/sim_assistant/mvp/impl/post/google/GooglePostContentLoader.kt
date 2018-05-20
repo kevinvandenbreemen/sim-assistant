@@ -9,9 +9,9 @@ import java.util.*
 /**
  * Helper:  Loads the content of a post based on its URL in the RSS feed
  */
-class GooglePostContentLoader {
+open class GooglePostContentLoader {
 
-    fun getPostBody(postUrl: String): String {
+    open fun getPostBody(postUrl: String): String {
         val urlToLoad = "(/d/)".toRegex().replace(postUrl, "/forum/print/")
         val url = URL(urlToLoad)
         val connection = url.openConnection() as HttpURLConnection

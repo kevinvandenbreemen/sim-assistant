@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
 
 private const val GOOGLE_GROUPS_BASE_URL = "https://groups.google.com/"
 
-class GooglePostRepository(val groupName: String) : PostRepository {
+class GooglePostRepository(val groupName: String, private val contentLoader: GooglePostContentLoader) : PostRepository {
 
     val googleGroupsApi = Retrofit.Builder().baseUrl(GOOGLE_GROUPS_BASE_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -40,6 +40,6 @@ class GooglePostRepository(val groupName: String) : PostRepository {
     private fun getPostBody(googleGroupsPost: GoogleGroupsPost): String {
 
         val urlToLoad = "(/d/)".toRegex().replace(googleGroupsPost.link!!, "/forum/print/")
-        return GooglePostContentLoader().getPostBody(urlToLoad)
+        return contentLoader.getPostBody(urlToLoad)
     }
 }

@@ -16,13 +16,38 @@ class GooglePostRepositoryTest {
     @Before
     fun setup() {
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
-        googlePostRepository = GooglePostRepository("uss-odyssey-oe")
+
     }
 
     @Test
     fun shouldRetrieveListOfPosts() {
+        googlePostRepository = GooglePostRepository("uss-odyssey-oe", GooglePostContentLoader())
         val postedSim = googlePostRepository.getPosts().blockingFirst()
         assertNotNull("Post content", postedSim.content)
+    }
+
+    @Test
+    fun shouldCacheSimContents(){
+
+        var crashOnCall = false
+        val contentLoader = object:GooglePostContentLoader(){
+            override fun getPostBody(postUrl: String): String {
+                if(crashOnCall){
+                    throw RuntimeException("Fail:  Second load when content should be cached!")
+                }
+                return super.getPostBody(postUrl)
+            }
+        }
+
+        googlePostRepository = GooglePostRepository("uss-odyssey-oe", contentLoader)
+
+        var postedSim = googlePostRepository.getPosts().blockingFirst()
+
+        crashOnCall = true
+
+        postedSim = googlePostRepository.getPosts().blockingFirst()
+        assertNotNull("Post content", postedSim.content)
+
     }
 
 
