@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.post.google
 
+import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
 import org.junit.Assert.assertNotNull
@@ -7,6 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 
 @RunWith(RobolectricTestRunner::class)
 class GooglePostRepositoryTest {
@@ -21,7 +23,9 @@ class GooglePostRepositoryTest {
 
     @Test
     fun shouldRetrieveListOfPosts() {
-        googlePostRepository = GooglePostRepository("uss-odyssey-oe", GooglePostContentLoader())
+        googlePostRepository = GooglePostRepository("uss-odyssey-oe", GooglePostContentLoader(),
+                GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
+                )
         val postedSim = googlePostRepository.getPosts().blockingFirst()
         assertNotNull("Post content", postedSim.content)
     }
@@ -39,7 +43,9 @@ class GooglePostRepositoryTest {
             }
         }
 
-        googlePostRepository = GooglePostRepository("uss-odyssey-oe", contentLoader)
+        googlePostRepository = GooglePostRepository("uss-odyssey-oe", contentLoader,
+                GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
+                )
 
         var postedSim = googlePostRepository.getPosts().blockingFirst()
 

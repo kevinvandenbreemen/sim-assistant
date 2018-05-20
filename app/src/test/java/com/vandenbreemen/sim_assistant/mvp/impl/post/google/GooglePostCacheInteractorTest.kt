@@ -37,7 +37,6 @@ class GooglePostCacheInteractorTest {
     @Test
     fun shouldRecognizeWhenNoContentCached(){
         val cachedSim = googlePostCacheInteractor.retrieve(SIM_URL)
-                .blockingGet()
         Assert.assertEquals("Not cached", GooglePostCacheInteractor.NO_CACHE_HIT, cachedSim)
 
     }
@@ -46,7 +45,6 @@ class GooglePostCacheInteractorTest {
     fun shouldGetCachedSim(){
         googlePostCacheInteractor.cacheSim(SIM_URL, "There once was a man\nnamed Brian")
         val cachedSim = googlePostCacheInteractor.retrieve(SIM_URL)
-                .blockingGet()
 
         assertEquals("Sim content", "There once was a man\nnamed Brian", cachedSim.content)
         assertEquals("Sim URL", SIM_URL, cachedSim.key)

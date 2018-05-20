@@ -14,7 +14,9 @@ import java.text.SimpleDateFormat
 
 private const val GOOGLE_GROUPS_BASE_URL = "https://groups.google.com/"
 
-class GooglePostRepository(val groupName: String, private val contentLoader: GooglePostContentLoader) : PostRepository {
+class GooglePostRepository(val groupName: String, private val contentLoader: GooglePostContentLoader,
+                           private val googlePostCacheInteractor: GooglePostCacheInteractor
+                           ) : PostRepository {
 
     val googleGroupsApi = Retrofit.Builder().baseUrl(GOOGLE_GROUPS_BASE_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -25,11 +27,29 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
         return googleGroupsApi.getRssFeed(groupName).subscribeOn(io()).flatMapObservable { rssFeed ->
             Observable.create(ObservableOnSubscribe<PostedSim> { observableEmitter ->
                 rssFeed.articleList!!.forEach { googleGroupPost ->
-                    observableEmitter.onNext(
-                            PostedSim(getPostBody(googleGroupPost),
-                                    SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time
-                            )
-                    )
+
+                    val urlKey = googleGroupPost.link!!
+
+                    val cachedSim = googlePostCacheInteractor.retrieve(urlKey)
+
+                    var postedSim:PostedSim
+
+                    if(GooglePostCacheInteractor.NO_CACHE_HIT == cachedSim){
+                        postedSim = PostedSim(getPostBody(googleGroupPost),
+                                SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time
+                        )
+
+                        googlePostCacheInteractor.cacheSim(urlKey, postedSim.content)
+                    }
+                    else{
+                        postedSim = PostedSim(cachedSim.content,
+                                SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time
+                        )
+                    }
+
+                    observableEmitter.onNext(postedSim)
+
+
                 }
                 observableEmitter.onComplete()
             }).subscribeOn(io())

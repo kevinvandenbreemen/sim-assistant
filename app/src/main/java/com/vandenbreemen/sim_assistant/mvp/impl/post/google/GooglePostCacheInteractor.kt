@@ -22,19 +22,18 @@ class GooglePostCacheInteractor(application: SimAssistantApp) : DatabaseInteract
         val NO_CACHE_HIT = CachedSim("", "")
     }
 
-    fun retrieve(simUrl: String): Single<CachedSim> {
-        return Single.create(SingleOnSubscribe<CachedSim> { emitter ->
-            doWithDatabase(Consumer { dao->
+    fun retrieve(simUrl: String): CachedSim {
 
-                val cachedSim = dao.getCachedSim(simUrl)
-                if(cachedSim == null){
-                    emitter.onSuccess(NO_CACHE_HIT)
-                }
-                else{
-                    emitter.onSuccess(cachedSim)
-                }
-            })
-        }).subscribeOn(io())
+        var returnSim = NO_CACHE_HIT
+        doWithDatabase(Consumer { dao->
+
+            val cachedSim = dao.getCachedSim(simUrl)
+            if(cachedSim != null){
+                returnSim = cachedSim
+            }
+        })
+
+        return returnSim
 
     }
 
