@@ -6,6 +6,7 @@ import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsPost
 import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
+import io.reactivex.schedulers.Schedulers.io
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
@@ -21,7 +22,7 @@ class GooglePostRepository(val groupName: String) : PostRepository {
 
     override fun getPosts(): Observable<PostedSim> {
 
-        return googleGroupsApi.getRssFeed(groupName).flatMapObservable { rssFeed ->
+        return googleGroupsApi.getRssFeed(groupName).subscribeOn(io()).flatMapObservable { rssFeed ->
             Observable.create(ObservableOnSubscribe<PostedSim> { observableEmitter ->
                 rssFeed.articleList!!.forEach { googleGroupPost ->
                     observableEmitter.onNext(
@@ -31,7 +32,7 @@ class GooglePostRepository(val groupName: String) : PostRepository {
                     )
                 }
                 observableEmitter.onComplete()
-            })
+            }).subscribeOn(io())
         }
 
     }
