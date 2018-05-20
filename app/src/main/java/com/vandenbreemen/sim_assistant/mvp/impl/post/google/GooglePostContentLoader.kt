@@ -13,7 +13,6 @@ class GooglePostContentLoader {
 
     fun getPostBody(postUrl: String): String {
         val urlToLoad = "(/d/)".toRegex().replace(postUrl, "/forum/print/")
-        println("URL=$urlToLoad")
         val url = URL(urlToLoad)
         val connection = url.openConnection() as HttpURLConnection
         var postBody = ""

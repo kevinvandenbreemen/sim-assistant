@@ -40,7 +40,6 @@ class GooglePostRepository(val groupName: String) : PostRepository {
     private fun getPostBody(googleGroupsPost: GoogleGroupsPost): String {
 
         val urlToLoad = "(/d/)".toRegex().replace(googleGroupsPost.link!!, "/forum/print/")
-        println("URL=$urlToLoad")
         return GooglePostContentLoader().getPostBody(urlToLoad)
     }
 }
