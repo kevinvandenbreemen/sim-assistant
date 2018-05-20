@@ -19,7 +19,10 @@ open class DatabaseInteractor(private val application: SimAssistantApp) {
 
         val builder = Room.databaseBuilder(application.applicationContext,
                 AppDatabase::class.java, DATABASE_NAME)
-                .addMigrations(AppDatabase.MIGRATION_1_2)
+                .addMigrations(
+                        AppDatabase.MIGRATION_1_2,
+                        AppDatabase.MIGRATION_2_3
+                )
 
         if (application.isInUnitTest()) {
             builder.allowMainThreadQueries()

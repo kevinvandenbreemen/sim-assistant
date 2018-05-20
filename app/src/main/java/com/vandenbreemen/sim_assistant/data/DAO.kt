@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import android.arch.persistence.room.Update
+import com.vandenbreemen.sim_assistant.api.sim.CachedSim
 
 @Dao
 interface DAO {
@@ -22,6 +23,9 @@ interface DAO {
 
     @Query("SELECT * from google_group")
     fun getGoogleGroups(): List<GoogleGroup>
+
+    @Query("SELECT * from cached_sim WHERE key_url=:simUrl")
+    fun getCachedSim(simUrl: String): CachedSim?
 
 
 }
