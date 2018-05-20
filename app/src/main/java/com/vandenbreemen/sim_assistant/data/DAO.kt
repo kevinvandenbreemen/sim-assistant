@@ -27,5 +27,8 @@ interface DAO {
     @Query("SELECT * from cached_sim WHERE key_url=:simUrl")
     fun getCachedSim(simUrl: String): CachedSim?
 
+    @Insert
+    fun storeCachedSim(cachedSim: CachedSim)
+
 
 }

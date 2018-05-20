@@ -3,6 +3,8 @@ package com.vandenbreemen.sim_assistant.mvp.impl.post.google
 import com.vandenbreemen.sim_assistant.api.sim.CachedSim
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.impl.DatabaseInteractor
+import io.reactivex.Completable
+import io.reactivex.CompletableOnSubscribe
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers.io
@@ -20,7 +22,7 @@ class GooglePostCacheInteractor(application: SimAssistantApp) : DatabaseInteract
         val NO_CACHE_HIT = CachedSim("", "")
     }
 
-    fun retrieve(simUrl: String): Single<CachedSim?> {
+    fun retrieve(simUrl: String): Single<CachedSim> {
         return Single.create(SingleOnSubscribe<CachedSim> { emitter ->
             doWithDatabase(Consumer { dao->
 
@@ -28,9 +30,21 @@ class GooglePostCacheInteractor(application: SimAssistantApp) : DatabaseInteract
                 if(cachedSim == null){
                     emitter.onSuccess(NO_CACHE_HIT)
                 }
+                else{
+                    emitter.onSuccess(cachedSim)
+                }
             })
         }).subscribeOn(io())
 
+    }
+
+    fun cacheSim(simUrl: String, simContent: String){
+        Completable.create(CompletableOnSubscribe {emitter->
+            doWithDatabase(Consumer { dao->
+                dao.storeCachedSim(CachedSim(simUrl, simContent))
+                emitter.onComplete()
+            })
+        }).subscribeOn(io()).subscribe()
     }
 
 }
