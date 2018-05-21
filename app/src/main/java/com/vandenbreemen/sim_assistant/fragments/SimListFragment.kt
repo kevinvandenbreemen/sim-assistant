@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
 import com.vandenbreemen.sim_assistant.api.sim.PostedSim
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
@@ -31,11 +32,18 @@ class SimListFragment: Fragment() {
 
         val listView = layout.findViewById<ListView>(R.id.simList)
         val currentList = mutableListOf<PostedSim>()
-        val adapter = ArrayAdapter<PostedSim>(
+        val adapter = object:ArrayAdapter<PostedSim>(
                 context,
                 android.R.layout.simple_list_item_1,
                 currentList
-        )
+        ){
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+                val sim = currentList[position]
+                val view = inflater.inflate(R.layout.layout_sim_list_item, parent, false)
+                view.findViewById<TextView>(R.id.simTitle).setText("Title")
+                return view
+            }
+        }
         listView.adapter = adapter
 
         val view = object:SimListView{
