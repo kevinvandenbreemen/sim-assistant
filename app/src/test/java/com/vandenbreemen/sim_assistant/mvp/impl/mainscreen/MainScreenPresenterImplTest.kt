@@ -15,8 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnit
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
@@ -129,6 +128,7 @@ class MainScreenPresenterImplTest{
 
         //  Assert
         verify(view).showError("Please specify group name")
+        verify(view, never()).showSimList()
     }
 
 }
