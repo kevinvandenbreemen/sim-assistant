@@ -28,7 +28,7 @@ class SimListPresenterProviderImpl(
     override fun getSimListPresenter(): Single<SimListPresenter> {
         return userSettingsInteractor.getUserSettings().flatMap<SimListPresenter> { userSettings->
 
-            Single.create(SingleOnSubscribe<SimListPresenter> {
+            Single.create(SingleOnSubscribe<SimListPresenter> {emitter->
                 var repository:PostRepository? = null
 
                 if(SimSource.GOOGLE_GROUP.getId() == userSettings.dataSource){
@@ -36,7 +36,10 @@ class SimListPresenterProviderImpl(
                     repository = GooglePostRepository(groups[0].groupName, GooglePostContentLoader(), googleGroupCacheInteractor)
                 }
 
-                it.onSuccess(SimListPresenterImpl(SimListModelImpl(repository!!)))
+                repository?.let {
+                    emitter.onSuccess(SimListPresenterImpl(SimListModelImpl(it)))
+                }
+
             })
 
 
