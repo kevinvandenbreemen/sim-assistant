@@ -17,7 +17,7 @@ interface SimListPresenter {
 
 interface SimListView {
 
-
+    fun addSimItem(sim:PostedSim)
 
 }
 

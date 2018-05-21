@@ -1,6 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.post.simlist
 
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
+import com.vandenbreemen.sim_assistant.api.sim.PostedSim
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenModelImpl
@@ -8,8 +9,10 @@ import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenPresenterIm
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.UserSettingsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GooglePostCacheInteractor
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
+import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
+import org.awaitility.Awaitility.await
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -18,6 +21,7 @@ import org.mockito.Mockito.mock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.shadows.ShadowLog
+import java.util.concurrent.TimeUnit
 
 /**
  * <h2>Intro</h2>
@@ -32,8 +36,21 @@ class SimListPresenterProviderImplTest{
 
     lateinit var simListPresenterProvider: SimListPresenterProvider
 
+    lateinit var simListView:SimListView
+
+    lateinit var simList:MutableList<PostedSim>
+
     @Before
     fun setup(){
+
+        simList = mutableListOf()
+
+        simListView = object:SimListView{
+            override fun addSimItem(sim: PostedSim) {
+                simList.add(sim)
+            }
+
+        }
 
         val app = RuntimeEnvironment.application as SimAssistantApp
 
@@ -62,7 +79,10 @@ class SimListPresenterProviderImplTest{
         mainScreenPresenter.setGoogleGroupName("sb118-apollo")
 
         val simListPresenter = simListPresenterProvider.getSimListPresenter().blockingGet()
+        simListPresenter.start(simListView)
 
+        await().atMost(5, TimeUnit.SECONDS).until { !simList.isEmpty() }
+        println("Sim List:  $simList")
     }
 
 }
