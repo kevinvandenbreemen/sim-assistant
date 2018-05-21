@@ -40,7 +40,8 @@ class SimListFragment: Fragment() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
                 val sim = currentList[position]
                 val view = inflater.inflate(R.layout.layout_sim_list_item, parent, false)
-                view.findViewById<TextView>(R.id.simTitle).setText("Title")
+                view.findViewById<TextView>(R.id.simTitle).setText(sim.title)
+                view.findViewById<TextView>(R.id.simAuthor).setText(sim.author)
                 return view
             }
         }

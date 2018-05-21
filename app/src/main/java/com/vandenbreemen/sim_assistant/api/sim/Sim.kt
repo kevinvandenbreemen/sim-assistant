@@ -1,6 +1,9 @@
 package com.vandenbreemen.sim_assistant.api.sim
 
 data class Sim(
-        val content: String,
-        val postedDate: Long
+        val title:String,
+        val author:String,
+        val postedDate: Long,
+        val content: String
+
 )

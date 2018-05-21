@@ -35,15 +35,21 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
                     var postedSim:Sim
 
                     if(GooglePostCacheInteractor.NO_CACHE_HIT == cachedSim){
-                        postedSim = Sim(getPostBody(googleGroupPost),
-                                SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time
+                        postedSim = Sim(
+                                googleGroupPost.title!!,
+                                googleGroupPost.author!!,
+                                SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time,
+                                getPostBody(googleGroupPost)
                         )
 
                         googlePostCacheInteractor.cacheSim(urlKey, postedSim.content)
                     }
                     else{
-                        postedSim = Sim(cachedSim.content,
-                                SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time
+                        postedSim = Sim(
+                                googleGroupPost.title!!,
+                                googleGroupPost.author!!,
+                                SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time,
+                                cachedSim.content
                         )
                     }
 
