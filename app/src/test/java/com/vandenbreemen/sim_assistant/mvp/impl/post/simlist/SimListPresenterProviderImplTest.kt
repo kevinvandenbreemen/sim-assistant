@@ -1,7 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.post.simlist
 
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
-import com.vandenbreemen.sim_assistant.api.sim.PostedSim
+import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenModelImpl
@@ -13,7 +13,6 @@ import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
 import org.awaitility.Awaitility.await
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,7 +37,7 @@ class SimListPresenterProviderImplTest{
 
     lateinit var simListView:SimListView
 
-    lateinit var simList:MutableList<PostedSim>
+    lateinit var simList:MutableList<Sim>
 
     @Before
     fun setup(){
@@ -46,7 +45,7 @@ class SimListPresenterProviderImplTest{
         simList = mutableListOf()
 
         simListView = object:SimListView{
-            override fun addSimItem(sim: PostedSim) {
+            override fun addSimItem(sim: Sim) {
                 simList.add(sim)
             }
 

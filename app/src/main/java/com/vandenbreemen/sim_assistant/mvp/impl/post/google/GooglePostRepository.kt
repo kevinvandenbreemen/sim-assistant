@@ -1,7 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.post.google
 
 import com.vandenbreemen.sim_assistant.api.google.GoogleGroupsApi
-import com.vandenbreemen.sim_assistant.api.sim.PostedSim
+import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsPost
 import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
 import io.reactivex.Observable
@@ -22,27 +22,27 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(SimpleXmlConverterFactory.create()).build().create(GoogleGroupsApi::class.java)
 
-    override fun getPosts(): Observable<PostedSim> {
+    override fun getPosts(): Observable<Sim> {
 
         return googleGroupsApi.getRssFeed(groupName).subscribeOn(io()).flatMapObservable { rssFeed ->
-            Observable.create(ObservableOnSubscribe<PostedSim> { observableEmitter ->
+            Observable.create(ObservableOnSubscribe<Sim> { observableEmitter ->
                 rssFeed.articleList!!.forEach { googleGroupPost ->
 
                     val urlKey = googleGroupPost.link!!
 
                     val cachedSim = googlePostCacheInteractor.retrieve(urlKey)
 
-                    var postedSim:PostedSim
+                    var postedSim:Sim
 
                     if(GooglePostCacheInteractor.NO_CACHE_HIT == cachedSim){
-                        postedSim = PostedSim(getPostBody(googleGroupPost),
+                        postedSim = Sim(getPostBody(googleGroupPost),
                                 SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time
                         )
 
                         googlePostCacheInteractor.cacheSim(urlKey, postedSim.content)
                     }
                     else{
-                        postedSim = PostedSim(cachedSim.content,
+                        postedSim = Sim(cachedSim.content,
                                 SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time
                         )
                     }

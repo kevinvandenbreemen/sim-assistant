@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
-import com.vandenbreemen.sim_assistant.api.sim.PostedSim
+import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
 
@@ -31,8 +31,8 @@ class SimListFragment: Fragment() {
         val layout = inflater.inflate(R.layout.layout_sim_list, container, false)
 
         val listView = layout.findViewById<ListView>(R.id.simList)
-        val currentList = mutableListOf<PostedSim>()
-        val adapter = object:ArrayAdapter<PostedSim>(
+        val currentList = mutableListOf<Sim>()
+        val adapter = object:ArrayAdapter<Sim>(
                 context,
                 android.R.layout.simple_list_item_1,
                 currentList
@@ -47,7 +47,7 @@ class SimListFragment: Fragment() {
         listView.adapter = adapter
 
         val view = object:SimListView{
-            override fun addSimItem(sim: PostedSim) {
+            override fun addSimItem(sim: Sim) {
                 currentList.add(sim)
                 adapter.notifyDataSetChanged()
             }

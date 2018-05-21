@@ -1,6 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.post.simlist
 
-import com.vandenbreemen.sim_assistant.api.sim.PostedSim
+import com.vandenbreemen.sim_assistant.api.sim.Sim
 import io.reactivex.Observable
 
 /**
@@ -17,10 +17,10 @@ interface SimListPresenter {
 
 interface SimListView {
 
-    fun addSimItem(sim:PostedSim)
+    fun addSimItem(sim:Sim)
 
 }
 
 interface SimListModel{
-    fun getSimList(): Observable<PostedSim>
+    fun getSimList(): Observable<Sim>
 }

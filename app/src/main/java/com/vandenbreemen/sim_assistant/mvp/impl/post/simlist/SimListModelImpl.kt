@@ -1,6 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.post.simlist
 
-import com.vandenbreemen.sim_assistant.api.sim.PostedSim
+import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListModel
 import io.reactivex.Observable
@@ -12,7 +12,7 @@ import io.reactivex.Observable
  * @author kevin
  */
 class SimListModelImpl(val postRepository: PostRepository): SimListModel {
-    override fun getSimList(): Observable<PostedSim> {
+    override fun getSimList(): Observable<Sim> {
         return postRepository.getPosts()
     }
 }
