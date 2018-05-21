@@ -14,5 +14,6 @@ interface GoogleGroupsInteractor {
 
     fun addGoogleGroup(groupName:String):Completable
     fun getGoogleGroups(): Single<List<GoogleGroup>>
+    fun googleGroupExists(groupName: String): Single<Boolean>
 
 }

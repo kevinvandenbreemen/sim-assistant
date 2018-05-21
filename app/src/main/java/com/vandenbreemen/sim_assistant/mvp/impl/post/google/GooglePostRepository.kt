@@ -12,7 +12,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.text.SimpleDateFormat
 
-private const val GOOGLE_GROUPS_BASE_URL = "https://groups.google.com/"
+const val GOOGLE_GROUPS_BASE_URL = "https://groups.google.com/"
 
 class GooglePostRepository(val groupName: String, private val contentLoader: GooglePostContentLoader,
                            private val googlePostCacheInteractor: GooglePostCacheInteractor

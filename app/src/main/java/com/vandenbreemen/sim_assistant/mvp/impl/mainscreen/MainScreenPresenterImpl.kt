@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
+import com.vandenbreemen.sim_assistant.api.message.ApplicationError
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenModel
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
@@ -30,7 +31,14 @@ class MainScreenPresenterImpl(val mainScreenModelImpl: MainScreenModel, val view
 
     override fun setGoogleGroupName(name: String) {
         mainScreenModelImpl.addGoogleGroup(name)
-                .doOnError(Consumer { err->view.showError(err.localizedMessage) })
+                .doOnError(Consumer { err->
+                    if(err is ApplicationError){
+                        view.showError(err.localizedMessage)
+                        return@Consumer
+                    }
+                    view.showError(
+                        ApplicationError("$name:  No such Google Group").localizedMessage
+                ) })
                 .andThen(
                     mainScreenModelImpl.setSimSource(SimSource.GOOGLE_GROUP)
                 ).andThen(

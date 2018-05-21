@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.shadows.ShadowLog
 
 @RunWith(RobolectricTestRunner::class)
 class MainScreenModelImplTest {
@@ -21,6 +22,7 @@ class MainScreenModelImplTest {
 
     @Before
     fun setup() {
+        ShadowLog.stream = System.out
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
         mainScreenModel = MainScreenModelImpl(UserSettingsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp),
                 GoogleGroupsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)
@@ -47,7 +49,7 @@ class MainScreenModelImplTest {
 
     @Test
     fun shouldAddGoogleGroup(){
-        mainScreenModel.addGoogleGroup("group-one").blockingAwait()
+        mainScreenModel.addGoogleGroup("sb118-apollo").blockingAwait()
         assertFalse("Google Groups", mainScreenModel.getGoogleGroups().blockingGet().isEmpty())
     }
 

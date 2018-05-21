@@ -131,4 +131,17 @@ class MainScreenPresenterImplTest{
         verify(view, never()).showSimList()
     }
 
+    @Test
+    fun shouldRaiseErrorOnNonExistentGroup(){
+        //  Arrange
+        mainScreenPresenter.start().blockingAwait()
+
+        //  Act
+        mainScreenPresenter.setGoogleGroupName("no-such-group-testonly")
+
+        //  Assert
+        verify(view).showError("no-such-group-testonly:  No such Google Group")
+        verify(view, never()).showSimList()
+    }
+
 }
