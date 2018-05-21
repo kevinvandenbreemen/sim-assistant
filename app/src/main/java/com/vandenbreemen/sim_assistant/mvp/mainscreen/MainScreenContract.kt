@@ -8,6 +8,7 @@ interface MainScreenView{
     abstract fun showSimSourceSelector(simSources: List<SimSource>)
     fun promptForGoogleGroupDetails()
     fun showError(errorMessage: String)
+    fun showSimList()
 
 }
 
