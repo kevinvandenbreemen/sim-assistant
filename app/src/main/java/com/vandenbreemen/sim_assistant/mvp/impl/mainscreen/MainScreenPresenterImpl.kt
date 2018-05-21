@@ -24,6 +24,9 @@ class MainScreenPresenterImpl(val mainScreenModelImpl: MainScreenModel, val view
                 if(shouldCheck){
                     view.showSimSourceSelector(mainScreenModelImpl.getPossibleSimSources())
                 }
+                else{
+                    view.showSimList()
+                }
                 it.onComplete()
             }
         }

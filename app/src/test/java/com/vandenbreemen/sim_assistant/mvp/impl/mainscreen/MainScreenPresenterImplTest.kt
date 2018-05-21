@@ -86,6 +86,21 @@ class MainScreenPresenterImplTest{
     }
 
     @Test
+    fun shouldStartSimListWhenSimSourceAlreadyConfigured(){
+
+        //  Arrange
+        val presenter = MainScreenPresenterImpl(mockedModel, view)
+        `when`(mockedModel.checkShouldPromptUserForSimSource()).thenReturn(Single.just(false))
+
+        //  Act
+        presenter.start().blockingAwait()
+
+        //  Assert
+        verify(view).showSimList()
+
+    }
+
+    @Test
     fun shouldConfigureSourceAsGoogleGroupOnceGoogleGroupNameSpecified() {
 
         //  Arrange
