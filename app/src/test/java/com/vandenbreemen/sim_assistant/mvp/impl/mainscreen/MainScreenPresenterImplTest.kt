@@ -106,12 +106,10 @@ class MainScreenPresenterImplTest{
     fun shouldStartSimListWorkflowAfterSetGoogleGroupName(){
 
         //  Arrange
-        val presenter = MainScreenPresenterImpl(mockedModel, view)
-        `when`(mockedModel.addGoogleGroup("sb118-apollo")).thenReturn(Completable.complete())
-        `when`(mockedModel.setSimSource(SimSource.GOOGLE_GROUP)).thenReturn(Completable.complete())
+        mainScreenPresenter.start().blockingAwait()
 
         //  Act
-        presenter.setGoogleGroupName("sb118-apollo")
+        mainScreenPresenter.setGoogleGroupName("sb118-apollo")
 
         //  Assert
         verify(view).showSimList()

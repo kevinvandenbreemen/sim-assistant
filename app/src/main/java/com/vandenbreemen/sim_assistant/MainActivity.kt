@@ -2,12 +2,14 @@ package com.vandenbreemen.sim_assistant
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
@@ -18,6 +20,9 @@ class MainActivity : AppCompatActivity(), MainScreenView {
 
     @Inject
     lateinit var presenter:MainScreenPresenter
+
+    @Inject
+    lateinit var presenterProvider:SimListPresenterProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -65,6 +70,6 @@ class MainActivity : AppCompatActivity(), MainScreenView {
     }
 
     override fun showSimList() {
-        
+        presenterProvider.getSimListPresenter().subscribe { presenter-> }
     }
 }
