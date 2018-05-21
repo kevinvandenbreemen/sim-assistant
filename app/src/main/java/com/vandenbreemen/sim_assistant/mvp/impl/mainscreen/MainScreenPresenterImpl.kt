@@ -32,12 +32,12 @@ class MainScreenPresenterImpl(val mainScreenModelImpl: MainScreenModel, val view
         mainScreenModelImpl.addGoogleGroup(name)
                 .doOnError(Consumer { err->view.showError(err.localizedMessage) })
                 .andThen(
-                mainScreenModelImpl.setSimSource(SimSource.GOOGLE_GROUP)
-        ).andThen(
-                Completable.create {
-
-                }
-        ).observeOn(mainThread()).subscribe()
+                    mainScreenModelImpl.setSimSource(SimSource.GOOGLE_GROUP)
+                ).andThen(
+                    Completable.create {
+                        view.showSimList()
+                    }
+                ).observeOn(mainThread()).subscribe()
     }
 
 }
