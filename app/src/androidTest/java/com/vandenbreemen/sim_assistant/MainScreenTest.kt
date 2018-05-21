@@ -73,7 +73,15 @@ class MainScreenTest {
         writeTo(R.id.googleGroupName, "sb118-apollo")
         clickOn(R.id.ok)
 
-        onView(withId(R.id.simList)).check(matches(isDisplayed()))
+        val waitLonger = ElapsedTimeIdlingResource(TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS))
+        IdlingRegistry.getInstance().register(waitLonger)
+
+        try {
+            onView(withId(R.id.simListContainer)).check(matches(isDisplayed()))
+        }
+        finally{
+            IdlingRegistry.getInstance().unregister(waitLonger)
+        }
     }
 
 }

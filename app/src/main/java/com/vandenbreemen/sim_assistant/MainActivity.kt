@@ -10,10 +10,12 @@ import android.widget.EditText
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
+import com.vandenbreemen.sim_assistant.fragments.SimListFragment
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
 import dagger.android.AndroidInjection
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainScreenView {
@@ -70,6 +72,13 @@ class MainActivity : AppCompatActivity(), MainScreenView {
     }
 
     override fun showSimList() {
-        presenterProvider.getSimListPresenter().subscribe { presenter-> }
+        val popupContainer = findViewById<ViewGroup>(R.id.popupContainer)
+        presenterProvider.getSimListPresenter().observeOn(mainThread()).subscribe { presenter->
+            val fragment = SimListFragment()
+            fragment.setPresenter(presenter)
+            popupContainer.removeAllViews()
+
+            fragmentManager.beginTransaction().add(R.id.popupContainer, fragment).commit()
+        }
     }
 }

@@ -45,12 +45,13 @@ project.ext{
     mockitoVersion = "2.18.0"
     baristaVersion = "2.4.0"
     retrofitVersion = "2.3.0"
+    supportLibV7Version = "27.1.1"
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation "com.android.support:appcompat-v7:$supportLibV7Version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
     //  Room

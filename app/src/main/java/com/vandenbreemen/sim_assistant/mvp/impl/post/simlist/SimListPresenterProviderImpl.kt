@@ -12,6 +12,7 @@ import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
+import io.reactivex.schedulers.Schedulers.io
 
 /**
  * <h2>Intro</h2>
@@ -26,7 +27,7 @@ class SimListPresenterProviderImpl(
                         private val googleGroupCacheInteractor: GooglePostCacheInteractor
                                    ):SimListPresenterProvider {
     override fun getSimListPresenter(): Single<SimListPresenter> {
-        return userSettingsInteractor.getUserSettings().flatMap<SimListPresenter> { userSettings->
+        return userSettingsInteractor.getUserSettings().subscribeOn(io()).flatMap<SimListPresenter> { userSettings->
 
             Single.create(SingleOnSubscribe<SimListPresenter> {emitter->
                 var repository:PostRepository? = null
@@ -43,7 +44,7 @@ class SimListPresenterProviderImpl(
             })
 
 
-        }
+        }.subscribeOn(io())
     }
 
 
