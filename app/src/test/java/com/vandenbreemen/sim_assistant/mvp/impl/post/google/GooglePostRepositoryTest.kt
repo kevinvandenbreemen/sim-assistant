@@ -54,6 +54,8 @@ class GooglePostRepositoryTest {
         postedSim = googlePostRepository.getPosts().blockingFirst()
         assertNotNull("Post content", postedSim.content)
 
+        println(postedSim)
+
     }
 
 

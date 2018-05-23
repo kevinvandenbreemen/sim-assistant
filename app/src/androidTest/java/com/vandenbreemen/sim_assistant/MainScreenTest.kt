@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant
 
+import android.support.test.espresso.Espresso.onData
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.IdlingRegistry
 import android.support.test.espresso.action.ViewActions.click
@@ -10,6 +11,7 @@ import android.support.test.runner.AndroidJUnit4
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
 import com.vandenbreemen.sim_assistant.util.ElapsedTimeIdlingResource
+import org.hamcrest.CoreMatchers.anything
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -78,6 +80,29 @@ class MainScreenTest {
 
         try {
             onView(withId(R.id.simListContainer)).check(matches(isDisplayed()))
+        }
+        finally{
+            IdlingRegistry.getInstance().unregister(waitLonger)
+        }
+    }
+
+    @Test
+    fun shouldOpenSimContentByClickingOnItInSimList(){
+        activityRule.launchActivity(null)
+
+        onView(withText("Google Group")).perform(click())
+
+        onView(withId(R.id.googleGroupDetails)).check(matches(isDisplayed()))
+
+        writeTo(R.id.googleGroupName, "sb118-apollo")
+        clickOn(R.id.ok)
+
+        val waitLonger = ElapsedTimeIdlingResource(TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS))
+        IdlingRegistry.getInstance().register(waitLonger)
+
+        try {
+            onData(anything()).inAdapterView(withId(R.id.simList)).atPosition(0).perform(click())
+            onView(withId(R.id.simDisplayContent)).check(matches(isDisplayed()))
         }
         finally{
             IdlingRegistry.getInstance().unregister(waitLonger)
