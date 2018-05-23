@@ -41,6 +41,8 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
 
         simContent.tag = "${sim.title}_${sim.postedDate}"
         simContent.findViewById<TextView>(R.id.simTitle).text = sim.title
+        simContent.findViewById<TextView>(R.id.simAuthor).text = sim.author
+        simContent.findViewById<TextView>(R.id.simContent).text = sim.content
 
         container.addView(simContent)
     }
