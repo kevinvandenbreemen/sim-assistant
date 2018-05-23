@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.post.google
 
+import org.apache.commons.text.StringEscapeUtils
 import org.jsoup.Jsoup
 import org.jsoup.safety.Whitelist
 import java.net.HttpURLConnection
@@ -38,6 +39,8 @@ open class GooglePostContentLoader {
         var html = "\\\\n".toRegex().replace(element.html(), "\n")
         postBody = Jsoup.clean(html, "", Whitelist.none(), org.jsoup.nodes.Document.OutputSettings().prettyPrint(false))
         postBody = postBody.trim({ it <= ' ' })
+
+        postBody = StringEscapeUtils.unescapeHtml4(postBody)
 
         return postBody
     }
