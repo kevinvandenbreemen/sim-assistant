@@ -49,4 +49,20 @@ class ViewSimActivityTest{
 
     }
 
+    @Test
+    fun shouldDisplaySimTitle(){
+        val intent = Intent(RuntimeEnvironment.application, ViewSimActivity::class.java)
+        intent.putExtra(PARM_SIMS, arrayOf(sim))
+        val activity = buildActivity(ViewSimActivity::class.java, intent)
+                .create()
+                .resume()
+                .get()
+
+        val simListContainer = activity.findViewById<ViewGroup>(R.id.simContainer)
+        val simContainer = simListContainer.findViewWithTag<ViewGroup>("Test Sim Title_${sim.postedDate}")
+        assertEquals("Title",
+                sim.title,
+                simContainer.findViewById<TextView>(R.id.simTitle).text.toString())
+    }
+
 }

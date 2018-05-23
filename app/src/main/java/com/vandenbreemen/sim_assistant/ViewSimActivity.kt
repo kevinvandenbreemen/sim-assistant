@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
+import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R.id.simContainer
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimPresenter
@@ -37,7 +38,10 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
     override fun displaySim(sim: Sim) {
         val container = findViewById<ViewGroup>(simContainer)
         val simContent = layoutInflater.inflate(R.layout.layout_sim_display, container, false)
+
         simContent.tag = "${sim.title}_${sim.postedDate}"
+        simContent.findViewById<TextView>(R.id.simTitle).text = sim.title
+
         container.addView(simContent)
     }
 }
