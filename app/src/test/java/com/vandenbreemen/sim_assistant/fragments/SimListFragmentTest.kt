@@ -4,12 +4,14 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
+import com.vandenbreemen.sim_assistant.ViewSimActivity
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.impl.post.simlist.SimListModelImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.post.simlist.SimListPresenterImpl
 import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import io.reactivex.Observable
+import junit.framework.TestCase.assertNotNull
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -111,6 +113,37 @@ class SimListFragmentTest{
         assertEquals("Sim Author",
                 sim.author,
                 simItem.findViewById<TextView>(R.id.simAuthor).text)
+    }
+
+    @Test
+    fun shouldStartViewSimOnClickSim(){
+        //  Arrange
+        val sim = Sim(
+                "test sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
+        `when`(postRepository.getPosts()).thenReturn(Observable.just(sim))
+        val fragment = SimListFragment()
+        fragment.setPresenter(presenter)
+
+        //  Act
+        startFragment(fragment)
+        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
+        val shadowListView = shadowOf(listView)
+        shadowListView.populateItems()
+        val simItem = listView.getChildAt(0) as ViewGroup
+
+        simItem.performClick()
+
+        //  Assert
+        val shadowActivity = shadowOf(fragment.activity)
+        val intent = shadowActivity.nextStartedActivity
+        assertNotNull("Start an Activity", intent)
+
+        val shadowIntent = shadowOf(intent)
+        assertEquals("View Sim Activity", ViewSimActivity::class.java, shadowIntent.intentClass)
     }
 
 }

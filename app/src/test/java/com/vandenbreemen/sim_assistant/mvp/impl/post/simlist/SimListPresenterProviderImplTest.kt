@@ -45,6 +45,10 @@ class SimListPresenterProviderImplTest{
         simList = mutableListOf()
 
         simListView = object:SimListView{
+            override fun viewSim(sim: Sim) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
             override fun addSimItem(sim: Sim) {
                 simList.add(sim)
             }

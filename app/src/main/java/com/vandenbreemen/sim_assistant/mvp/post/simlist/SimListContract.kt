@@ -12,12 +12,14 @@ import io.reactivex.Observable
 interface SimListPresenter {
 
     fun start(view:SimListView)
+    fun viewSim(sim:Sim)
 
 }
 
 interface SimListView {
 
     fun addSimItem(sim:Sim)
+    fun viewSim(sim: Sim)
 
 }
 

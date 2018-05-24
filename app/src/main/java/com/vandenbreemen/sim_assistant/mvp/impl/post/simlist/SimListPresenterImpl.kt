@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.post.simlist
 
+import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListModel
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
@@ -26,5 +27,9 @@ class SimListPresenterImpl(private val simListModel: SimListModel):SimListPresen
         },{
 
         })
+    }
+
+    override fun viewSim(sim: Sim) {
+        view.viewSim(sim)
     }
 }
