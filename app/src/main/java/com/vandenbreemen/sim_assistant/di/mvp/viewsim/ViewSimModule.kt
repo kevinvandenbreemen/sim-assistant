@@ -13,8 +13,10 @@ class ViewSimModule {
 
     @Provides
     fun providesViewSimPresenter(activity:ViewSimActivity):ViewSimPresenter{
+        val parcelableArray = activity.intent.getParcelableArrayExtra(ViewSimActivity.PARM_SIMS)
+
         return ViewSimPresenterImpl(
-                ViewSimModelImpl(activity.intent.getParcelableArrayExtra(ViewSimActivity.PARM_SIMS) as Array<Sim>),
+                ViewSimModelImpl(parcelableArray.map { item -> item as Sim }.toTypedArray()),
                 activity
         )
     }
