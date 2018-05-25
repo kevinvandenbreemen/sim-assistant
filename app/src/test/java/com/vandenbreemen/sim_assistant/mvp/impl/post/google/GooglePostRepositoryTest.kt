@@ -3,6 +3,7 @@ package com.vandenbreemen.sim_assistant.mvp.impl.post.google
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
+import junit.framework.TestCase.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
@@ -28,6 +29,16 @@ class GooglePostRepositoryTest {
                 )
         val postedSim = googlePostRepository.getPosts().blockingFirst()
         assertNotNull("Post content", postedSim.content)
+    }
+
+    @Test
+    fun shouldNotIncludeNewLinesInSimAuthorOrTitle(){
+        googlePostRepository = GooglePostRepository("uss-odyssey-oe", GooglePostContentLoader(),
+                GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
+        )
+        val postedSim = googlePostRepository.getPosts().blockingFirst()
+        assertFalse("Sim Author newline", postedSim.author.contains("\n"))
+        assertFalse("Sim Title newline", postedSim.title.contains("\n"))
     }
 
     @Test
