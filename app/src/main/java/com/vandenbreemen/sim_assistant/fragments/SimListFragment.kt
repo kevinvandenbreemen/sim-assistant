@@ -14,6 +14,8 @@ import com.vandenbreemen.sim_assistant.ViewSimActivity
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * <h2>Intro</h2>
@@ -40,10 +42,12 @@ class SimListFragment: Fragment() {
                 currentList
         ){
             override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+                val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
                 val sim = currentList[position]
                 val view = inflater.inflate(R.layout.layout_sim_list_item, parent, false)
                 view.findViewById<TextView>(R.id.simTitle).setText(sim.title)
                 view.findViewById<TextView>(R.id.simAuthor).setText(sim.author)
+                view.findViewById<TextView>(R.id.simDate).setText(simpleDateFormat.format(Date(sim.postedDate)))
 
                 view.setOnClickListener(View.OnClickListener { view ->
                     presenter.viewSim(sim)

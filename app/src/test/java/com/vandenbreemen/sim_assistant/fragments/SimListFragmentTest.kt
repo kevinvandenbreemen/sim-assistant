@@ -23,6 +23,7 @@ import org.mockito.junit.MockitoJUnit
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.util.FragmentTestUtil.startFragment
+import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
 class SimListFragmentTest{
@@ -113,6 +114,40 @@ class SimListFragmentTest{
         assertEquals("Sim Author",
                 sim.author,
                 simItem.findViewById<TextView>(R.id.simAuthor).text)
+    }
+
+    @Test
+    fun shouldShowSimPostedDate(){
+
+        //  Arrange
+        val expectedDateString = "2018-01-01 20:00"
+
+        val cal = Calendar.Builder()
+        cal.set(Calendar.YEAR, 2018).set(Calendar.MONTH, 0).set(Calendar.DAY_OF_MONTH, 1)
+                .set(Calendar.HOUR_OF_DAY, 20).set(Calendar.MINUTE, 0)
+
+        val sim = Sim(
+                "test sim",
+                "Kevin",
+                cal.build().timeInMillis,
+                "This is some test content"
+        )
+        `when`(postRepository.getPosts()).thenReturn(Observable.just(sim))
+        val fragment = SimListFragment()
+        fragment.setPresenter(presenter)
+
+        //  Act
+        startFragment(fragment)
+        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
+        val shadowListView = shadowOf(listView)
+        shadowListView.populateItems()
+        val simItem = listView.getChildAt(0) as ViewGroup
+
+        //  Assert
+        assertEquals("Sim Date",
+                expectedDateString,
+                simItem.findViewById<TextView>(R.id.simDate).text)
+
     }
 
     @Test
