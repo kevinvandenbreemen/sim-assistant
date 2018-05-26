@@ -30,7 +30,7 @@ class SimParserTest {
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
-                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived.\n\nJim:  Bill, I didn't expect you!!!\n\nBill:  Hahaha!"
+                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.\nBill had\njust arrived.\n\nJim:  Bill, I didn't expect you!!!\n\nBill:  Hahaha!"
         )
 
         //  Act
@@ -38,6 +38,7 @@ class SimParserTest {
         val utterances = parser.toUtterances()
 
         //  Assert
+        println(utterances)
         assertEquals("Number of Utterances", 7, utterances.size)
     }
 
