@@ -3,6 +3,7 @@ package com.vandenbreemen.sim_assistant.fragments
 import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
@@ -33,6 +34,8 @@ class SimListFragment: Fragment(), SimListView {
 
     lateinit var adapter: ArrayAdapter<Sim>
 
+    val simToUiComponent: MutableMap<Sim, CardView> = mutableMapOf()
+
     fun setPresenter(presenter: SimListPresenter){
         this.presenter = presenter
         this.currentList = mutableListOf<Sim>()
@@ -61,6 +64,14 @@ class SimListFragment: Fragment(), SimListView {
         view.findViewById<View>(viewSims).visibility = VISIBLE
     }
 
+    override fun selectSim(sim: Sim) {
+        simToUiComponent[sim]!!.setCardBackgroundColor(resources.getColor(R.color.selectedSim, context.theme))
+    }
+
+    fun deselectSim(sim: Sim) {
+
+    }
+
     private fun createSimListView(inflater: LayoutInflater, layout:ViewGroup){
         val listView = layout.findViewById<ListView>(R.id.simList)
         this.adapter = object:ArrayAdapter<Sim>(
@@ -71,21 +82,23 @@ class SimListFragment: Fragment(), SimListView {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
                 val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
                 val sim = currentList[position]
-                val view = inflater.inflate(R.layout.layout_sim_list_item, parent, false)
-                view.findViewById<TextView>(R.id.simTitle).setText(sim.title)
-                view.findViewById<TextView>(R.id.simAuthor).setText(sim.author)
-                view.findViewById<TextView>(R.id.simDate).setText(simpleDateFormat.format(Date(sim.postedDate)))
+                val cardView = inflater.inflate(R.layout.layout_sim_list_item, parent, false) as CardView
+                cardView.findViewById<TextView>(R.id.simTitle).setText(sim.title)
+                cardView.findViewById<TextView>(R.id.simAuthor).setText(sim.author)
+                cardView.findViewById<TextView>(R.id.simDate).setText(simpleDateFormat.format(Date(sim.postedDate)))
 
-                view.setOnClickListener(View.OnClickListener { view ->
+                cardView.setOnClickListener(View.OnClickListener { view ->
                     presenter.viewSim(sim)
                 })
 
-                view.setOnLongClickListener(View.OnLongClickListener { view ->
+                cardView.setOnLongClickListener(View.OnLongClickListener { view ->
                     presenter.selectSim(sim)
                     true
                 })
 
-                return view
+                simToUiComponent.put(sim, cardView)
+
+                return cardView
             }
         }
         listView.adapter = adapter

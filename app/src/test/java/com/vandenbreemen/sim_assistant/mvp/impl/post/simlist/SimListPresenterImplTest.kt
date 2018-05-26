@@ -65,6 +65,7 @@ class SimListPresenterImplTest{
 
         //  Assert
         verify(simListView).displayViewSelectedSimsOption()
+        verify(simListView).selectSim(sim)
     }
 
     @Test

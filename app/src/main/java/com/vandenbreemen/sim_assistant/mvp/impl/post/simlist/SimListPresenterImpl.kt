@@ -40,6 +40,7 @@ class SimListPresenterImpl(private val simListModel: SimListModel):SimListPresen
         simListModel.selectSim(sim)
         if (simListModel.hasSelectedSims()) {
             view.displayViewSelectedSimsOption()
+            view.selectSim(sim)
         }
     }
 }

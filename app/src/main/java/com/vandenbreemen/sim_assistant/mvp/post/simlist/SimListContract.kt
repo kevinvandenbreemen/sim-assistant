@@ -24,6 +24,7 @@ interface SimListView {
     fun viewSim(sim: Sim)
     fun displayViewSelectedSimsOption()
     fun viewSelectedSims(sims: List<Sim>)
+    fun selectSim(sim: Sim)
 }
 
 interface SimListModel{
