@@ -19,7 +19,7 @@ class SimParser(val sim: Sim) {
                 return@forEach
             }
 
-            val sentenceRegex = "[.]+".toRegex()
+            val sentenceRegex = "[.!]+".toRegex()
             if (sentenceRegex.containsMatchIn(line)) {
                 var betweenBreaks = sentenceRegex.split(line).filter { str -> !str.isBlank() }
                 if (sentence != null) {
