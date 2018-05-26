@@ -1,5 +1,7 @@
 package com.vandenbreemen.sim_assistant.fragments
 
+import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.TextView
@@ -180,5 +182,91 @@ class SimListFragmentTest{
         val shadowIntent = shadowOf(intent)
         assertEquals("View Sim Activity", ViewSimActivity::class.java, shadowIntent.intentClass)
     }
+
+    @Test
+    fun shouldSupportSelectingMultipleSimsByLongClick() {
+        //  Arrange
+        val sim1 = Sim(
+                "test sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
+
+        val sim2 = Sim(
+                "test sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
+
+        `when`(postRepository.getPosts()).thenReturn(Observable.just(sim1, sim2))
+        val fragment = SimListFragment()
+        fragment.setPresenter(presenter)
+
+        //  Act
+        startFragment(fragment)
+        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
+        val shadowListView = shadowOf(listView)
+        shadowListView.populateItems()
+
+        var simItem = listView.getChildAt(0) as ViewGroup
+        simItem.performLongClick()
+
+        simItem = listView.getChildAt(1) as ViewGroup
+        simItem.performLongClick()
+
+        //  Assert
+        val viewTextButton = fragment.view!!.findViewById<View>(R.id.viewSims)
+        assertEquals("View Sims Visible", VISIBLE, viewTextButton.visibility)
+
+    }
+
+    @Test
+    fun shouldDisplaySimTextForMultipleSelectedSims() {
+        //  Arrange
+        val sim1 = Sim(
+                "test sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
+
+        val sim2 = Sim(
+                "test sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
+
+        `when`(postRepository.getPosts()).thenReturn(Observable.just(sim1, sim2))
+        val fragment = SimListFragment()
+        fragment.setPresenter(presenter)
+
+        //  Act
+        startFragment(fragment)
+        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
+        val shadowListView = shadowOf(listView)
+        shadowListView.populateItems()
+
+        var simItem = listView.getChildAt(0) as ViewGroup
+        simItem.performLongClick()
+
+        simItem = listView.getChildAt(1) as ViewGroup
+        simItem.performLongClick()
+
+        fragment.view!!.findViewById<View>(R.id.viewSims).performClick()
+
+        //  Assert
+        val shadowActivity = shadowOf(fragment.activity)
+        val intent = shadowActivity.nextStartedActivity
+        assertNotNull("Start an Activity", intent)
+        assertEquals("Selected sims", 2, intent.getParcelableArrayExtra(ViewSimActivity.PARM_SIMS).size)
+
+        val shadowIntent = shadowOf(intent)
+        assertEquals("View Sim Activity", ViewSimActivity::class.java, shadowIntent.intentClass)
+    }
+
+
 
 }

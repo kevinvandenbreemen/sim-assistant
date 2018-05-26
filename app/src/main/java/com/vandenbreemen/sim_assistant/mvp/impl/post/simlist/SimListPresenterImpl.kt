@@ -5,7 +5,6 @@ import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListModel
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
-import io.reactivex.functions.Consumer
 
 /**
  * <h2>Intro</h2>
@@ -31,5 +30,12 @@ class SimListPresenterImpl(private val simListModel: SimListModel):SimListPresen
 
     override fun viewSim(sim: Sim) {
         view.viewSim(sim)
+    }
+
+    override fun selectSim(sim: Sim) {
+        simListModel.selectSim(sim)
+        if (simListModel.hasSelectedSims()) {
+            view.displayViewSelectedSimsOption()
+        }
     }
 }

@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
+import com.vandenbreemen.sim_assistant.R.id.viewSims
 import com.vandenbreemen.sim_assistant.ViewSimActivity
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
@@ -53,6 +55,11 @@ class SimListFragment: Fragment() {
                     presenter.viewSim(sim)
                 })
 
+                view.setOnLongClickListener(View.OnLongClickListener { view ->
+                    presenter.selectSim(sim)
+                    true
+                })
+
                 return view
             }
         }
@@ -70,6 +77,9 @@ class SimListFragment: Fragment() {
                 adapter.notifyDataSetChanged()
             }
 
+            override fun displayViewSelectedSimsOption() {
+                view.findViewById<View>(viewSims).visibility = VISIBLE
+            }
         }
 
         presenter.start(view)

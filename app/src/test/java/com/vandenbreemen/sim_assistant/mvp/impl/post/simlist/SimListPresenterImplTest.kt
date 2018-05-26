@@ -5,13 +5,13 @@ import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
 import io.reactivex.Observable
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnit
 import org.robolectric.RobolectricTestRunner
 
@@ -56,6 +56,15 @@ class SimListPresenterImplTest{
         //  Assert
         verify(simListView).viewSim(sim)
 
+    }
+
+    @Test
+    fun shouldAlertViewOnSelectSim() {
+        //  Act
+        presenter.selectSim(sim)
+
+        //  Assert
+        verify(simListView).displayViewSelectedSimsOption()
     }
 
 }
