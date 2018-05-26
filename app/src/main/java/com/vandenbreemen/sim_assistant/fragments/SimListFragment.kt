@@ -65,7 +65,20 @@ class SimListFragment: Fragment() {
         }
         listView.adapter = adapter
 
+        //  Set up the FAB
+        layout.findViewById<View>(R.id.viewSims).setOnClickListener(View.OnClickListener { view ->
+            presenter.viewSelectedSims()
+        })
+
         val view = object:SimListView{
+            override fun viewSelectedSims(sims: List<Sim>) {
+                val intent = Intent(activity, ViewSimActivity::class.java)
+
+                val arrayOfSims = Array(sims.size, {index->sims[index]})
+                intent.putExtra(ViewSimActivity.PARM_SIMS, arrayOfSims)
+                activity.startActivity(intent)
+            }
+
             override fun viewSim(sim: Sim) {
                 val intent = Intent(activity, ViewSimActivity::class.java)
                 intent.putExtra(ViewSimActivity.PARM_SIMS, arrayOf(sim))

@@ -261,7 +261,7 @@ class SimListFragmentTest{
         val shadowActivity = shadowOf(fragment.activity)
         val intent = shadowActivity.nextStartedActivity
         assertNotNull("Start an Activity", intent)
-        assertEquals("Selected sims", 2, intent.getParcelableArrayExtra(ViewSimActivity.PARM_SIMS).size)
+        assertEquals("Selected sims", 2, intent.getParcelableArrayExtra(ViewSimActivity.PARM_SIMS)?.size)
 
         val shadowIntent = shadowOf(intent)
         assertEquals("View Sim Activity", ViewSimActivity::class.java, shadowIntent.intentClass)

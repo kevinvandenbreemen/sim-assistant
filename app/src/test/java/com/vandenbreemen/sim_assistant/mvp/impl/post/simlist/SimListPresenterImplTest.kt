@@ -67,4 +67,14 @@ class SimListPresenterImplTest{
         verify(simListView).displayViewSelectedSimsOption()
     }
 
+    @Test
+    fun shouldViewSelectedSims(){
+        //  Act
+        presenter.selectSim(sim)
+        presenter.viewSelectedSims()
+
+        //  Assert
+        verify(simListView).viewSelectedSims(listOf(sim))
+    }
+
 }

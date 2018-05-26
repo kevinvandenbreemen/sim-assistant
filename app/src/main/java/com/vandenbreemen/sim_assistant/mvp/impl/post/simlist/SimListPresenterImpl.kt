@@ -28,6 +28,10 @@ class SimListPresenterImpl(private val simListModel: SimListModel):SimListPresen
         })
     }
 
+    override fun viewSelectedSims() {
+        view.viewSelectedSims(simListModel.selectedSims())
+    }
+
     override fun viewSim(sim: Sim) {
         view.viewSim(sim)
     }

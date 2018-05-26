@@ -14,6 +14,7 @@ interface SimListPresenter {
     fun start(view:SimListView)
     fun viewSim(sim:Sim)
     fun selectSim(sim: Sim)
+    fun viewSelectedSims()
 
 }
 
@@ -22,7 +23,7 @@ interface SimListView {
     fun addSimItem(sim:Sim)
     fun viewSim(sim: Sim)
     fun displayViewSelectedSimsOption()
-
+    fun viewSelectedSims(sims: List<Sim>)
 }
 
 interface SimListModel{

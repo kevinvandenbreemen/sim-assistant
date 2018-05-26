@@ -56,6 +56,10 @@ class SimListPresenterProviderImplTest{
             override fun displayViewSelectedSimsOption() {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
+
+            override fun viewSelectedSims(sims:List<Sim>){
+
+            }
         }
 
         val app = RuntimeEnvironment.application as SimAssistantApp
