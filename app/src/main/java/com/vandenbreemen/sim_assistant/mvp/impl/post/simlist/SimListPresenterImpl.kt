@@ -37,10 +37,18 @@ class SimListPresenterImpl(private val simListModel: SimListModel):SimListPresen
     }
 
     override fun selectSim(sim: Sim) {
-        simListModel.selectSim(sim)
-        if (simListModel.hasSelectedSims()) {
+
+        if (simListModel.simSelected(sim)) {
+            simListModel.deselectSim(sim)
+            view.deselectSim(sim)
+        } else {
+            simListModel.selectSim(sim)
             view.displayViewSelectedSimsOption()
             view.selectSim(sim)
+        }
+
+        if (!simListModel.hasSelectedSims()) {
+            view.hideViewSelectedSimsOption()
         }
     }
 }

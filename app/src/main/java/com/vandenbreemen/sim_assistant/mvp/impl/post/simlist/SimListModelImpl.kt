@@ -28,6 +28,14 @@ class SimListModelImpl(val postRepository: PostRepository): SimListModel {
         return selectedSims.isNotEmpty()
     }
 
+    override fun simSelected(sim: Sim): Boolean {
+        return selectedSims.contains(sim)
+    }
+
+    override fun deselectSim(sim: Sim) {
+        this.selectedSims.remove(sim)
+    }
+
     override fun selectSim(sim: Sim) {
         selectedSims.add(sim)
     }

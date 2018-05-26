@@ -194,7 +194,7 @@ class SimListFragmentTest{
         )
 
         val sim2 = Sim(
-                "test sim",
+                "test sim1",
                 "Kevin",
                 System.currentTimeMillis(),
                 "This is some test content"
@@ -233,7 +233,7 @@ class SimListFragmentTest{
         )
 
         val sim2 = Sim(
-                "test sim",
+                "test sim1",
                 "Kevin",
                 System.currentTimeMillis(),
                 "This is some test content"

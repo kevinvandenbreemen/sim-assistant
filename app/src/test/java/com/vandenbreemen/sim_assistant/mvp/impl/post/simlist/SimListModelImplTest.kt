@@ -3,8 +3,7 @@ package com.vandenbreemen.sim_assistant.mvp.impl.post.simlist
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
 import io.reactivex.Observable
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
+import junit.framework.TestCase.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -51,5 +50,30 @@ class SimListModelImplTest {
 
         //  Assert
         assertTrue("Has selected", simListModel.hasSelectedSims())
+    }
+
+    @Test
+    fun shouldKnowSimIsSelected() {
+        //  Arrange
+        val simListModel = SimListModelImpl(postRepository)
+
+        //  Act
+        simListModel.selectSim(sim)
+
+        //  Assert
+        assertTrue("sim selected", simListModel.simSelected(sim))
+    }
+
+    @Test
+    fun shouldDeSelectSim() {
+        //  Arrange
+        val simListModel = SimListModelImpl(postRepository)
+
+        //  Act
+        simListModel.selectSim(sim)
+        simListModel.deselectSim(sim)
+
+        //  Assert
+        assertFalse("sim selected", simListModel.simSelected(sim))
     }
 }

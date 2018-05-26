@@ -45,6 +45,10 @@ class SimListPresenterProviderImplTest{
         simList = mutableListOf()
 
         simListView = object:SimListView{
+            override fun deselectSim(sim: Sim) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
             override fun viewSim(sim: Sim) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
@@ -58,6 +62,10 @@ class SimListPresenterProviderImplTest{
             }
 
             override fun selectSim(sim: Sim) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun hideViewSelectedSimsOption() {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 

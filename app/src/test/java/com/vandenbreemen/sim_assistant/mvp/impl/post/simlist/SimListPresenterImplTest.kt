@@ -69,6 +69,19 @@ class SimListPresenterImplTest{
     }
 
     @Test
+    fun shouldDeselectSim() {
+        //  Act
+        presenter.selectSim(sim)
+        presenter.selectSim(sim)
+
+        //  Assert
+        verify(simListView).displayViewSelectedSimsOption()
+        verify(simListView).selectSim(sim)
+        verify(simListView).hideViewSelectedSimsOption()
+        verify(simListView).deselectSim(sim)
+    }
+
+    @Test
     fun shouldViewSelectedSims(){
         //  Act
         presenter.selectSim(sim)
@@ -77,5 +90,6 @@ class SimListPresenterImplTest{
         //  Assert
         verify(simListView).viewSelectedSims(listOf(sim))
     }
+
 
 }

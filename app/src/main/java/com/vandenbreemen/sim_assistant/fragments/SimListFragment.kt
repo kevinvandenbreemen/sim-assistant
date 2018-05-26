@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -68,8 +69,12 @@ class SimListFragment: Fragment(), SimListView {
         simToUiComponent[sim]!!.setCardBackgroundColor(resources.getColor(R.color.selectedSim, context.theme))
     }
 
-    fun deselectSim(sim: Sim) {
+    override fun deselectSim(sim: Sim) {
+        simToUiComponent[sim]!!.setCardBackgroundColor(resources.getColor(R.color.defaultSimColor, context.theme))
+    }
 
+    override fun hideViewSelectedSimsOption() {
+        view.findViewById<View>(viewSims).visibility = GONE
     }
 
     private fun createSimListView(inflater: LayoutInflater, layout:ViewGroup){

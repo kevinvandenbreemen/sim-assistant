@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="selectedSim">@color/colorAccent</color>
+    <color name="defaultSimColor">@color/cardview_shadow_start_color</color>
 </resources>
