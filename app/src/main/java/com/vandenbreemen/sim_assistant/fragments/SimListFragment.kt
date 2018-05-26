@@ -25,20 +25,45 @@ import java.util.*
  * <h2>Other Details</h2>
  * @author kevin
  */
-class SimListFragment: Fragment() {
+class SimListFragment: Fragment(), SimListView {
 
     private lateinit var presenter:SimListPresenter
 
+    lateinit var currentList:MutableList<Sim>
+
+    lateinit var adapter: ArrayAdapter<Sim>
+
     fun setPresenter(presenter: SimListPresenter){
         this.presenter = presenter
+        this.currentList = mutableListOf<Sim>()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val layout = inflater.inflate(R.layout.layout_sim_list, container, false)
+    override fun viewSelectedSims(sims: List<Sim>) {
+        val intent = Intent(activity, ViewSimActivity::class.java)
 
+        val arrayOfSims = Array(sims.size, {index->sims[index]})
+        intent.putExtra(ViewSimActivity.PARM_SIMS, arrayOfSims)
+        activity.startActivity(intent)
+    }
+
+    override fun viewSim(sim: Sim) {
+        val intent = Intent(activity, ViewSimActivity::class.java)
+        intent.putExtra(ViewSimActivity.PARM_SIMS, arrayOf(sim))
+        startActivity(intent)
+    }
+
+    override fun addSimItem(sim: Sim) {
+        currentList.add(sim)
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun displayViewSelectedSimsOption() {
+        view.findViewById<View>(viewSims).visibility = VISIBLE
+    }
+
+    private fun createSimListView(inflater: LayoutInflater, layout:ViewGroup){
         val listView = layout.findViewById<ListView>(R.id.simList)
-        val currentList = mutableListOf<Sim>()
-        val adapter = object:ArrayAdapter<Sim>(
+        this.adapter = object:ArrayAdapter<Sim>(
                 context,
                 android.R.layout.simple_list_item_1,
                 currentList
@@ -64,38 +89,18 @@ class SimListFragment: Fragment() {
             }
         }
         listView.adapter = adapter
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val layout = inflater.inflate(R.layout.layout_sim_list, container, false) as ViewGroup
+        createSimListView(inflater, layout)
 
         //  Set up the FAB
         layout.findViewById<View>(R.id.viewSims).setOnClickListener(View.OnClickListener { view ->
             presenter.viewSelectedSims()
         })
 
-        val view = object:SimListView{
-            override fun viewSelectedSims(sims: List<Sim>) {
-                val intent = Intent(activity, ViewSimActivity::class.java)
-
-                val arrayOfSims = Array(sims.size, {index->sims[index]})
-                intent.putExtra(ViewSimActivity.PARM_SIMS, arrayOfSims)
-                activity.startActivity(intent)
-            }
-
-            override fun viewSim(sim: Sim) {
-                val intent = Intent(activity, ViewSimActivity::class.java)
-                intent.putExtra(ViewSimActivity.PARM_SIMS, arrayOf(sim))
-                startActivity(intent)
-            }
-
-            override fun addSimItem(sim: Sim) {
-                currentList.add(sim)
-                adapter.notifyDataSetChanged()
-            }
-
-            override fun displayViewSelectedSimsOption() {
-                view.findViewById<View>(viewSims).visibility = VISIBLE
-            }
-        }
-
-        presenter.start(view)
+        presenter.start(this)
 
         return layout
     }
