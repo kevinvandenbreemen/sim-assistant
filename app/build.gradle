@@ -99,6 +99,7 @@ dependencies {
 
     //  Awaitility
     testCompile "org.awaitility:awaitility:$awaitilityVersion"
+    androidTestCompile "org.awaitility:awaitility:$awaitilityVersion"
 
     //  Mockito
     testCompile "org.mockito:mockito-core:$mockitoVersion"
