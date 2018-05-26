@@ -10,7 +10,13 @@ class SimParser(val sim: Sim) {
 
         var sentence: String? = null
         rawLines.forEach { str ->
-            val line = str.trim()
+            var line = str.trim()
+            if (line.startsWith("::")) {
+                line = line.substring("::".length)
+            }
+            if (line.endsWith("::")) {
+                line = line.substring(0, (line.length - "::".length))
+            }
 
             //  Setting
             val settingRegex = "[(]+([^)]+)[)]+".toRegex()

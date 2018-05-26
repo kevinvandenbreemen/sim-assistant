@@ -24,6 +24,22 @@ class SimParserTest {
     }
 
     @Test
+    fun shouldStripLeadingAndTrailingColons() {
+//  Arrange
+        val sim = Sim("Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor))\n\n::It was a dark and stormy night.::")
+
+        //  Act
+        val parser = SimParser(sim)
+        val utterances = parser.toUtterances()
+
+        //  Assert
+        assertEquals("Stripped line", "It was a dark and stormy night", utterances[3])
+    }
+
+    @Test
     fun shouldHandleLineBreaksMidSentence() {
         //  Arrange
         val sim = Sim(
