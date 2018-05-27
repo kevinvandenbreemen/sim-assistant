@@ -58,4 +58,23 @@ class SimParserTest {
         assertEquals("Number of Utterances", 7, utterances.size)
     }
 
+    @Test
+    fun shouldCountUtterancesCorrectly(){
+        val sim = Sim(
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived.\n\nJim:  Bill, I didn't expect you!!!\n\nBill:  Hahaha!"
+        )
+
+        //  Act
+        val parser = SimParser(sim)
+        val utterances = parser.toUtterances()
+
+        //  Assert
+        println(utterances)
+        assertEquals("Number of Utterances", 7, utterances.size)
+
+    }
+
 }

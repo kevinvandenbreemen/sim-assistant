@@ -38,6 +38,18 @@ class SimParser(val sim: Sim) {
                         return@forEach
                     }
                 }
+
+                //  Handle start of sentence on this line
+                else if(!line.endsWith(".") && !line.endsWith("!")){
+                    val lastPart = betweenBreaks.last()
+                    sentence = lastPart
+                    if (betweenBreaks.size > 1) {
+                        betweenBreaks = betweenBreaks.subList(0, betweenBreaks.size-1)
+                    } else {
+                        return@forEach
+                    }
+                }
+
                 utterances.addAll(betweenBreaks)
                 return@forEach
             } else {
