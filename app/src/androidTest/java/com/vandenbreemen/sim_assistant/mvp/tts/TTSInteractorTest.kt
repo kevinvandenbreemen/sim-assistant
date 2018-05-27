@@ -14,7 +14,7 @@ class TTSInteractorTest {
     val sim = Sim(
             "Test Sim",
             "Kevin", System.currentTimeMillis(),
-            "This is a test of a sim."
+            "This is a test of a sim.  It has two sentences.  Hear it?"
     )
 
     @Test
