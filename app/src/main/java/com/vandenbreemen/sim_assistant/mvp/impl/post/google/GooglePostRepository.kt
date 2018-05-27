@@ -24,7 +24,7 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
 
     override fun getPosts(): Observable<Sim> {
 
-        return googleGroupsApi.getRssFeed(groupName).subscribeOn(io()).flatMapObservable { rssFeed ->
+        return googleGroupsApi.getRssFeed(groupName, 15).subscribeOn(io()).flatMapObservable { rssFeed ->
             Observable.create(ObservableOnSubscribe<Sim> { observableEmitter ->
                 rssFeed.articleList!!.forEach { googleGroupPost ->
 
@@ -53,6 +53,7 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
                         )
                     }
 
+                    println("Emitting the sim ${postedSim.title}")
                     observableEmitter.onNext(postedSim)
 
 

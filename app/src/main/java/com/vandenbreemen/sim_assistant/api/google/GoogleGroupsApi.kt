@@ -4,12 +4,15 @@ import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsRSSFee
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface GoogleGroupsApi {
 
-    @GET("forum/feed/{groupName}/msgs/rss.xml?num=15")
+    @GET("forum/feed/{groupName}/msgs/rss.xml")
     fun getRssFeed(
             @Path("groupName")
-            groupName: String): Single<GoogleGroupsRSSFeed>
+            groupName: String,
+            @Query("num")
+            postCount: Int): Single<GoogleGroupsRSSFeed>
 
 }

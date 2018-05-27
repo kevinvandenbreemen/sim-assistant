@@ -36,7 +36,7 @@ class GoogleGroupsInteractorImpl(private val application: SimAssistantApp) :Data
         val googleGroupsApi = Retrofit.Builder().baseUrl(GOOGLE_GROUPS_BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(SimpleXmlConverterFactory.create()).build().create(GoogleGroupsApi::class.java)
-        return googleGroupsApi.getRssFeed(groupName).subscribeOn(io()).flatMap(Function { googleGroup ->
+        return googleGroupsApi.getRssFeed(groupName, 1).subscribeOn(io()).flatMap(Function { googleGroup ->
             SingleSource { observer ->
                 observer.onSuccess(true)
             }

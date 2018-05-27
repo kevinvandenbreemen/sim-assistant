@@ -27,8 +27,11 @@ class GooglePostRepositoryTest {
         googlePostRepository = GooglePostRepository("uss-odyssey-oe", GooglePostContentLoader(),
                 GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
                 )
-        val postedSim = googlePostRepository.getPosts().blockingFirst()
-        assertNotNull("Post content", postedSim.content)
+
+        googlePostRepository.getPosts().firstElement().subscribe({postedSim->
+            assertNotNull("Post content", postedSim.content)
+        })
+
     }
 
     @Test
