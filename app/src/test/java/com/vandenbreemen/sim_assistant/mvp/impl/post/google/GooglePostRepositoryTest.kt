@@ -28,7 +28,7 @@ class GooglePostRepositoryTest {
                 GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
                 )
 
-        googlePostRepository.getPosts().firstElement().subscribe({postedSim->
+        googlePostRepository.getPosts(1).firstElement().subscribe({ postedSim->
             assertNotNull("Post content", postedSim.content)
         })
 
@@ -39,7 +39,7 @@ class GooglePostRepositoryTest {
         googlePostRepository = GooglePostRepository("uss-odyssey-oe", GooglePostContentLoader(),
                 GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
         )
-        val postedSim = googlePostRepository.getPosts().blockingFirst()
+        val postedSim = googlePostRepository.getPosts(1).blockingFirst()
         assertFalse("Sim Author newline", postedSim.author.contains("\n"))
         assertFalse("Sim Title newline", postedSim.title.contains("\n"))
     }
@@ -61,11 +61,11 @@ class GooglePostRepositoryTest {
                 GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
                 )
 
-        var postedSim = googlePostRepository.getPosts().blockingFirst()
+        var postedSim = googlePostRepository.getPosts(1).blockingFirst()
 
         crashOnCall = true
 
-        postedSim = googlePostRepository.getPosts().blockingFirst()
+        postedSim = googlePostRepository.getPosts(1).blockingFirst()
         assertNotNull("Post content", postedSim.content)
 
         println(postedSim)

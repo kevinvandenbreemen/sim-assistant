@@ -42,7 +42,7 @@ class SimListPresenterImplTest{
 
     @Before
     fun setup(){
-        `when`(postRepository.getPosts()).thenReturn(Observable.just(sim))
+        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim))
         presenter = SimListPresenterImpl(SimListModelImpl(postRepository))
         presenter.start(simListView)
     }

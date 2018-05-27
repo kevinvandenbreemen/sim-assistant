@@ -14,10 +14,14 @@ import java.util.*
  */
 class SimListModelImpl(val postRepository: PostRepository): SimListModel {
 
+    companion object {
+        val DEFAULT_NUM_POSTS = 15
+    }
+
     val selectedSims = mutableListOf<Sim>()
 
     override fun getSimList(): Observable<Sim> {
-        return postRepository.getPosts()
+        return postRepository.getPosts(DEFAULT_NUM_POSTS)
     }
 
     override fun selectedSims(): List<Sim> {

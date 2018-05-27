@@ -22,9 +22,9 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(SimpleXmlConverterFactory.create()).build().create(GoogleGroupsApi::class.java)
 
-    override fun getPosts(): Observable<Sim> {
+    override fun getPosts(numPosts: Int): Observable<Sim> {
 
-        return googleGroupsApi.getRssFeed(groupName, 15).subscribeOn(io()).flatMapObservable { rssFeed ->
+        return googleGroupsApi.getRssFeed(groupName, numPosts).subscribeOn(io()).flatMapObservable { rssFeed ->
             Observable.create(ObservableOnSubscribe<Sim> { observableEmitter ->
                 rssFeed.articleList!!.forEach { googleGroupPost ->
 

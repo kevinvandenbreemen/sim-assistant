@@ -4,5 +4,5 @@ import com.vandenbreemen.sim_assistant.api.sim.Sim
 import io.reactivex.Observable
 
 interface PostRepository {
-    fun getPosts(): Observable<Sim>
+    fun getPosts(numPosts: Int): Observable<Sim>
 }
