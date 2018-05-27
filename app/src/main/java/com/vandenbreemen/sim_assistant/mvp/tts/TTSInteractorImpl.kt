@@ -6,7 +6,13 @@ import io.reactivex.Observable
 
 class TTSInteractorImpl(context: Context) : TTSInteractor {
     override fun speakSim(sim: Sim): Pair<Int, Observable<Int>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val utterances = mutableListOf<String>()
+        utterances.add(sim.title)
+        utterances.add("By ${sim.author}")
+
+        utterances.addAll("[.]+".toRegex().split(sim.content))
+
+        return Pair<Int, Observable<Int>>(utterances.size, Observable.just(1))
     }
 
 }
