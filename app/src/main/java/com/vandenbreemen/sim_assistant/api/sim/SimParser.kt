@@ -40,7 +40,7 @@ class SimParser(val sim: Sim) {
                 }
 
                 //  Handle start of sentence on this line
-                else if(!line.endsWith(".") && !line.endsWith("!")){
+                if(!line.endsWith(".") && !line.endsWith("!")){
                     val lastPart = betweenBreaks.last()
                     sentence = lastPart
                     if (betweenBreaks.size > 1) {

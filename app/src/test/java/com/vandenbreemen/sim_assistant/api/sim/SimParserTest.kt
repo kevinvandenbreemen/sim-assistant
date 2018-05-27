@@ -59,6 +59,23 @@ class SimParserTest {
     }
 
     @Test
+    fun shouldHandleEndOfSentenceOnNextLine(){
+        //  Arrange
+        val sim = Sim(
+                "Test Sim", "Kevin", System.currentTimeMillis(),
+                "((Corridor - USS Imaginary))\n\nIt was a\ndark and stormy night.  Bill\nhad just arrived."
+        )
+
+        //  Act
+        val parser = SimParser(sim)
+        val utterances = parser.toUtterances()
+
+        //  Assert
+        println(utterances)
+        assertEquals("Number of Utterances", 5, utterances.size)
+    }
+
+    @Test
     fun shouldCountUtterancesCorrectly(){
         val sim = Sim(
                 "Test Sim",
