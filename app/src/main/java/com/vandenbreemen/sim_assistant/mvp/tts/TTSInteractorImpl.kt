@@ -34,10 +34,10 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
         }
     }
 
-    override fun speakSims(vararg sim: Sim): Pair<Int, Observable<Int>> {
+    override fun speakSims(sims: List<Sim>): Pair<Int, Observable<Int>> {
 
         val utterances = mutableListOf<String>()
-        sim.forEach {
+        sims.forEach {
             utterances.addAll(SimParser(it).toUtterances())
         }
 

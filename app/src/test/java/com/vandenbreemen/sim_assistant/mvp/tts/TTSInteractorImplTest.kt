@@ -29,7 +29,7 @@ class TTSInteractorImplTest{
         )
 
         //  Act
-        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(sim)
+        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
 
         //  Assert
         assertEquals("Number of Utterances", 7, numOfUtterancesToProgressObservable.first)
@@ -46,7 +46,7 @@ class TTSInteractorImplTest{
         )
 
         //  Act
-        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(sim, sim)
+        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim, sim))
 
         //  Assert
         assertEquals("Number of Utterances", 14, numOfUtterancesToProgressObservable.first)

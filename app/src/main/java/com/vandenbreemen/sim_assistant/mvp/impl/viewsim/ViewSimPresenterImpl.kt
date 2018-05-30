@@ -13,7 +13,7 @@ import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimView
  */
 class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val viewSimView: ViewSimView, val ttsInteractor: TTSInteractor):ViewSimPresenter {
     override fun speakSims() {
-        ttsInteractor.speakSims(*viewSimModel.getSims().toTypedArray())
+        ttsInteractor.speakSims(viewSimModel.getSims())
                 .second.subscribe()
     }
 

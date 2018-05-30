@@ -16,7 +16,7 @@ var spokenSim : MutableList<Sim> = mutableListOf()
 class ShadowTTSInteractor{
 
     @Implementation
-    fun speakSims(vararg sims: Sim): Pair<Int, Observable<Int>> {
+    fun speakSims(sims: List<Sim>): Pair<Int, Observable<Int>> {
         spokenSim.addAll(sims)
         return Pair(1, Observable.just(1))
     }
