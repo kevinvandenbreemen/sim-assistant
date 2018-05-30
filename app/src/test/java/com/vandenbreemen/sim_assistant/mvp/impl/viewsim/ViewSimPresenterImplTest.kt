@@ -49,7 +49,7 @@ class ViewSimPresenterImplTest{
         viewSimPresenter.speakSims()
 
         //  Assert
-        verify(ttsInteractor).speakSim(sim1)
+        verify(ttsInteractor).speakSims(sim1)
     }
 
 }

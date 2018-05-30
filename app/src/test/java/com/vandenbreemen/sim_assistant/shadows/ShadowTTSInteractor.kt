@@ -6,7 +6,7 @@ import io.reactivex.Observable
 import org.robolectric.annotation.Implementation
 import org.robolectric.annotation.Implements
 
-var spokenSim : Sim? = null
+var spokenSim : MutableList<Sim> = mutableListOf()
 
 /**
  *
@@ -16,8 +16,8 @@ var spokenSim : Sim? = null
 class ShadowTTSInteractor{
 
     @Implementation
-    fun speakSim(sim: Sim): Pair<Int, Observable<Int>> {
-        spokenSim = sim
+    fun speakSims(vararg sims: Sim): Pair<Int, Observable<Int>> {
+        spokenSim.addAll(sims)
         return Pair(1, Observable.just(1))
     }
 

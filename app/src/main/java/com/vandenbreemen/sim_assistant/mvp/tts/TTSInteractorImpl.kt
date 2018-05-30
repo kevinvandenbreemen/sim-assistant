@@ -8,10 +8,7 @@ import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.SimParser
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
-import io.reactivex.Single
-import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers.computation
-import io.reactivex.schedulers.Schedulers.io
 import java.lang.Thread.sleep
 import java.util.*
 
@@ -37,8 +34,12 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
         }
     }
 
-    override fun speakSim(sim: Sim): Pair<Int, Observable<Int>> {
-        val utterances = SimParser(sim).toUtterances()
+    override fun speakSims(vararg sim: Sim): Pair<Int, Observable<Int>> {
+
+        val utterances = mutableListOf<String>()
+        sim.forEach {
+            utterances.addAll(SimParser(it).toUtterances())
+        }
 
         val observable = Observable.create(ObservableOnSubscribe<Int> { emitter ->
             for (i in 0 until utterances.size) {

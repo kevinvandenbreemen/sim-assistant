@@ -119,7 +119,7 @@ class ViewSimActivityTest{
         `when`(menuItem.itemId).thenReturn(R.id.speakSim)
         activity.onOptionsItemSelected(menuItem)
 
-        assertEquals("Spoken sim", sim, spokenSim)
+        assertEquals("Spoken sim", sim, spokenSim[0])
     }
 
 }
