@@ -11,6 +11,7 @@ import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers.computation
+import io.reactivex.schedulers.Schedulers.io
 import java.lang.Thread.sleep
 import java.util.*
 
@@ -50,7 +51,7 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
             }
 
             emitter.onComplete()
-        })
+        }).subscribeOn(io())
 
         return Pair<Int, Observable<Int>>(utterances.size, observable)
     }
