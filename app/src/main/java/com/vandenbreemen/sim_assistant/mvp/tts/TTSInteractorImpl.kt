@@ -23,21 +23,18 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
 
     lateinit var tts:TextToSpeech
 
-    var speakWait : Single<Unit>
-
     init {
         tts = TextToSpeech(context, TextToSpeech.OnInitListener { status->
             if(status != ERROR){
                 tts.language = Locale.US
             }
         })
+    }
 
-        this.speakWait = Single.create(SingleOnSubscribe<Unit> {
-            while(tts.isSpeaking){
-                sleep(200)
-            }
-            it.onSuccess(Unit)
-        }).subscribeOn(computation())
+    private fun waitForTTSCompletion(){
+        while(tts.isSpeaking){
+            sleep(200)
+        }
     }
 
     override fun speakSim(sim: Sim): Pair<Int, Observable<Int>> {
@@ -46,12 +43,12 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
         val observable = Observable.create(ObservableOnSubscribe<Int> { emitter ->
             for (i in 0 until utterances.size) {
                 emitter.onNext(i)
-                speakWait.blockingGet()
+                waitForTTSCompletion()
                 tts.speak(utterances[i], QUEUE_FLUSH, null, null)
             }
 
             emitter.onComplete()
-        }).subscribeOn(io())
+        }).subscribeOn(computation())
 
         return Pair<Int, Observable<Int>>(utterances.size, observable)
     }
