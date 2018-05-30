@@ -6,4 +6,5 @@
     <string name="google_group_name">Enter Group Name</string>
     <string name="ok">OK</string>
     <string name="title_activity_view_sim">ViewSimActivity</string>
+    <string name="speak_sim">Speak</string>
 </resources>

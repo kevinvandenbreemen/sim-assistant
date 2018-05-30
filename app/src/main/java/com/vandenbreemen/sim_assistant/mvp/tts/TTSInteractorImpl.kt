@@ -4,17 +4,15 @@ import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.speech.tts.TextToSpeech.ERROR
 import android.speech.tts.TextToSpeech.QUEUE_FLUSH
-import android.util.Log
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.SimParser
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
+import io.reactivex.schedulers.Schedulers.computation
 import java.lang.Thread.sleep
 import java.util.*
-import java.util.concurrent.Callable
-import java.util.function.Consumer
 
 class TTSInteractorImpl(context: Context) : TTSInteractor {
 
@@ -24,7 +22,7 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
 
     lateinit var tts:TextToSpeech
 
-    lateinit var speakWait : Single<Unit>
+    var speakWait : Single<Unit>
 
     init {
         tts = TextToSpeech(context, TextToSpeech.OnInitListener { status->
@@ -33,12 +31,12 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
             }
         })
 
-        this.speakWait = Single.create(SingleOnSubscribe {
+        this.speakWait = Single.create(SingleOnSubscribe<Unit> {
             while(tts.isSpeaking){
                 sleep(200)
             }
             it.onSuccess(Unit)
-        })
+        }).subscribeOn(computation())
     }
 
     override fun speakSim(sim: Sim): Pair<Int, Observable<Int>> {

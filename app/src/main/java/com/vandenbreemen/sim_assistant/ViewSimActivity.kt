@@ -3,6 +3,8 @@ package com.vandenbreemen.sim_assistant
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R.id.simContainer
@@ -28,6 +30,19 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_sim)
         setSupportActionBar(toolbar)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.menu_view_sim, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(R.id.speakSim == item.itemId){
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {
