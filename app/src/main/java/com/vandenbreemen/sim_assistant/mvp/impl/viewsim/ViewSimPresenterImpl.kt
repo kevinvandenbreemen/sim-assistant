@@ -15,6 +15,7 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
     override fun speakSims() {
         ttsInteractor.speakSims(viewSimModel.getSims())
                 .second.subscribe()
+        viewSimView.setPauseDictationEnabled(true)
     }
 
     override fun start() {

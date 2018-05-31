@@ -1,7 +1,6 @@
 package com.vandenbreemen.sim_assistant
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -12,11 +11,13 @@ import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimPresenter
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimView
 import dagger.android.AndroidInjection
-
 import kotlinx.android.synthetic.main.activity_view_sim.*
 import javax.inject.Inject
 
 class ViewSimActivity : AppCompatActivity(), ViewSimView {
+    override fun setPauseDictationEnabled(enabled: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     companion object {
         const val PARM_SIMS = "__SIMS"

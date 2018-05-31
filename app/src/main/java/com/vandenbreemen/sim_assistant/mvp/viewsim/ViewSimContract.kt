@@ -14,4 +14,5 @@ interface ViewSimModel{
 
 interface ViewSimView{
     fun displaySim(sim:Sim)
+    fun setPauseDictationEnabled(enabled: Boolean)
 }

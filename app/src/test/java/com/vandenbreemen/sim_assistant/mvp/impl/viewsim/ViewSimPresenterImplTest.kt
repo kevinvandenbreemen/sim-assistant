@@ -4,11 +4,13 @@ import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.tts.TTSInteractor
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimPresenter
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimView
+import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnit
 import org.robolectric.RobolectricTestRunner
@@ -41,6 +43,10 @@ class ViewSimPresenterImplTest{
         viewSimPresenter = ViewSimPresenterImpl(ViewSimModelImpl(arrayOf(sim1)),
                 viewSimView, ttsInteractor
                 )
+
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(
+                Pair(5, Observable.just(1, 2, 3, 4, 5))
+        )
     }
 
     @Test
@@ -50,6 +56,15 @@ class ViewSimPresenterImplTest{
 
         //  Assert
         verify(ttsInteractor).speakSims(listOf(sim1))
+    }
+
+    @Test
+    fun shouldEnablePauseButtonOnceDictationBegins() {
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).setPauseDictationEnabled(true)
     }
 
 }
