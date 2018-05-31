@@ -1,15 +1,17 @@
 package com.vandenbreemen.sim_assistant
 
 import android.content.Intent
+import android.support.design.widget.FloatingActionButton
 import android.view.MenuItem
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.ViewSimActivity.Companion.PARM_SIMS
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.shadows.ShadowTTSInteractor
 import com.vandenbreemen.sim_assistant.shadows.spokenSim
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
@@ -17,11 +19,9 @@ import org.mockito.Mockito.mock
 import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.*
 
 /**
  * <h2>Intro</h2>
@@ -120,6 +120,23 @@ class ViewSimActivityTest{
         activity.onOptionsItemSelected(menuItem)
 
         assertEquals("Spoken sim", sim, spokenSim[0])
+    }
+
+    @Test
+    fun shouldShowPauseButtonOnSpeakSims() {
+        val intent = Intent(RuntimeEnvironment.application, ViewSimActivity::class.java)
+        intent.putExtra(PARM_SIMS, arrayOf(sim))
+        val activity = buildActivity(ViewSimActivity::class.java, intent)
+                .create()
+                .resume()
+                .get()
+
+        val menuItem = mock(MenuItem::class.java)
+        `when`(menuItem.itemId).thenReturn(R.id.speakSim)
+        activity.onOptionsItemSelected(menuItem)
+
+        assertEquals("Pause Visible", VISIBLE, activity.findViewById<FloatingActionButton>(R.id.pause).visibility)
+
     }
 
 }

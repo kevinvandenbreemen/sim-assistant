@@ -1,9 +1,11 @@
 package com.vandenbreemen.sim_assistant
 
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R.id.simContainer
@@ -15,9 +17,7 @@ import kotlinx.android.synthetic.main.activity_view_sim.*
 import javax.inject.Inject
 
 class ViewSimActivity : AppCompatActivity(), ViewSimView {
-    override fun setPauseDictationEnabled(enabled: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+
 
     companion object {
         const val PARM_SIMS = "__SIMS"
@@ -62,5 +62,11 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         simContent.findViewById<TextView>(R.id.simContent).text = sim.content
 
         container.addView(simContent)
+    }
+
+    override fun setPauseDictationEnabled(enabled: Boolean) {
+        if (enabled) {
+            findViewById<FloatingActionButton>(R.id.pause).visibility = VISIBLE
+        }
     }
 }
