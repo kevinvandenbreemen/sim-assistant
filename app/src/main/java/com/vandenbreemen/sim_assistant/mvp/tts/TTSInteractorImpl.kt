@@ -12,6 +12,9 @@ import io.reactivex.schedulers.Schedulers.computation
 import java.lang.Thread.sleep
 import java.util.*
 
+//  How to write to file
+//  https://stackoverflow.com/a/4976327/2328196
+
 class TTSInteractorImpl(context: Context) : TTSInteractor {
 
     companion object {
