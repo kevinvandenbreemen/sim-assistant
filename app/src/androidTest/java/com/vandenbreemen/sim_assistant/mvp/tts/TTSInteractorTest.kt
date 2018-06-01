@@ -23,7 +23,7 @@ class TTSInteractorTest {
         val interactor = TTSInteractorImpl(InstrumentationRegistry.getTargetContext())
 
         //  Act
-        val totalUtterancesAndObservable = interactor.speakSims(sim)
+        val totalUtterancesAndObservable = interactor.speakSims(listOf(sim))
 
         //  Assert
         var done = false
