@@ -11,6 +11,8 @@ import io.reactivex.ObservableOnSubscribe
 import io.reactivex.schedulers.Schedulers.computation
 import java.lang.Thread.sleep
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
 
 //  How to write to file
 //  https://stackoverflow.com/a/4976327/2328196
@@ -23,6 +25,12 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
 
     lateinit var tts:TextToSpeech
 
+    var stringsToSpeak: List<String>? = null
+
+    val indexOfCurrentStringBeingSpoken = AtomicInteger(-1)
+
+    val paused = AtomicBoolean(false)
+
     init {
         tts = TextToSpeech(context, TextToSpeech.OnInitListener { status->
             if(status != ERROR){
@@ -31,8 +39,11 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
         })
     }
 
+    private fun hasMoreStrings() = indexOfCurrentStringBeingSpoken.get() < (stringsToSpeak?.size
+            ?: -1) - 1
+
     private fun waitForTTSCompletion(){
-        while(tts.isSpeaking){
+        while (tts.isSpeaking || paused.get()) {
             sleep(200)
         }
     }
@@ -43,18 +54,34 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
         sims.forEach {
             utterances.addAll(SimParser(it).toUtterances())
         }
+        stringsToSpeak = listOf(*utterances.toTypedArray())
 
         val observable = Observable.create(ObservableOnSubscribe<Int> { emitter ->
-            for (i in 0 until utterances.size) {
-                emitter.onNext(i)
+
+            while (hasMoreStrings()) {
                 waitForTTSCompletion()
-                tts.speak(utterances[i], QUEUE_FLUSH, null, null)
+                val nextIndex = indexOfCurrentStringBeingSpoken.incrementAndGet()
+                emitter.onNext(nextIndex)
+                tts.speak(utterances[nextIndex], QUEUE_FLUSH, null, null)
             }
 
             emitter.onComplete()
         }).subscribeOn(computation())
 
-        return Pair<Int, Observable<Int>>(utterances.size, observable)
+        return Pair<Int, Observable<Int>>(stringsToSpeak!!.size, observable)
+    }
+
+    override fun pause() {
+        stringsToSpeak?.let {
+            paused.set(true)
+            tts.stop()
+            indexOfCurrentStringBeingSpoken.decrementAndGet()
+            println("Decrement to ${indexOfCurrentStringBeingSpoken.get()}")
+        }
+    }
+
+    override fun resume() {
+        paused.set(false)
     }
 
 }

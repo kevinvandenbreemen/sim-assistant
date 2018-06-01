@@ -9,6 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
@@ -77,6 +78,38 @@ class TTSInteractorImplTest{
         //  Assert
         await().atMost(5, TimeUnit.SECONDS).until { listOfIndexesVisited.size == 7 }
         assertEquals("All indexes", listOf(0, 1, 2, 3, 4, 5, 6), listOfIndexesVisited)
+    }
+
+    @Test
+    @Config(shadows = [ShadowTTSExt::class])
+    fun shouldPauseDictation() {
+        //  Arrange
+        val sim = Sim(
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived."
+        )
+
+        //  Act
+        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
+
+        val listOfIndexesVisited = mutableListOf<Int>()
+        var wasPausedAlready = false
+        numOfUtterancesToProgressObservable.second.subscribe(Consumer {
+            if (it == 3 && !wasPausedAlready) {
+                ttsInteractor.pause()
+                wasPausedAlready = true
+            }
+            listOfIndexesVisited.add(it)
+        })
+
+        await().atMost(5, TimeUnit.SECONDS).until { listOf<Int>(0, 1, 2, 3) == listOfIndexesVisited }
+
+        ttsInteractor.resume()
+
+        await().atMost(5, TimeUnit.SECONDS).until { listOfIndexesVisited.size == 6 }
+        assertEquals("Visited items", listOf(0, 1, 2, 3, 3, 4), listOfIndexesVisited)
     }
 
 }
