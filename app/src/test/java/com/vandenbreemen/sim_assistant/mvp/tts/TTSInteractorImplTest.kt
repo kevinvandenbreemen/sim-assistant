@@ -2,6 +2,7 @@ package com.vandenbreemen.sim_assistant.mvp.tts
 
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import io.reactivex.functions.Consumer
+import junit.framework.TestCase.assertTrue
 import org.awaitility.Awaitility.await
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -110,6 +111,36 @@ class TTSInteractorImplTest{
 
         await().atMost(5, TimeUnit.SECONDS).until { listOfIndexesVisited.size == 6 }
         assertEquals("Visited items", listOf(0, 1, 2, 3, 3, 4), listOfIndexesVisited)
+    }
+
+    @Test
+    fun shouldIndicateThatIsPausedWhenDictationPaused() {
+//  Arrange
+        val sim = Sim(
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived."
+        )
+
+        //  Act
+        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
+
+        val listOfIndexesVisited = mutableListOf<Int>()
+        var wasPausedAlready = false
+        numOfUtterancesToProgressObservable.second.subscribe(Consumer {
+            if (it == 3 && !wasPausedAlready) {
+                ttsInteractor.pause()
+                wasPausedAlready = true
+            }
+            listOfIndexesVisited.add(it)
+        })
+
+        // Assert
+        await().atMost(5, TimeUnit.SECONDS).until { listOf<Int>(0, 1, 2, 3) == listOfIndexesVisited }
+
+        assertTrue(ttsInteractor.isPaused())
+
     }
 
 }

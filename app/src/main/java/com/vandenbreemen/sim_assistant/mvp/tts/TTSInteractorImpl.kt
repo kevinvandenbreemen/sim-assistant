@@ -80,6 +80,10 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
         }
     }
 
+    override fun isPaused(): Boolean {
+        return paused.get()
+    }
+
     override fun resume() {
         paused.set(false)
     }

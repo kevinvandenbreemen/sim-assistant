@@ -13,14 +13,21 @@ import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimView
  */
 class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val viewSimView: ViewSimView, val ttsInteractor: TTSInteractor):ViewSimPresenter {
     override fun speakSims() {
-        ttsInteractor.speakSims(viewSimModel.getSims())
-                .second.subscribe()
+        if (ttsInteractor.isPaused()) {
+            ttsInteractor.resume()
+        } else {
+            ttsInteractor.speakSims(viewSimModel.getSims())
+                    .second.subscribe()
+        }
+
         viewSimView.setPauseDictationEnabled(true)
+        viewSimView.setSpeakSimsEnabled(false)
     }
 
     override fun pause() {
         ttsInteractor.pause()
         viewSimView.setPauseDictationEnabled(false)
+        viewSimView.setSpeakSimsEnabled(true)
     }
 
     override fun start() {

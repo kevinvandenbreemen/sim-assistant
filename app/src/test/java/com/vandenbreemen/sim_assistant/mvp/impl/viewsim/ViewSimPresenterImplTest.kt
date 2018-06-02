@@ -47,6 +47,8 @@ class ViewSimPresenterImplTest{
         `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(
                 Pair(5, Observable.just(1, 2, 3, 4, 5))
         )
+
+        `when`(ttsInteractor.isPaused()).thenReturn(false)
     }
 
     @Test
@@ -90,6 +92,44 @@ class ViewSimPresenterImplTest{
 
         //  Assert
         verify(viewSimView).setPauseDictationEnabled(false)
+    }
+
+    @Test
+    fun shouldDisableSpeakSimsWhenSpeaking() {
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).setSpeakSimsEnabled(false)
+    }
+
+    @Test
+    fun shouldReEnableSpeakSimsWhenPausing() {
+        //  Arrange
+        viewSimPresenter.speakSims()
+
+        //  Act
+        viewSimPresenter.pause()
+
+        //  Assert
+        verify(viewSimView).setSpeakSimsEnabled(true)
+    }
+
+    @Test
+    fun shouldResumeDictationWhenSpeakSimsCalledAfterPause() {
+        //  Arrange
+        viewSimPresenter.speakSims()
+
+        //  Act
+        viewSimPresenter.pause()
+
+        `when`(ttsInteractor.isPaused()).thenReturn(true)
+
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(ttsInteractor).resume()
+
     }
 
 }

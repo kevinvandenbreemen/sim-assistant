@@ -26,11 +26,18 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
     @Inject
     lateinit var presenter: ViewSimPresenter
 
+    var speakSimEnabled = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_sim)
         setSupportActionBar(toolbar)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.speakSim).setEnabled(speakSimEnabled)
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,5 +75,10 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         if (enabled) {
             findViewById<FloatingActionButton>(R.id.pause).visibility = VISIBLE
         }
+    }
+
+    override fun setSpeakSimsEnabled(enabled: Boolean) {
+        speakSimEnabled = enabled
+        invalidateOptionsMenu()
     }
 }
