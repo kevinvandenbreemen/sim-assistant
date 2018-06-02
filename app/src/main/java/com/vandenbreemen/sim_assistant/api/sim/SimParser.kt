@@ -68,6 +68,6 @@ class SimParser(val sim: Sim) {
             utterances.add(it)
         }
 
-        return utterances
+        return utterances.map { item -> item.trim() }
     }
 }
