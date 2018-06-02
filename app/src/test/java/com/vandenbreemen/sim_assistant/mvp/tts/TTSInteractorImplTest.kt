@@ -142,6 +142,34 @@ class TTSInteractorImplTest{
     }
 
     @Test
+    fun shouldSeekToSpecificSentence() {
+        //  Arrange
+        val sim = Sim(
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived."
+        )
+
+        //  Act
+        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
+
+        val listOfIndexesVisited = mutableListOf<Int>()
+        var seekAlreadyDone = false
+        numOfUtterancesToProgressObservable.second.subscribe(Consumer {
+            if (it == 2 && !seekAlreadyDone) {
+                ttsInteractor.seekTo(1)
+                seekAlreadyDone = true
+            }
+            listOfIndexesVisited.add(it)
+        })
+
+        //  Assert
+        await().atMost(10, TimeUnit.SECONDS).until { listOfIndexesVisited.size == 7 }
+        assertEquals("Visited items", listOf(0, 1, 2, 1, 2, 3, 4), listOfIndexesVisited)
+    }
+
+    @Test
     fun shouldIndicateThatIsPausedWhenDictationPaused() {
 //  Arrange
         val sim = Sim(

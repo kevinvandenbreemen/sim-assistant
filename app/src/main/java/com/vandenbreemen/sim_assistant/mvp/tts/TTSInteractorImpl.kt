@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class TTSInteractorImpl(context: Context) : TTSInteractor {
 
+
     companion object {
         const val TAG = "TTSInteractor"
         const val UTTERANCE_ID = "SimUtterance"
@@ -99,12 +100,26 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
         return Pair<Int, Observable<Int>>(stringsToSpeak!!.size, observable)
     }
 
-    override fun pause() {
+    private fun doPause(): Boolean {
         stringsToSpeak?.let {
             paused.set(true)
             tts.stop()
+            return true
+        }
+        return false
+    }
+
+    override fun pause() {
+        if (doPause()) {
             indexOfCurrentStringBeingSpoken.decrementAndGet()
             println("Decrement to ${indexOfCurrentStringBeingSpoken.get()}")
+        }
+    }
+
+    override fun seekTo(position: Int) {
+        if (doPause()) {
+            indexOfCurrentStringBeingSpoken.set(position - 1)
+            resume()
         }
     }
 
