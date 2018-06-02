@@ -150,4 +150,23 @@ class SimParserTest {
         assertTrue("Skipped sentence contained", utterances.contains("The work around they'd pulled together was more likely to leave the QSD as scrap rather than to safely shut down"))
     }
 
+    @Test
+    fun shouldIgnoreBlankLines() {
+
+        //  Arrange
+        val sim = Sim("Test Sim", "Kevin",
+                0L,
+                ":: The sound of the QSD disengaging was enough of a shock to the pink haired engineer, that it took her a long moment before she could react.  The work around they'd pulled together was more likely to leave the QSD as scrap rather than to safely shut down.  And it should have been running for a lot longer to arrive.  With a confused look on her face, she began the process of determining what had gone wrong, only to see that the bridge had taken the ship out of slipstream intentionally.  However, before she could ask them why, they called her! ::\n" +
+                        " \n" +
+                        "St. John: =^= Lieutenant jaygee St. John to Engineering. =^=")
+
+        //  Act
+        val parser = SimParser(sim)
+        val utterances = parser.toUtterances()
+        println(utterances)
+
+        //  Assert
+        assertEquals("Parsed sentence ending in exclamation", "However, before she could ask them why, they called her", utterances[6])
+    }
+
 }

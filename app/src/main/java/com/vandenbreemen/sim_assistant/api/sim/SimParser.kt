@@ -7,6 +7,7 @@ class SimParser(val sim: Sim) {
         utterances.add("By ${sim.author}")
 
         val rawLines = "[\n]+".toRegex().split(sim.content)
+                .filter { line -> !line.trim().isBlank() }
 
         var sentence: String? = null
         rawLines.forEach { str ->
@@ -17,6 +18,7 @@ class SimParser(val sim: Sim) {
             if (line.endsWith("::")) {
                 line = line.substring(0, (line.length - "::".length))
             }
+            line = line.trim()
 
             //  Setting
             val settingRegex = "[(]+([^)]+)[)]+".toRegex()
