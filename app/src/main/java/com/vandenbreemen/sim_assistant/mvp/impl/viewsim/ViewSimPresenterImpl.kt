@@ -29,6 +29,10 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
         viewSimView.setSpeakSimsEnabled(false)
     }
 
+    override fun seekTo(index: Int) {
+        ttsInteractor.seekTo(index)
+    }
+
     override fun pause() {
         ttsInteractor.pause()
         viewSimView.setPauseDictationEnabled(false)

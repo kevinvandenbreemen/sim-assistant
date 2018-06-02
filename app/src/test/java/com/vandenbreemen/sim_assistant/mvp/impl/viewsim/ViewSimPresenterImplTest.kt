@@ -145,4 +145,16 @@ class ViewSimPresenterImplTest{
 
     }
 
+    @Test
+    fun shouldSeek() {
+        //  Arrange
+        viewSimPresenter.speakSims()
+
+        //  Act
+        viewSimPresenter.seekTo(2)
+
+        //  Assert
+        verify(ttsInteractor).seekTo(2)
+    }
+
 }
