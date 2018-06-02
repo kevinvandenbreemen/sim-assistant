@@ -1,6 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.tts
 
 import com.vandenbreemen.sim_assistant.api.sim.Sim
+import com.vandenbreemen.sim_assistant.mvp.tts.ShadowTTSExt.Companion.DEFAULT_SIMULATED_TTS_UTTERANCE_DURATION
 import io.reactivex.functions.Consumer
 import junit.framework.TestCase.assertTrue
 import org.awaitility.Awaitility.await
@@ -14,6 +15,7 @@ import org.robolectric.annotation.Config
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
+@Config(shadows = [ShadowTTSExt::class])
 class TTSInteractorImplTest{
 
     lateinit var ttsInteractor: TTSInteractor
@@ -21,6 +23,7 @@ class TTSInteractorImplTest{
     @Before
     fun setup(){
         ttsInteractor = TTSInteractorImpl(RuntimeEnvironment.application.applicationContext)
+        simulatedTextToSpeechUtteranceDuration = DEFAULT_SIMULATED_TTS_UTTERANCE_DURATION
     }
 
     @Test
@@ -60,6 +63,7 @@ class TTSInteractorImplTest{
     @Test
     fun shouldSpeakSims() {
         //  Arrange
+        simulatedTextToSpeechUtteranceDuration = 100L
         val sim = Sim(
                 "Test Sim",
                 "Kevin",
@@ -83,6 +87,7 @@ class TTSInteractorImplTest{
 
     @Test
     fun shouldNotSkipSentence() {
+        simulatedTextToSpeechUtteranceDuration = 100L
         val sim = Sim(
                 "Test Sim",
                 "Kevin",
@@ -106,7 +111,6 @@ class TTSInteractorImplTest{
     }
 
     @Test
-    @Config(shadows = [ShadowTTSExt::class])
     fun shouldPauseDictation() {
         //  Arrange
         val sim = Sim(

@@ -4,6 +4,8 @@ import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.speech.tts.TextToSpeech.ERROR
 import android.speech.tts.TextToSpeech.QUEUE_FLUSH
+import android.speech.tts.UtteranceProgressListener
+import android.util.Log
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.SimParser
 import io.reactivex.Observable
@@ -21,6 +23,7 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
 
     companion object {
         const val TAG = "TTSInteractor"
+        const val UTTERANCE_ID = "SimUtterance"
     }
 
     lateinit var tts:TextToSpeech
@@ -29,12 +32,29 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
 
     val indexOfCurrentStringBeingSpoken = AtomicInteger(-1)
 
+    val currentlySpeaking = AtomicBoolean(false)
+
     val paused = AtomicBoolean(false)
 
     init {
         tts = TextToSpeech(context, TextToSpeech.OnInitListener { status->
             if(status != ERROR){
                 tts.language = Locale.US
+                tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                    override fun onDone(utteranceId: String?) {
+                        currentlySpeaking.set(false)
+                        Log.d(TAG, "Done Speaking $utteranceId")
+                    }
+
+                    override fun onError(utteranceId: String?) {
+
+                    }
+
+                    override fun onStart(utteranceId: String?) {
+                        Log.d(TAG, "Start speaking $utteranceId")
+                    }
+
+                })
             }
         })
     }
@@ -43,7 +63,7 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
             ?: -1) - 1
 
     private fun waitForTTSCompletion(){
-        while (tts.isSpeaking || paused.get()) {
+        while (currentlySpeaking.get() || paused.get()) {
             sleep(200)
         }
     }
@@ -62,7 +82,9 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
                 waitForTTSCompletion()
                 val nextIndex = indexOfCurrentStringBeingSpoken.incrementAndGet()
                 emitter.onNext(nextIndex)
-                tts.speak(utterances[nextIndex], QUEUE_FLUSH, null, null)
+                Log.d(TAG, "Speaking\n${utterances[nextIndex]}")
+                tts.speak(utterances[nextIndex], QUEUE_FLUSH, null, UTTERANCE_ID)
+                currentlySpeaking.set(true)
             }
 
             emitter.onComplete()
