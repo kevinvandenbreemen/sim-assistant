@@ -41,6 +41,11 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
             if(status != ERROR){
                 tts.language = Locale.US
                 tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+
+                    override fun onStop(utteranceId: String?, interrupted: Boolean) {
+                        currentlySpeaking.set(false)
+                    }
+
                     override fun onDone(utteranceId: String?) {
                         currentlySpeaking.set(false)
                         Log.d(TAG, "Done Speaking $utteranceId")
@@ -64,7 +69,7 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
 
     private fun waitForTTSCompletion(){
         while (currentlySpeaking.get() || paused.get()) {
-            sleep(200)
+            sleep(20)
         }
     }
 
@@ -84,7 +89,8 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
                 emitter.onNext(nextIndex)
                 Log.d(TAG, "Speaking\n${utterances[nextIndex]}")
                 tts.speak(utterances[nextIndex], QUEUE_FLUSH, null, UTTERANCE_ID)
-                currentlySpeaking.set(true)
+                currentlySpeaking.set(true) //  Set this here instead of in listener so that the driver thread (this one)
+                //  knows immediately that speaking is supposed to be taking place
             }
 
             emitter.onComplete()
