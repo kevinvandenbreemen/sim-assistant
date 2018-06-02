@@ -46,7 +46,7 @@ class ViewSimPresenterImplTest{
                 )
 
         `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(
-                Pair(5, Observable.just(1, 2, 3, 4, 5))
+                Pair(5, Observable.just(0, 1, 2, 3, 4))
         )
 
         `when`(ttsInteractor.isPaused()).thenReturn(false)
@@ -155,6 +155,28 @@ class ViewSimPresenterImplTest{
 
         //  Assert
         verify(ttsInteractor).seekTo(2)
+    }
+
+    @Test
+    fun shouldUpdateViewWithProgress() {
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).updateProgress(0)
+        verify(viewSimView).updateProgress(1)
+        verify(viewSimView).updateProgress(2)
+        verify(viewSimView).updateProgress(3)
+        verify(viewSimView).updateProgress(4)
+    }
+
+    @Test
+    fun shouldTellViewTotalNumberOfUtterances() {
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).setTotalUtterancesToBeSpoken(5)
     }
 
 }

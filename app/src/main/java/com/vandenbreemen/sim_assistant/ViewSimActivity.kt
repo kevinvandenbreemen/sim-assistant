@@ -56,6 +56,14 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun updateProgress(index: Int) {
+
+    }
+
+    override fun setTotalUtterancesToBeSpoken(totalUtterances: Int) {
+
+    }
+
     override fun onResume() {
         super.onResume()
         presenter.start()

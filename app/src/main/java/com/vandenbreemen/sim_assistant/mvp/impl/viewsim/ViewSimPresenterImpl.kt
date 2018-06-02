@@ -16,9 +16,13 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
         if (ttsInteractor.isPaused()) {
             ttsInteractor.resume()
         } else {
-            ttsInteractor.speakSims(viewSimModel.getSims())
-                    .second.subscribe({
+            val totalUtterancesToUtteranceDictation = ttsInteractor.speakSims(viewSimModel.getSims())
 
+            viewSimView.setTotalUtterancesToBeSpoken(totalUtterancesToUtteranceDictation.first)
+
+            totalUtterancesToUtteranceDictation
+                    .second.subscribe({
+                viewSimView.updateProgress(it)
             }, {}, {
                 viewSimView.setSpeakSimsEnabled(true)
                 viewSimView.setPauseDictationEnabled(false)

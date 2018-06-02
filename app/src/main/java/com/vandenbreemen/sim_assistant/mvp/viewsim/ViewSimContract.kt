@@ -18,4 +18,6 @@ interface ViewSimView{
     fun displaySim(sim:Sim)
     fun setPauseDictationEnabled(enabled: Boolean)
     fun setSpeakSimsEnabled(enabled: Boolean)
+    fun updateProgress(index: Int)
+    fun setTotalUtterancesToBeSpoken(totalUtterances: Int)
 }

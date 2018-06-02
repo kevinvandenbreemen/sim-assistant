@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton
 import android.view.MenuItem
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.ViewSimActivity.Companion.PARM_SIMS
 import com.vandenbreemen.sim_assistant.api.sim.Sim
@@ -137,6 +138,23 @@ class ViewSimActivityTest{
 
         assertEquals("Pause Visible", VISIBLE, activity.findViewById<FloatingActionButton>(R.id.pause).visibility)
 
+    }
+
+    @Test
+    fun shouldSetAndUpdateSimsProgressBar() {
+        val intent = Intent(RuntimeEnvironment.application, ViewSimActivity::class.java)
+        intent.putExtra(PARM_SIMS, arrayOf(sim))
+        val activity = buildActivity(ViewSimActivity::class.java, intent)
+                .create()
+                .resume()
+                .get()
+
+        activity.setTotalUtterancesToBeSpoken(10)
+        activity.updateProgress(5)
+
+        val progressBar = activity.findViewById<ProgressBar>(R.id.dictationProgress)
+        assertEquals("Total Utterances", 9, progressBar.max)
+        assertEquals("Current progress", 5, progressBar.progress)
     }
 
 }
