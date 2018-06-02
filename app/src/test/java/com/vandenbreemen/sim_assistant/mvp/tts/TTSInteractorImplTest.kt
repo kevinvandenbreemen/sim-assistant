@@ -82,6 +82,30 @@ class TTSInteractorImplTest{
     }
 
     @Test
+    fun shouldNotSkipSentence() {
+        val sim = Sim(
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                ":: The sound of the QSD disengaging was enough of a shock to the pink haired engineer, that it took her a long moment before she could react.  The work around they'd pulled together was more likely to leave the QSD as scrap rather than to safely shut down.  And it should have been running for a lot longer to arrive.  With a confused look on her face, she began the process of determining what had gone wrong, only to see that the bridge had taken the ship out of slipstream intentionally.  However, before she could ask them why, they called her! ::"
+        )
+
+
+        //  Act
+        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
+
+        val listOfIndexesVisited = mutableListOf<Int>()
+        numOfUtterancesToProgressObservable.second.subscribe(Consumer {
+            println("Visited $it")
+            listOfIndexesVisited.add(it)
+        })
+
+        //  Assert
+        await().atMost(5, TimeUnit.SECONDS).until { listOfIndexesVisited.size == 7 }
+        assertEquals("All indexes", listOf(0, 1, 2, 3, 4, 5, 6), listOfIndexesVisited)
+    }
+
+    @Test
     @Config(shadows = [ShadowTTSExt::class])
     fun shouldPauseDictation() {
         //  Arrange
