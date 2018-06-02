@@ -5,6 +5,7 @@ import com.vandenbreemen.sim_assistant.api.sim.Sim
 interface ViewSimPresenter{
     fun start()
     fun speakSims()
+    fun pause()
 }
 
 interface ViewSimModel{

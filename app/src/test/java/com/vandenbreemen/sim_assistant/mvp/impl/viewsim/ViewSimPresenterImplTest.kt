@@ -67,4 +67,29 @@ class ViewSimPresenterImplTest{
         verify(viewSimView).setPauseDictationEnabled(true)
     }
 
+    @Test
+    fun shouldPauseSimsWhenPauseCalled() {
+        //  Arrange
+        viewSimPresenter.speakSims()
+
+        //  Act
+        viewSimPresenter.pause()
+
+        //  Assert
+        verify(ttsInteractor).pause()
+
+    }
+
+    @Test
+    fun shouldDisablePauseButtonWhenPaused() {
+        //  Arrange
+        viewSimPresenter.speakSims()
+
+        //  Act
+        viewSimPresenter.pause()
+
+        //  Assert
+        verify(viewSimView).setPauseDictationEnabled(false)
+    }
+
 }

@@ -18,6 +18,11 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
         viewSimView.setPauseDictationEnabled(true)
     }
 
+    override fun pause() {
+        ttsInteractor.pause()
+        viewSimView.setPauseDictationEnabled(false)
+    }
+
     override fun start() {
         viewSimModel.getSims().forEach { sim->
             viewSimView.displaySim(sim)
