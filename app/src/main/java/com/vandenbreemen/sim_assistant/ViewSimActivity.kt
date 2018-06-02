@@ -5,6 +5,8 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
@@ -57,6 +59,10 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
     override fun onResume() {
         super.onResume()
         presenter.start()
+
+        findViewById<FloatingActionButton>(R.id.pause).setOnClickListener(View.OnClickListener { v ->
+            presenter.pause()
+        })
     }
 
     override fun displaySim(sim: Sim) {
@@ -74,6 +80,8 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
     override fun setPauseDictationEnabled(enabled: Boolean) {
         if (enabled) {
             findViewById<FloatingActionButton>(R.id.pause).visibility = VISIBLE
+        } else {
+            findViewById<FloatingActionButton>(R.id.pause).visibility = GONE
         }
     }
 
