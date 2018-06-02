@@ -5,6 +5,7 @@ import com.vandenbreemen.sim_assistant.mvp.tts.TTSInteractor
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimPresenter
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimView
 import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -61,6 +62,16 @@ class ViewSimPresenterImplTest{
     }
 
     @Test
+    fun shouldReEnableSpeakSimsWhenSpeakingFinished() {
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).setSpeakSimsEnabled(true)
+        verify(viewSimView).setPauseDictationEnabled(false)
+    }
+
+    @Test
     fun shouldEnablePauseButtonOnceDictationBegins() {
         //  Act
         viewSimPresenter.speakSims()
@@ -85,6 +96,7 @@ class ViewSimPresenterImplTest{
     @Test
     fun shouldDisablePauseButtonWhenPaused() {
         //  Arrange
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(1, Observable.create(ObservableOnSubscribe<Int> { })))
         viewSimPresenter.speakSims()
 
         //  Act
@@ -106,6 +118,7 @@ class ViewSimPresenterImplTest{
     @Test
     fun shouldReEnableSpeakSimsWhenPausing() {
         //  Arrange
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(1, Observable.create(ObservableOnSubscribe<Int> { })))
         viewSimPresenter.speakSims()
 
         //  Act
