@@ -5,6 +5,7 @@ import com.vandenbreemen.sim_assistant.mvp.tts.ShadowTTSExt.Companion.DEFAULT_SI
 import io.reactivex.functions.Consumer
 import junit.framework.TestCase.assertTrue
 import org.awaitility.Awaitility.await
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -22,9 +23,11 @@ class TTSInteractorImplTest{
 
     @Before
     fun setup(){
+        println("Create NEW")
         ttsInteractor = TTSInteractorImpl(RuntimeEnvironment.application.applicationContext)
         simulatedTextToSpeechUtteranceDuration = DEFAULT_SIMULATED_TTS_UTTERANCE_DURATION
     }
+
 
     @Test
     fun shouldParseNumberOfUtterances(){
@@ -75,14 +78,50 @@ class TTSInteractorImplTest{
         val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
 
         val listOfIndexesVisited = mutableListOf<Int>()
-        numOfUtterancesToProgressObservable.second.subscribe(Consumer {
+        var done = false
+        numOfUtterancesToProgressObservable.second.subscribe( {
             println("Visited $it")
             listOfIndexesVisited.add(it)
-        })
+        }, {}, {done=true})
 
         //  Assert
-        await().atMost(5, TimeUnit.SECONDS).until { listOfIndexesVisited.size == 7 }
+        await().atMost(50, TimeUnit.SECONDS).until { done }
         assertEquals("All indexes", listOf(0, 1, 2, 3, 4, 5, 6), listOfIndexesVisited)
+    }
+
+    @Test
+    fun shouldBeUsableAfterCompletingDictationOfSims(){
+        //  Arrange
+        simulatedTextToSpeechUtteranceDuration = 100L
+        val sim = Sim(
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived.\n\nJim:  Bill, I didn't expect you!!!\n\nBill:  Hahaha!"
+        )
+
+        //  Act
+        val listOfIndexesVisited = mutableListOf<Int>()
+
+        var numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
+        var done = false
+        numOfUtterancesToProgressObservable.second.subscribe( {
+            listOfIndexesVisited.add(it)
+        }, {}, {done=true})
+
+        await().atMost(5, TimeUnit.SECONDS).until { done }
+
+        println("Trying to re-use interactor")
+
+        numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
+        done = false
+        numOfUtterancesToProgressObservable.second.subscribe( {
+            listOfIndexesVisited.add(it)
+        }, {}, {done=true})
+
+        //  Assert
+        await().atMost(5, TimeUnit.SECONDS).until { done }
+        assertEquals("All indexes", listOf(0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6), listOfIndexesVisited)
     }
 
     @Test
@@ -100,13 +139,14 @@ class TTSInteractorImplTest{
         val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
 
         val listOfIndexesVisited = mutableListOf<Int>()
-        numOfUtterancesToProgressObservable.second.subscribe(Consumer {
+        var done = false
+        numOfUtterancesToProgressObservable.second.subscribe({
             println("Visited $it")
             listOfIndexesVisited.add(it)
-        })
+        }, {}, {done=true})
 
         //  Assert
-        await().atMost(5, TimeUnit.SECONDS).until { listOfIndexesVisited.size == 7 }
+        await().atMost(5, TimeUnit.SECONDS).until { done }
         assertEquals("All indexes", listOf(0, 1, 2, 3, 4, 5, 6), listOfIndexesVisited)
     }
 
@@ -125,19 +165,20 @@ class TTSInteractorImplTest{
 
         val listOfIndexesVisited = mutableListOf<Int>()
         var wasPausedAlready = false
-        numOfUtterancesToProgressObservable.second.subscribe(Consumer {
+        var done = false
+        numOfUtterancesToProgressObservable.second.subscribe({
             if (it == 3 && !wasPausedAlready) {
                 ttsInteractor.pause()
                 wasPausedAlready = true
             }
             listOfIndexesVisited.add(it)
-        })
+        }, {}, {done=true})
 
-        await().atMost(5, TimeUnit.SECONDS).until { listOf<Int>(0, 1, 2, 3) == listOfIndexesVisited }
+        await().atMost(5, TimeUnit.SECONDS).until { wasPausedAlready }
 
         ttsInteractor.resume()
 
-        await().atMost(5, TimeUnit.SECONDS).until { listOfIndexesVisited.size == 6 }
+        await().atMost(5, TimeUnit.SECONDS).until { done }
         assertEquals("Visited items", listOf(0, 1, 2, 3, 3, 4), listOfIndexesVisited)
     }
 
@@ -156,16 +197,17 @@ class TTSInteractorImplTest{
 
         val listOfIndexesVisited = mutableListOf<Int>()
         var seekAlreadyDone = false
-        numOfUtterancesToProgressObservable.second.subscribe(Consumer {
+        var done = false
+        numOfUtterancesToProgressObservable.second.subscribe( {
             if (it == 2 && !seekAlreadyDone) {
                 ttsInteractor.seekTo(1)
                 seekAlreadyDone = true
             }
             listOfIndexesVisited.add(it)
-        })
+        }, {}, {done=true})
 
         //  Assert
-        await().atMost(10, TimeUnit.SECONDS).until { listOfIndexesVisited.size == 7 }
+        await().atMost(10, TimeUnit.SECONDS).until { done }
         assertEquals("Visited items", listOf(0, 1, 2, 1, 2, 3, 4), listOfIndexesVisited)
     }
 
@@ -193,7 +235,7 @@ class TTSInteractorImplTest{
         })
 
         // Assert
-        await().atMost(5, TimeUnit.SECONDS).until { listOf<Int>(0, 1, 2, 3) == listOfIndexesVisited }
+        await().atMost(5, TimeUnit.SECONDS).until { wasPausedAlready }
 
         assertTrue(ttsInteractor.isPaused())
 

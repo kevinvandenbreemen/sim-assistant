@@ -15,7 +15,7 @@ var simulatedTextToSpeechUtteranceDuration: Long? = null
 class ShadowTTSExt : ShadowTextToSpeech() {
 
     companion object {
-        val DEFAULT_SIMULATED_TTS_UTTERANCE_DURATION = 1000L
+        val DEFAULT_SIMULATED_TTS_UTTERANCE_DURATION = 500L
     }
 
     var lastStartTime = 0L

@@ -94,6 +94,9 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
                 //  knows immediately that speaking is supposed to be taking place
             }
 
+            waitForTTSCompletion()
+            indexOfCurrentStringBeingSpoken.set(-1)
+
             emitter.onComplete()
         }).subscribeOn(computation())
 
