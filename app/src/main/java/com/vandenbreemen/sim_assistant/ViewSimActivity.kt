@@ -10,6 +10,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.SeekBar
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R.id.simContainer
 import com.vandenbreemen.sim_assistant.api.sim.Sim
@@ -36,6 +37,24 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_sim)
         setSupportActionBar(toolbar)
+
+        //  Put together the seekbar
+        findViewById<SeekBar>(R.id.dictationProgress).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser){
+                    presenter.seekTo(progress)
+                }
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+
+        })
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {

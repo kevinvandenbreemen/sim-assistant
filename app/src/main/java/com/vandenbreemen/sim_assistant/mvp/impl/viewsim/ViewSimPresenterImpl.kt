@@ -4,6 +4,7 @@ import com.vandenbreemen.sim_assistant.mvp.tts.TTSInteractor
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimModel
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimPresenter
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimView
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 
 /**
  * <h2>Intro</h2>
@@ -21,13 +22,17 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
             viewSimView.setTotalUtterancesToBeSpoken(totalUtterancesToUtteranceDictation.first)
 
             totalUtterancesToUtteranceDictation
-                    .second.subscribe({
-                viewSimView.updateProgress(it)
-            }, {}, {
-                viewSimView.setSpeakSimsEnabled(true)
-                viewSimView.setPauseDictationEnabled(false)
-                viewSimView.setDictationProgressVisible(false)
-            })
+                    .second.observeOn(mainThread())
+                    .subscribe(
+                            {
+                                viewSimView.updateProgress(it)
+                            },
+                            {},
+                            {
+                                viewSimView.setSpeakSimsEnabled(true)
+                                viewSimView.setPauseDictationEnabled(false)
+                                viewSimView.setDictationProgressVisible(false)
+                            })
         }
 
         viewSimView.setPauseDictationEnabled(true)
