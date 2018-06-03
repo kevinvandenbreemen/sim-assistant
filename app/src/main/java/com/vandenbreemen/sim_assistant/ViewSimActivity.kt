@@ -9,6 +9,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R.id.simContainer
 import com.vandenbreemen.sim_assistant.api.sim.Sim
@@ -57,11 +58,11 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
     }
 
     override fun updateProgress(index: Int) {
-
+        findViewById<ProgressBar>(R.id.dictationProgress).progress = index
     }
 
     override fun setTotalUtterancesToBeSpoken(totalUtterances: Int) {
-
+        findViewById<ProgressBar>(R.id.dictationProgress).max = totalUtterances-1
     }
 
     override fun onResume() {
@@ -96,5 +97,10 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
     override fun setSpeakSimsEnabled(enabled: Boolean) {
         speakSimEnabled = enabled
         invalidateOptionsMenu()
+    }
+
+    override fun setDictationProgressVisible(visible: Boolean) {
+        val visibility = if(visible) VISIBLE else GONE
+        findViewById<ProgressBar>(R.id.dictationProgress).visibility = visibility
     }
 }

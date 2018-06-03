@@ -3,6 +3,7 @@ package com.vandenbreemen.sim_assistant
 import android.content.Intent
 import android.support.design.widget.FloatingActionButton
 import android.view.MenuItem
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ProgressBar
@@ -141,6 +142,22 @@ class ViewSimActivityTest{
     }
 
     @Test
+    fun shouldMakeDictationVisibleWhenUserClicksDictate(){
+        val intent = Intent(RuntimeEnvironment.application, ViewSimActivity::class.java)
+        intent.putExtra(PARM_SIMS, arrayOf(sim))
+        val activity = buildActivity(ViewSimActivity::class.java, intent)
+                .create()
+                .resume()
+                .get()
+
+        val menuItem = mock(MenuItem::class.java)
+        `when`(menuItem.itemId).thenReturn(R.id.speakSim)
+        activity.onOptionsItemSelected(menuItem)
+
+        assertEquals("Progress Visible", VISIBLE, activity.findViewById<ProgressBar>(R.id.dictationProgress).visibility)
+    }
+
+    @Test
     fun shouldSetAndUpdateSimsProgressBar() {
         val intent = Intent(RuntimeEnvironment.application, ViewSimActivity::class.java)
         intent.putExtra(PARM_SIMS, arrayOf(sim))
@@ -155,6 +172,19 @@ class ViewSimActivityTest{
         val progressBar = activity.findViewById<ProgressBar>(R.id.dictationProgress)
         assertEquals("Total Utterances", 9, progressBar.max)
         assertEquals("Current progress", 5, progressBar.progress)
+    }
+
+    @Test
+    fun dictationProgressShouldBeInvisibleByDefault(){
+        val intent = Intent(RuntimeEnvironment.application, ViewSimActivity::class.java)
+        intent.putExtra(PARM_SIMS, arrayOf(sim))
+        val activity = buildActivity(ViewSimActivity::class.java, intent)
+                .create()
+                .resume()
+                .get()
+
+        assertEquals("Dictation Progress Invisible", GONE,
+                activity.findViewById<ProgressBar>(R.id.dictationProgress).visibility)
     }
 
 }

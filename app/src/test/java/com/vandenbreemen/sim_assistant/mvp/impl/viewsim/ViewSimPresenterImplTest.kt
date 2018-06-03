@@ -179,4 +179,28 @@ class ViewSimPresenterImplTest{
         verify(viewSimView).setTotalUtterancesToBeSpoken(5)
     }
 
+    @Test
+    fun shouldTellViewToShowProgressBarWhenSpeaking(){
+
+        //  Arrange
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(1, Observable.create(ObservableOnSubscribe<Int> { })))
+
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).setDictationProgressVisible(true)
+
+    }
+
+    @Test
+    fun shouldTellViewToHideProgressBarWhenDoneSpeaking(){
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).setDictationProgressVisible(true)
+        verify(viewSimView).setDictationProgressVisible(false)
+    }
+
 }

@@ -26,11 +26,13 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
             }, {}, {
                 viewSimView.setSpeakSimsEnabled(true)
                 viewSimView.setPauseDictationEnabled(false)
+                viewSimView.setDictationProgressVisible(false)
             })
         }
 
         viewSimView.setPauseDictationEnabled(true)
         viewSimView.setSpeakSimsEnabled(false)
+        viewSimView.setDictationProgressVisible(true)
     }
 
     override fun seekTo(index: Int) {

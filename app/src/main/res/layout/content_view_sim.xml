@@ -49,6 +49,8 @@
         tools:visibility="visible" />
 
     <SeekBar
+        android:visibility="gone"
+        tools:visibility="visible"
         android:id="@+id/dictationProgress"
         android:minWidth="150dp"
         android:layout_width="wrap_content"
