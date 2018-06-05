@@ -5,7 +5,6 @@ import com.vandenbreemen.sim_assistant.mvp.tts.ShadowTTSExt.Companion.DEFAULT_SI
 import io.reactivex.functions.Consumer
 import junit.framework.TestCase.assertTrue
 import org.awaitility.Awaitility.await
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -85,7 +84,7 @@ class TTSInteractorImplTest{
         }, {}, {done=true})
 
         //  Assert
-        await().atMost(50, TimeUnit.SECONDS).until { done }
+        await().atMost(5, TimeUnit.SECONDS).until { done }
         assertEquals("All indexes", listOf(0, 1, 2, 3, 4, 5, 6), listOfIndexesVisited)
     }
 
@@ -238,6 +237,8 @@ class TTSInteractorImplTest{
         await().atMost(5, TimeUnit.SECONDS).until { wasPausedAlready }
 
         assertTrue(ttsInteractor.isPaused())
+
+        ttsInteractor.resume()
 
     }
 
