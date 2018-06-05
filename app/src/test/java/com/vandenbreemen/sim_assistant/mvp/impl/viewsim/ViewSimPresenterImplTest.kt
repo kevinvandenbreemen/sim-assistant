@@ -203,4 +203,13 @@ class ViewSimPresenterImplTest{
         verify(viewSimView).setDictationProgressVisible(false)
     }
 
+    @Test
+    fun shouldProvideClose(){
+        //  Act
+        viewSimPresenter.close()
+
+        //  Assert
+        verify(ttsInteractor).close()
+    }
+
 }

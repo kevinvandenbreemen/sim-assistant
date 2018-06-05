@@ -7,6 +7,7 @@ interface ViewSimPresenter{
     fun speakSims()
     fun pause()
     fun seekTo(index: Int)
+    fun close()
 }
 
 interface ViewSimModel{

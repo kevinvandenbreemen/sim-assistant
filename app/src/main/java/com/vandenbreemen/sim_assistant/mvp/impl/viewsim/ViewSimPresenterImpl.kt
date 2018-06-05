@@ -40,6 +40,10 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
         viewSimView.setDictationProgressVisible(true)
     }
 
+    override fun close() {
+        ttsInteractor.close()
+    }
+
     override fun seekTo(index: Int) {
         ttsInteractor.seekTo(index)
     }
