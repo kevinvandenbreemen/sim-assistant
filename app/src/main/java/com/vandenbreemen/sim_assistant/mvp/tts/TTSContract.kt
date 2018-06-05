@@ -9,5 +9,6 @@ interface TTSInteractor {
     fun resume()
     fun isPaused(): Boolean
     fun seekTo(position: Int)
+    fun close()
 
 }

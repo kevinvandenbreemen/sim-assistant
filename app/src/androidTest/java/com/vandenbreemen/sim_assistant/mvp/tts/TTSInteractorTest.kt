@@ -31,7 +31,9 @@ class TTSInteractorTest {
             done = true
         })
 
-        await().atMost(5, TimeUnit.SECONDS).until { done }
+        await().atMost(15, TimeUnit.SECONDS).until { done }
+
+        interactor.close()
     }
 
 }

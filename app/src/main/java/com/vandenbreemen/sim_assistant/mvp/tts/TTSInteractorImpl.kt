@@ -35,6 +35,8 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
 
     val currentlySpeaking = AtomicBoolean(false)
 
+    val shouldExitNow = AtomicBoolean(false)
+
     val paused = AtomicBoolean(false)
 
     init {
@@ -69,7 +71,7 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
             ?: -1) - 1
 
     private fun waitForTTSCompletion(){
-        while (currentlySpeaking.get() || paused.get()) {
+        while (!shouldExitNow.get() && (currentlySpeaking.get() || paused.get())) {
             sleep(20)
         }
     }
@@ -86,6 +88,10 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
 
             while (hasMoreStrings()) {
                 waitForTTSCompletion()
+                if(shouldExitNow.get()){
+                    Log.d(TAG, "Exiting TTS immediately")
+                    return@ObservableOnSubscribe
+                }
                 val nextIndex = indexOfCurrentStringBeingSpoken.incrementAndGet()
                 emitter.onNext(nextIndex)
                 Log.d(TAG, "Speaking\n${utterances[nextIndex]}")
@@ -134,4 +140,9 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
         paused.set(false)
     }
 
+    override fun close() {
+        shouldExitNow.set(true)
+        tts.stop()
+        tts.shutdown()
+    }
 }

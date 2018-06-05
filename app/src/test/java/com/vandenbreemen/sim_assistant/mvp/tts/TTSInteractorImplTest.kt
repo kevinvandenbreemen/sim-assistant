@@ -5,6 +5,7 @@ import com.vandenbreemen.sim_assistant.mvp.tts.ShadowTTSExt.Companion.DEFAULT_SI
 import io.reactivex.functions.Consumer
 import junit.framework.TestCase.assertTrue
 import org.awaitility.Awaitility.await
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLog
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
@@ -22,9 +24,14 @@ class TTSInteractorImplTest{
 
     @Before
     fun setup(){
-        println("Create NEW")
+        ShadowLog.stream = System.out
         ttsInteractor = TTSInteractorImpl(RuntimeEnvironment.application.applicationContext)
         simulatedTextToSpeechUtteranceDuration = DEFAULT_SIMULATED_TTS_UTTERANCE_DURATION
+    }
+
+    @After
+    fun tearDown(){
+        ttsInteractor.close()
     }
 
 
@@ -238,8 +245,35 @@ class TTSInteractorImplTest{
 
         assertTrue(ttsInteractor.isPaused())
 
-        ttsInteractor.resume()
+    }
 
+    @Test
+    fun shouldProvideClose(){
+        //  Arrange
+        val sim = Sim(
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived."
+        )
+
+        //  Act
+        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
+
+        val listOfIndexesVisited = mutableListOf<Int>()
+        var wasPausedAlready = false
+        numOfUtterancesToProgressObservable.second.subscribe( {
+            if (it == 3 && !wasPausedAlready) {
+                ttsInteractor.pause()
+                wasPausedAlready = true
+            }
+            listOfIndexesVisited.add(it)
+        }, {}, {})
+
+        // Assert
+        await().atMost(5, TimeUnit.SECONDS).until { wasPausedAlready }
+
+        ttsInteractor.close()
     }
 
 }
