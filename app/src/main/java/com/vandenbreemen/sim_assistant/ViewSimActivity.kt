@@ -57,6 +57,10 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         })
     }
 
+    override fun setDictationProgressEnabled(enabled: Boolean) {
+        findViewById<ProgressBar>(R.id.dictationProgress).isEnabled = enabled
+    }
+
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.speakSim).setEnabled(speakSimEnabled)
         return true

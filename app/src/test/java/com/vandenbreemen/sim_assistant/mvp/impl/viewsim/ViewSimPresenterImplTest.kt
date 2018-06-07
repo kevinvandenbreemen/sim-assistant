@@ -11,8 +11,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnit
 import org.robolectric.RobolectricTestRunner
 
@@ -107,6 +106,19 @@ class ViewSimPresenterImplTest{
     }
 
     @Test
+    fun shouldDisableProgressBarWhenPaused(){
+        //  Arrange
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(1, Observable.create(ObservableOnSubscribe<Int> { })))
+        viewSimPresenter.speakSims()
+
+        //  Act
+        viewSimPresenter.pause()
+
+        //  Assert
+        verify(viewSimView).setDictationProgressEnabled(false)
+    }
+
+    @Test
     fun shouldDisableSpeakSimsWhenSpeaking() {
         //  Act
         viewSimPresenter.speakSims()
@@ -143,6 +155,23 @@ class ViewSimPresenterImplTest{
         //  Assert
         verify(ttsInteractor).resume()
 
+    }
+
+    @Test
+    fun shouldReEnableSeekBarWhenSpeakSimsCalledAfterPause(){
+        //  Arrange
+        viewSimPresenter.speakSims()
+
+        //  Act
+        viewSimPresenter.pause()
+
+        `when`(ttsInteractor.isPaused()).thenReturn(true)
+
+        reset(viewSimView)
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).setDictationProgressEnabled(true)
     }
 
     @Test

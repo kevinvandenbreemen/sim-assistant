@@ -22,4 +22,5 @@ interface ViewSimView{
     fun updateProgress(index: Int)
     fun setTotalUtterancesToBeSpoken(totalUtterances: Int)
     fun setDictationProgressVisible(visible: Boolean)
+    fun setDictationProgressEnabled(enabled: Boolean)
 }

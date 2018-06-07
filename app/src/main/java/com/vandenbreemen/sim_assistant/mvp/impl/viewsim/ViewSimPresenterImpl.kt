@@ -38,6 +38,7 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
         viewSimView.setPauseDictationEnabled(true)
         viewSimView.setSpeakSimsEnabled(false)
         viewSimView.setDictationProgressVisible(true)
+        viewSimView.setDictationProgressEnabled(true)
     }
 
     override fun close() {
@@ -52,6 +53,7 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
         ttsInteractor.pause()
         viewSimView.setPauseDictationEnabled(false)
         viewSimView.setSpeakSimsEnabled(true)
+        viewSimView.setDictationProgressEnabled(false)
     }
 
     override fun start() {
