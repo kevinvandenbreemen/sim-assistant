@@ -76,7 +76,7 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
         }
     }
 
-    override fun speakSims(sims: List<Sim>): Pair<Int, Observable<Int>> {
+    override fun speakSims(sims: List<Sim>): Pair<SimDictationDetails, Observable<Int>> {
 
         val utterances = mutableListOf<String>()
         sims.forEach {
@@ -106,7 +106,7 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
             emitter.onComplete()
         }).subscribeOn(computation())
 
-        return Pair<Int, Observable<Int>>(stringsToSpeak!!.size, observable)
+        return Pair<SimDictationDetails, Observable<Int>>(SimDictationDetails(stringsToSpeak!!.size), observable)
     }
 
     private fun doPause(): Boolean {

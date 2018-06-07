@@ -17,11 +17,11 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
         if (ttsInteractor.isPaused()) {
             ttsInteractor.resume()
         } else {
-            val totalUtterancesToUtteranceDictation = ttsInteractor.speakSims(viewSimModel.getSims())
+            val simDictationDetailsToUtteranceDictation = ttsInteractor.speakSims(viewSimModel.getSims())
 
-            viewSimView.setTotalUtterancesToBeSpoken(totalUtterancesToUtteranceDictation.first)
+            viewSimView.setTotalUtterancesToBeSpoken(simDictationDetailsToUtteranceDictation.first.numberOfSentences)
 
-            totalUtterancesToUtteranceDictation
+            simDictationDetailsToUtteranceDictation
                     .second.observeOn(mainThread())
                     .subscribe(
                             {
