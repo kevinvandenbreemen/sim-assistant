@@ -1,12 +1,10 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.post.google
 
-import com.vandenbreemen.sim_assistant.api.sim.CachedSim
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
 import junit.framework.Assert
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,7 +21,7 @@ import org.robolectric.RuntimeEnvironment
 class GooglePostCacheInteractorTest {
 
     companion object {
-        const val SIM_URL = "https://groups.google.com/forum/print/msg/uss-odyssey-oe/43As_Cm9puU/ocvmDu--AgAJ"
+        const val SIM_URL = "https://groups.google.com/forum/print/msg/fake-grp/1234"
     }
 
     lateinit var googlePostCacheInteractor: GooglePostCacheInteractor

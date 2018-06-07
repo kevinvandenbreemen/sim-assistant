@@ -21,7 +21,7 @@ class GoogleGroupsApiLearningTest {
         val googleGroupsApi = retroFit.create(GoogleGroupsApi::class.java)
 
         var complete = false
-        googleGroupsApi.getRssFeed("uss-odyssey-oe", 15).subscribe { rssFeed ->
+        googleGroupsApi.getRssFeed("sb118-constitution", 15).subscribe { rssFeed ->
             println("Huzzah ${rssFeed.channelTitle}:\n${rssFeed.articleList}")
             complete = true
         }
@@ -39,7 +39,7 @@ class GoogleGroupsApiLearningTest {
         val googleGroupsApi = retroFit.create(GoogleGroupsApi::class.java)
 
         var complete = false
-        googleGroupsApi.getRssFeed("uss-odyssey-oe", 1).subscribe { rssFeed ->
+        googleGroupsApi.getRssFeed("sb118-constitution", 1).subscribe { rssFeed ->
             assertEquals("Single Article", 1, rssFeed.articleList!!.size)
             complete = true
         }

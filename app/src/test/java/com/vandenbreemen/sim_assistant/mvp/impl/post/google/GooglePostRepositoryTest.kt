@@ -24,7 +24,7 @@ class GooglePostRepositoryTest {
 
     @Test
     fun shouldRetrieveListOfPosts() {
-        googlePostRepository = GooglePostRepository("uss-odyssey-oe", GooglePostContentLoader(),
+        googlePostRepository = GooglePostRepository("sb118-constitution", GooglePostContentLoader(),
                 GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
                 )
 
@@ -36,7 +36,7 @@ class GooglePostRepositoryTest {
 
     @Test
     fun shouldNotIncludeNewLinesInSimAuthorOrTitle(){
-        googlePostRepository = GooglePostRepository("uss-odyssey-oe", GooglePostContentLoader(),
+        googlePostRepository = GooglePostRepository("sb118-constitution", GooglePostContentLoader(),
                 GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
         )
         val postedSim = googlePostRepository.getPosts(1).blockingFirst()
@@ -57,7 +57,7 @@ class GooglePostRepositoryTest {
             }
         }
 
-        googlePostRepository = GooglePostRepository("uss-odyssey-oe", contentLoader,
+        googlePostRepository = GooglePostRepository("sb118-constitution", contentLoader,
                 GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
                 )
 
