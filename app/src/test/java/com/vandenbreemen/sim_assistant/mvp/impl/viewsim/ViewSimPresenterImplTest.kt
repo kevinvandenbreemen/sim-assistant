@@ -46,7 +46,7 @@ class ViewSimPresenterImplTest{
                 )
 
         `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(
-                Pair(SimDictationDetails(5), Observable.just(0, 1, 2, 3, 4))
+                Pair(SimDictationDetails(5, mapOf(Pair<Sim,Int>(sim1, 0))), Observable.just(0, 1, 2, 3, 4))
         )
 
         `when`(ttsInteractor.isPaused()).thenReturn(false)
@@ -96,7 +96,7 @@ class ViewSimPresenterImplTest{
     @Test
     fun shouldDisablePauseButtonWhenPaused() {
         //  Arrange
-        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1), Observable.create(ObservableOnSubscribe<Int> { })))
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1, mapOf(Pair<Sim,Int>(sim1, 0))), Observable.create(ObservableOnSubscribe<Int> { })))
         viewSimPresenter.speakSims()
 
         //  Act
@@ -109,7 +109,7 @@ class ViewSimPresenterImplTest{
     @Test
     fun shouldDisableProgressBarWhenPaused(){
         //  Arrange
-        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1), Observable.create(ObservableOnSubscribe<Int> { })))
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1, mapOf(Pair<Sim,Int>(sim1, 0))), Observable.create(ObservableOnSubscribe<Int> { })))
         viewSimPresenter.speakSims()
 
         //  Act
@@ -131,7 +131,7 @@ class ViewSimPresenterImplTest{
     @Test
     fun shouldReEnableSpeakSimsWhenPausing() {
         //  Arrange
-        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1), Observable.create(ObservableOnSubscribe<Int> { })))
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1, mapOf(Pair<Sim,Int>(sim1, 0))), Observable.create(ObservableOnSubscribe<Int> { })))
         viewSimPresenter.speakSims()
 
         //  Act
@@ -213,7 +213,7 @@ class ViewSimPresenterImplTest{
     fun shouldTellViewToShowProgressBarWhenSpeaking(){
 
         //  Arrange
-        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1), Observable.create(ObservableOnSubscribe<Int> { })))
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1, mapOf(Pair<Sim,Int>(sim1, 0))), Observable.create(ObservableOnSubscribe<Int> { })))
 
         //  Act
         viewSimPresenter.speakSims()

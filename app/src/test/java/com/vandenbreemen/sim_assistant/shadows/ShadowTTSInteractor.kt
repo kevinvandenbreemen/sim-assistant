@@ -19,7 +19,7 @@ class ShadowTTSInteractor{
     @Implementation
     fun speakSims(sims: List<Sim>): Pair<SimDictationDetails, Observable<Int>> {
         spokenSim.addAll(sims)
-        return Pair(SimDictationDetails(1), Observable.just(1))
+        return Pair(SimDictationDetails(1, mapOf(Pair<Sim, Int>(sims[0], 0))), Observable.just(1))
     }
 
 }

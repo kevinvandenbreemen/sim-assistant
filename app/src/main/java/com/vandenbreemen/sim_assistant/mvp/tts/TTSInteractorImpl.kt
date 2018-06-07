@@ -79,8 +79,16 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
     override fun speakSims(sims: List<Sim>): Pair<SimDictationDetails, Observable<Int>> {
 
         val utterances = mutableListOf<String>()
+        var index = 0
+        val simToStartIndex = mutableMapOf<Sim, Int>()
         sims.forEach {
-            utterances.addAll(SimParser(it).toUtterances())
+            simToStartIndex.put(it, index)
+
+            val listOfUtterancesForSim = SimParser(it).toUtterances()
+            utterances.addAll(listOfUtterancesForSim)
+
+            index += listOfUtterancesForSim.size
+
         }
         stringsToSpeak = listOf(*utterances.toTypedArray())
 
@@ -106,7 +114,7 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
             emitter.onComplete()
         }).subscribeOn(computation())
 
-        return Pair<SimDictationDetails, Observable<Int>>(SimDictationDetails(stringsToSpeak!!.size), observable)
+        return Pair<SimDictationDetails, Observable<Int>>(SimDictationDetails(stringsToSpeak!!.size, simToStartIndex), observable)
     }
 
     private fun doPause(): Boolean {

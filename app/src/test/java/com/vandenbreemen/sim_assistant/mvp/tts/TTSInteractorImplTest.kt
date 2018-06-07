@@ -72,6 +72,33 @@ class TTSInteractorImplTest{
     }
 
     @Test
+    fun shouldProvidePositionsForBeginningsOfEachSim(){
+        //  Arrange
+        val sim = Sim(
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived.\n\nJim:  Bill, I didn't expect you!!!\n\nBill:  Hahaha!"
+        )
+
+        val sim1 = Sim(
+                "Test Sim Again",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived.\n\nJim:  Bill, I didn't expect you!!!\n\nBill:  Hahaha!"
+        )
+
+        //  Act
+        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim, sim1))
+
+        //  Assert
+        val simDictationDetails:SimDictationDetails = numOfUtterancesToProgressObservable.first
+        assertEquals("Start Position Count", 2, simDictationDetails.simPositions.size)
+        assertEquals("First Sim", 0, simDictationDetails.simPositions[sim])
+        assertEquals("Second Sim", 7, simDictationDetails.simPositions[sim1])
+    }
+
+    @Test
     fun shouldSpeakSims() {
         //  Arrange
         simulatedTextToSpeechUtteranceDuration = 100L
