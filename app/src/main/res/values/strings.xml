@@ -7,4 +7,5 @@
     <string name="ok">OK</string>
     <string name="title_activity_view_sim">ViewSimActivity</string>
     <string name="speak_sim">Speak</string>
+    <string name="currentSim">Current Sim</string>
 </resources>
