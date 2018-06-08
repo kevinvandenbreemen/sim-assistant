@@ -21,6 +21,11 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
 
             viewSimView.setTotalUtterancesToBeSpoken(simDictationDetailsToUtteranceDictation.first.numberOfSentences)
 
+            val sortedPositions = simDictationDetailsToUtteranceDictation.first.simPositions.map {
+                Pair<String, Int>(it.key.title, it.value)
+            }.sortedBy { pair -> pair.second }
+            viewSimView.setSelections(sortedPositions)
+
             simDictationDetailsToUtteranceDictation
                     .second.observeOn(mainThread())
                     .subscribe(

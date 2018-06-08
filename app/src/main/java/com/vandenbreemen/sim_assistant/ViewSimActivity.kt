@@ -57,6 +57,10 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         })
     }
 
+    override fun setSelections(simTitlesToDictationIndexes: List<Pair<String, Int>>) {
+
+    }
+
     override fun setDictationProgressEnabled(enabled: Boolean) {
         findViewById<ProgressBar>(R.id.dictationProgress).isEnabled = enabled
     }

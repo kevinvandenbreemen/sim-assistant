@@ -23,4 +23,5 @@ interface ViewSimView{
     fun setTotalUtterancesToBeSpoken(totalUtterances: Int)
     fun setDictationProgressVisible(visible: Boolean)
     fun setDictationProgressEnabled(enabled: Boolean)
+    fun setSelections(simTitlesToDictationIndexes: List<Pair<String, Int>>)
 }
