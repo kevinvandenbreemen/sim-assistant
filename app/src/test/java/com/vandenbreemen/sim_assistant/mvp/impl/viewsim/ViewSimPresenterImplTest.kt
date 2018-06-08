@@ -81,6 +81,27 @@ class ViewSimPresenterImplTest{
     }
 
     @Test
+    fun shouldUpdateSimSelectionDuringDictation() {
+
+        //  Arrange
+        val sim2 = Sim(
+                "Another Sim", "Kevin", 0, "This is a test"
+        )
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(
+                Pair(SimDictationDetails(5,
+                        mapOf(Pair<Sim, Int>(sim1, 0), Pair<Sim, Int>(sim2, 3))), Observable.just(0, 1, 2, 3, 4))
+        )
+
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).updateSelectedSim(sim1.title)
+        verify(viewSimView).updateSelectedSim(sim2.title)
+
+    }
+
+    @Test
     fun shouldReEnableSpeakSimsWhenSpeakingFinished() {
         //  Act
         viewSimPresenter.speakSims()

@@ -24,4 +24,5 @@ interface ViewSimView{
     fun setDictationProgressVisible(visible: Boolean)
     fun setDictationProgressEnabled(enabled: Boolean)
     fun setSelections(simTitlesToDictationIndexes: List<Pair<String, Int>>)
+    fun updateSelectedSim(currentSimTitle: String)
 }

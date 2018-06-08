@@ -24,6 +24,13 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
             val sortedPositions = simDictationDetailsToUtteranceDictation.first.simPositions.map {
                 Pair<String, Int>(it.key.title, it.value)
             }.sortedBy { pair -> pair.second }
+
+            val positionToSimTitle = mapOf<Int, String>(
+                    * simDictationDetailsToUtteranceDictation.first.simPositions.map {
+                        Pair(it.value, it.key.title)
+                    }.toTypedArray()
+            )
+
             viewSimView.setSelections(sortedPositions)
 
             simDictationDetailsToUtteranceDictation
@@ -31,6 +38,11 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
                     .subscribe(
                             {
                                 viewSimView.updateProgress(it)
+
+                                positionToSimTitle[it]?.let { simTitle ->
+                                    viewSimView.updateSelectedSim(simTitle)
+                                }
+
                             },
                             {},
                             {
