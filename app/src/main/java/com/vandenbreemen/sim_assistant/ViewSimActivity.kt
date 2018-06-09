@@ -57,6 +57,12 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
             }
 
         })
+
+        presenter.start()
+
+        findViewById<FloatingActionButton>(R.id.pause).setOnClickListener(View.OnClickListener { v ->
+            presenter.pause()
+        })
     }
 
     override fun setSelections(simTitlesToDictationIndexes: List<Pair<String, Int>>) {
@@ -83,6 +89,13 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         return true
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        presenter.close()
+
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_view_sim, menu)
@@ -103,15 +116,6 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
 
     override fun setTotalUtterancesToBeSpoken(totalUtterances: Int) {
         findViewById<ProgressBar>(R.id.dictationProgress).max = totalUtterances-1
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.start()
-
-        findViewById<FloatingActionButton>(R.id.pause).setOnClickListener(View.OnClickListener { v ->
-            presenter.pause()
-        })
     }
 
     override fun displaySim(sim: Sim) {
