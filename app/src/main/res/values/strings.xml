@@ -5,7 +5,7 @@
     <string name="google_group_details">Google Group Details</string>
     <string name="google_group_name">Enter Group Name</string>
     <string name="ok">OK</string>
-    <string name="title_activity_view_sim">ViewSimActivity</string>
+    <string name="title_activity_view_sim">View Sims</string>
     <string name="speak_sim">Speak</string>
     <string name="currentSim">Current Sim</string>
 </resources>
