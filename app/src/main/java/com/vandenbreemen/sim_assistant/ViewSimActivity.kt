@@ -1,5 +1,7 @@
 package com.vandenbreemen.sim_assistant
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
@@ -71,6 +73,13 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.speakSim).setEnabled(speakSimEnabled)
+
+        val icon = resources.getDrawable(R.drawable.speaker, theme)
+        if (!speakSimEnabled) {
+            icon.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
+        }
+        menu.findItem(R.id.speakSim).icon = icon
+
         return true
     }
 
