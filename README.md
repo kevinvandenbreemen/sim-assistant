@@ -1,10 +1,4 @@
 # sim-assistant
-
-# Coding Rules
-
-## Interactors
-
-### Concurrency
-These Components that Interact with Persistence/web APIs etc should be written so that they can be 
-tested synchronusly.  Ensuring these operations are performed asynchronously should be the
-responsibility of client code (for example, controllers or presenters).
+An app for helping people who enjoy Star Trek / Other simming to listen to posts in the game while driving or doing chores.
+This is still a work in progress.  I wrote it both to teach myself modern Android development and software engineering techniques
+as well as to have some fun.
