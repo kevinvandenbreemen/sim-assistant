@@ -1,34 +1,36 @@
 package com.vandenbreemen.sim_assistant.ui
 
+import android.content.Context
+import android.support.constraint.ConstraintLayout
+import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.vandenbreemen.sim_assistant.R
-import com.vandenbreemen.sim_assistant.api.message.ApplicationError
 import java.util.function.Consumer
 
 
-class SelectSimByTitle(val view: ViewGroup) {
+class SelectSimByTitle(viewContext:Context): ConstraintLayout(viewContext) {
 
 
     init {
-        if (view.findViewById<Spinner>(R.id.simSelector) == null) {
-            throw ApplicationError("Fatal:  Cannot create this widget since it is not a sim selector spinner")
-        }
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        inflater.inflate(R.layout.layout_sim_select_by_title_content, this, true)
     }
 
     var simSelectionListener: Consumer<Int>? = null
 
+    lateinit var itemSelectedListener:AdapterView.OnItemSelectedListener
+
     fun setSimSelections(simTitlesToDictationIndexes: List<Pair<String, Int>>) {
 
-        val adapter = ArrayAdapter<String>(view.context, android.R.layout.simple_spinner_item,
+        val adapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,
                 simTitlesToDictationIndexes.map { it.first })
-        val spinner = view.findViewById<Spinner>(R.id.simSelector)
+        val spinner = findViewById<Spinner>(R.id.simSelector)
         spinner.adapter = adapter
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        this.itemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -40,6 +42,22 @@ class SelectSimByTitle(val view: ViewGroup) {
             }
 
         }
+
+        spinner.onItemSelectedListener = this.itemSelectedListener
+    }
+
+    fun setSelectedSim(title: String) {
+        val spinner = findViewById<Spinner>(R.id.simSelector)
+        val adapter = spinner.adapter as ArrayAdapter<String>
+
+        try {
+            spinner.onItemSelectedListener = null
+            spinner.setSelection(adapter.getPosition(title))
+        }
+        finally{
+            spinner.onItemSelectedListener = this.itemSelectedListener
+        }
+
     }
 
 
