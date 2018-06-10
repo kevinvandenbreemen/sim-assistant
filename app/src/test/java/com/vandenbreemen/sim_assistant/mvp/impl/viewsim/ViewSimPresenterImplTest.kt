@@ -121,6 +121,15 @@ class ViewSimPresenterImplTest{
     }
 
     @Test
+    fun shouldShowSimSelectorOnceDictationBegins(){
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).setSimSelectorEnabled(true)
+    }
+
+    @Test
     fun shouldPauseSimsWhenPauseCalled() {
         //  Arrange
         viewSimPresenter.speakSims()
@@ -144,6 +153,19 @@ class ViewSimPresenterImplTest{
 
         //  Assert
         verify(viewSimView).setPauseDictationEnabled(false)
+    }
+
+    @Test
+    fun shouldDisableSimSelectorWhenPaused(){
+        //  Arrange
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1, mapOf(Pair<Sim,Int>(sim1, 0))), Observable.create(ObservableOnSubscribe<Int> { })))
+        viewSimPresenter.speakSims()
+
+        //  Act
+        viewSimPresenter.pause()
+
+        //  Assert
+        verify(viewSimView).setSimSelectorEnabled(false)
     }
 
     @Test

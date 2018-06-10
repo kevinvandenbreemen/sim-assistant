@@ -77,6 +77,10 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         
     }
 
+    override fun setSimSelectorEnabled(enabled: Boolean) {
+
+    }
+
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.speakSim).setEnabled(speakSimEnabled)
 
