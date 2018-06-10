@@ -12,7 +12,7 @@ import com.vandenbreemen.sim_assistant.R
 import java.util.function.Consumer
 
 
-class SelectSimByTitle(viewContext:Context, attrs:AttributeSet?): ConstraintLayout(viewContext) {
+class SelectSimByTitle(viewContext:Context, attrs:AttributeSet?): ConstraintLayout(viewContext, attrs) {
 
 
     init {
