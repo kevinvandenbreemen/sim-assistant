@@ -21,6 +21,7 @@ import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimView
 import com.vandenbreemen.sim_assistant.ui.SelectSimByTitle
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_view_sim.*
+import java.util.function.Consumer
 import javax.inject.Inject
 
 class ViewSimActivity : AppCompatActivity(), ViewSimView {
@@ -59,9 +60,9 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
 
         })
 
-        //findViewById<SelectSimByTitle>(R.id.selectSimByTitle).simSelectionListener = Consumer { index->presenter.seekTo(index) }
-
         presenter.start()
+
+        findViewById<SelectSimByTitle>(R.id.selectSimByTitle).simSelectionListener = Consumer { index->presenter.seekTo(index) }
 
         findViewById<FloatingActionButton>(R.id.pause).setOnClickListener(View.OnClickListener { v ->
             presenter.pause()
@@ -69,7 +70,7 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
     }
 
     override fun setSelections(simTitlesToDictationIndexes: List<Pair<String, Int>>) {
-
+        findViewById<SelectSimByTitle>(R.id.selectSimByTitle).setSimSelections(simTitlesToDictationIndexes)
     }
 
     override fun setDictationProgressEnabled(enabled: Boolean) {
