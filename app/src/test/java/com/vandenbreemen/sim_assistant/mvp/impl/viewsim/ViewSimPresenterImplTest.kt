@@ -84,6 +84,7 @@ class ViewSimPresenterImplTest{
     fun shouldUpdateSimSelectionDuringDictation() {
 
         //  Arrange
+        val expectedUtterancesInEachSim = 3
         val sim2 = Sim(
                 "Another Sim", "Kevin", 0, "This is a test"
         )
@@ -96,8 +97,8 @@ class ViewSimPresenterImplTest{
         viewSimPresenter.speakSims()
 
         //  Assert
-        verify(viewSimView).updateSelectedSim(sim1.title)
-        verify(viewSimView).updateSelectedSim(sim2.title)
+        verify(viewSimView, times(expectedUtterancesInEachSim)).updateSelectedSim(sim1.title)
+        verify(viewSimView, times(expectedUtterancesInEachSim-1)).updateSelectedSim(sim2.title)
 
     }
 

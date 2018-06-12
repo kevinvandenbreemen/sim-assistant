@@ -39,8 +39,14 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
                             {
                                 viewSimView.updateProgress(it)
 
-                                positionToSimTitle[it]?.let { simTitle ->
-                                    viewSimView.updateSelectedSim(simTitle)
+                                var idx = it
+                                var foundNearestUtteranceIndexToCorrespondingSim = false
+                                while (idx > -1 && !foundNearestUtteranceIndexToCorrespondingSim) {
+                                    positionToSimTitle[idx]?.let { simTitle ->
+                                        viewSimView.updateSelectedSim(simTitle)
+                                        foundNearestUtteranceIndexToCorrespondingSim = true
+                                    }
+                                    idx --
                                 }
 
                             },
