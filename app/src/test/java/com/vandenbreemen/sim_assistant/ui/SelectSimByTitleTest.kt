@@ -25,7 +25,8 @@ class SelectSimByTitleTest {
         val app = RuntimeEnvironment.application
 
         this.selectSimByTitle = SelectSimByTitle(
-                app
+                app,
+                null
         )
     }
 

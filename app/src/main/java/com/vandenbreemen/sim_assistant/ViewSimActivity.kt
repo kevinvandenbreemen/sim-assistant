@@ -18,8 +18,10 @@ import com.vandenbreemen.sim_assistant.R.id.simContainer
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimPresenter
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimView
+import com.vandenbreemen.sim_assistant.ui.SelectSimByTitle
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_view_sim.*
+import java.util.function.Consumer
 import javax.inject.Inject
 
 class ViewSimActivity : AppCompatActivity(), ViewSimView {
@@ -60,13 +62,15 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
 
         presenter.start()
 
+        findViewById<SelectSimByTitle>(R.id.selectSimByTitle).simSelectionListener = Consumer { index->presenter.seekTo(index) }
+
         findViewById<FloatingActionButton>(R.id.pause).setOnClickListener(View.OnClickListener { v ->
             presenter.pause()
         })
     }
 
     override fun setSelections(simTitlesToDictationIndexes: List<Pair<String, Int>>) {
-
+        findViewById<SelectSimByTitle>(R.id.selectSimByTitle).setSimSelections(simTitlesToDictationIndexes)
     }
 
     override fun setDictationProgressEnabled(enabled: Boolean) {
@@ -74,7 +78,12 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
     }
 
     override fun updateSelectedSim(currentSimTitle: String) {
-        
+        findViewById<SelectSimByTitle>(R.id.selectSimByTitle).setSelectedSim(currentSimTitle)
+    }
+
+    override fun setSimSelectorEnabled(enabled: Boolean) {
+        val visibility = if(enabled) VISIBLE else GONE
+        findViewById<SelectSimByTitle>(R.id.selectSimByTitle).visibility = visibility
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {

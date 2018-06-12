@@ -84,6 +84,7 @@ class ViewSimPresenterImplTest{
     fun shouldUpdateSimSelectionDuringDictation() {
 
         //  Arrange
+        val expectedUtterancesInEachSim = 3
         val sim2 = Sim(
                 "Another Sim", "Kevin", 0, "This is a test"
         )
@@ -96,8 +97,8 @@ class ViewSimPresenterImplTest{
         viewSimPresenter.speakSims()
 
         //  Assert
-        verify(viewSimView).updateSelectedSim(sim1.title)
-        verify(viewSimView).updateSelectedSim(sim2.title)
+        verify(viewSimView, times(expectedUtterancesInEachSim)).updateSelectedSim(sim1.title)
+        verify(viewSimView, times(expectedUtterancesInEachSim-1)).updateSelectedSim(sim2.title)
 
     }
 
@@ -118,6 +119,15 @@ class ViewSimPresenterImplTest{
 
         //  Assert
         verify(viewSimView).setPauseDictationEnabled(true)
+    }
+
+    @Test
+    fun shouldShowSimSelectorOnceDictationBegins(){
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).setSimSelectorEnabled(true)
     }
 
     @Test
@@ -144,6 +154,19 @@ class ViewSimPresenterImplTest{
 
         //  Assert
         verify(viewSimView).setPauseDictationEnabled(false)
+    }
+
+    @Test
+    fun shouldDisableSimSelectorWhenPaused(){
+        //  Arrange
+        `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1, mapOf(Pair<Sim,Int>(sim1, 0))), Observable.create(ObservableOnSubscribe<Int> { })))
+        viewSimPresenter.speakSims()
+
+        //  Act
+        viewSimPresenter.pause()
+
+        //  Assert
+        verify(viewSimView).setSimSelectorEnabled(false)
     }
 
     @Test

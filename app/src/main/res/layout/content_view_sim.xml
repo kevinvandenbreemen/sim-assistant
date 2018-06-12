@@ -29,6 +29,21 @@
             android:orientation="vertical" />
     </ScrollView>
 
+    <com.vandenbreemen.sim_assistant.ui.SelectSimByTitle
+        android:id="@+id/selectSimByTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/dictationProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="1.0" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/pause"
         android:layout_width="wrap_content"
@@ -49,20 +64,20 @@
         tools:visibility="visible" />
 
     <SeekBar
-        android:visibility="gone"
-        tools:visibility="visible"
         android:id="@+id/dictationProgress"
-        android:minWidth="150dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:minWidth="150dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/pause"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/scrollView2"
-        app:layout_constraintVertical_bias="0.93" />
+        app:layout_constraintVertical_bias="0.93"
+        tools:visibility="visible" />
 </android.support.constraint.ConstraintLayout>

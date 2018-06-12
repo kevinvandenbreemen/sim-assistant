@@ -2,6 +2,7 @@ package com.vandenbreemen.sim_assistant.ui
 
 import android.content.Context
 import android.support.constraint.ConstraintLayout
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
@@ -11,7 +12,7 @@ import com.vandenbreemen.sim_assistant.R
 import java.util.function.Consumer
 
 
-class SelectSimByTitle(viewContext:Context): ConstraintLayout(viewContext) {
+class SelectSimByTitle(viewContext:Context, attrs:AttributeSet?): ConstraintLayout(viewContext, attrs) {
 
 
     init {
