@@ -1,7 +1,9 @@
 package com.vandenbreemen.sim_assistant
 
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.media.AudioManager
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
@@ -15,7 +17,9 @@ import android.widget.ProgressBar
 import android.widget.SeekBar
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R.id.simContainer
+import com.vandenbreemen.sim_assistant.android.HeadphonesReceiver
 import com.vandenbreemen.sim_assistant.api.sim.Sim
+import com.vandenbreemen.sim_assistant.mvp.headphones.HeadphonesReactionInteractor
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimPresenter
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimView
 import com.vandenbreemen.sim_assistant.ui.SelectSimByTitle
@@ -33,6 +37,10 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
 
     @Inject
     lateinit var presenter: ViewSimPresenter
+
+    private var headphonesInteractor: HeadphonesReactionInteractor? = null
+
+    private var headphonesReceiver:HeadphonesReceiver? = null
 
     var speakSimEnabled = true
 
@@ -67,6 +75,34 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         findViewById<FloatingActionButton>(R.id.pause).setOnClickListener(View.OnClickListener { v ->
             presenter.pause()
         })
+
+        listenForHeadphoneConnectivity()
+    }
+
+    private fun listenForHeadphoneConnectivity(){
+        val intentFilter = IntentFilter(AudioManager.ACTION_HEADSET_PLUG)
+        headphonesReceiver = object : HeadphonesReceiver(){
+            override fun onHeadsetDisconnected() {
+                headphonesInteractor?.let {
+                    it.onHeadphonesDisconnected()
+                }
+            }
+
+            override fun onHeadssetConnected() {
+                headphonesInteractor?.let {
+                    it.onHeadphonesConnected()
+                }
+            }
+
+        }
+        registerReceiver(headphonesReceiver, intentFilter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        headphonesReceiver?.let {
+            unregisterReceiver(it)
+        }
     }
 
     override fun setSelections(simTitlesToDictationIndexes: List<Pair<String, Int>>) {
@@ -155,5 +191,9 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
     override fun setDictationProgressVisible(visible: Boolean) {
         val visibility = if(visible) VISIBLE else GONE
         findViewById<ProgressBar>(R.id.dictationProgress).visibility = visibility
+    }
+
+    fun setHeadphonesInteractor(headphonesReactionInteractor: HeadphonesReactionInteractor){
+        this.headphonesInteractor = headphonesReactionInteractor
     }
 }

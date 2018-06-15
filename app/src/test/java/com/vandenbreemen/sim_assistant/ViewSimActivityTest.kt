@@ -10,8 +10,10 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.ViewSimActivity.Companion.PARM_SIMS
 import com.vandenbreemen.sim_assistant.api.sim.Sim
+import com.vandenbreemen.sim_assistant.mvp.headphones.HeadphonesReactionInteractor
 import com.vandenbreemen.sim_assistant.shadows.ShadowTTSInteractor
 import com.vandenbreemen.sim_assistant.shadows.spokenSim
+import junit.framework.TestCase.assertTrue
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -185,6 +187,72 @@ class ViewSimActivityTest{
 
         assertEquals("Dictation Progress Invisible", GONE,
                 activity.findViewById<ProgressBar>(R.id.dictationProgress).visibility)
+    }
+
+    @Test
+    fun shouldDetectHeadphonesDisconnected(){
+
+        //  Arrange
+        var headphonesDisconnected = false
+        val headPhonesInteractor = object:HeadphonesReactionInteractor{
+            override fun onHeadphonesDisconnected() {
+                headphonesDisconnected = true
+            }
+
+            override fun onHeadphonesConnected() {
+                TODO("onHeadphonesConnected should not be called")
+            }
+
+        }
+
+        val intent = Intent(RuntimeEnvironment.application, ViewSimActivity::class.java)
+        intent.putExtra(PARM_SIMS, arrayOf(sim))
+        val activity = buildActivity(ViewSimActivity::class.java, intent)
+                .create()
+                .resume()
+                .get()
+        activity.setHeadphonesInteractor(headPhonesInteractor)
+
+        val headphonesBroadcast = Intent()
+        headphonesBroadcast.putExtra("state", 0)
+        headphonesBroadcast.action = Intent.ACTION_HEADSET_PLUG
+        RuntimeEnvironment.systemContext.sendBroadcast(headphonesBroadcast)
+
+        assertTrue("Headphones Disconnected", headphonesDisconnected)
+
+    }
+
+    @Test
+    fun shouldDetectHeadphonesConnected(){
+
+        //  Arrange
+        var headphonesConnected = false
+        val headPhonesInteractor = object:HeadphonesReactionInteractor{
+            override fun onHeadphonesDisconnected() {
+                TODO("onHeadphonesDisconnected should not be called")
+            }
+
+            override fun onHeadphonesConnected() {
+                headphonesConnected = true
+            }
+
+        }
+
+        val intent = Intent(RuntimeEnvironment.application, ViewSimActivity::class.java)
+        intent.putExtra(PARM_SIMS, arrayOf(sim))
+        val activity = buildActivity(ViewSimActivity::class.java, intent)
+                .create()
+                .resume()
+                .get()
+        activity.setHeadphonesInteractor(headPhonesInteractor)
+
+        val headphonesBroadcast = Intent()
+        headphonesBroadcast.putExtra("state", 1)
+        headphonesBroadcast.action = Intent.ACTION_HEADSET_PLUG
+        RuntimeEnvironment.systemContext.sendBroadcast(headphonesBroadcast)
+
+        assertTrue("Headphones Connected", headphonesConnected)
+
     }
 
 }
