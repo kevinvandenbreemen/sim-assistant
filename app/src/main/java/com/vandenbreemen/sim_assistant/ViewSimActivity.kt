@@ -44,6 +44,10 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
 
     var speakSimEnabled = true
 
+    fun getHeadphonesInteractor():HeadphonesReactionInteractor?{
+        return this.headphonesInteractor
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)

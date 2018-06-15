@@ -190,6 +190,18 @@ class ViewSimActivityTest{
     }
 
     @Test
+    fun shouldGetHeadphonesInteractorOnCreation(){
+        val intent = Intent(RuntimeEnvironment.application, ViewSimActivity::class.java)
+        intent.putExtra(PARM_SIMS, arrayOf(sim))
+        val activity = buildActivity(ViewSimActivity::class.java, intent)
+                .create()
+                .resume()
+                .get()
+        assertNotNull("Headphone Interactor", activity.getHeadphonesInteractor())
+
+    }
+
+    @Test
     fun shouldDetectHeadphonesDisconnected(){
 
         //  Arrange
