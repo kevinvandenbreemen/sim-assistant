@@ -3,6 +3,7 @@ package com.vandenbreemen.sim_assistant.mvp.tts
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.tts.ShadowTTSExt.Companion.DEFAULT_SIMULATED_TTS_UTTERANCE_DURATION
 import io.reactivex.functions.Consumer
+import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.awaitility.Awaitility.await
 import org.junit.After
@@ -122,6 +123,28 @@ class TTSInteractorImplTest{
         //  Assert
         await().atMost(5, TimeUnit.SECONDS).until { done }
         assertEquals("All indexes", listOf(0, 1, 2, 3, 4, 5, 6), listOfIndexesVisited)
+    }
+
+    @Test
+    fun shouldIndicateSpeakingSimsWhenSpeakingSims() {
+        //  Arrange
+        simulatedTextToSpeechUtteranceDuration = 100L
+        val sim = Sim(
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived.\n\nJim:  Bill, I didn't expect you!!!\n\nBill:  Hahaha!"
+        )
+
+        //  Act
+        val numOfUtterancesToProgressObservable = ttsInteractor.speakSims(listOf(sim))
+
+        numOfUtterancesToProgressObservable.second.subscribe({
+            assertTrue("Speaking Sims", ttsInteractor.isInProcessOfSpeakingSims())
+        }, {}, { assertFalse("Speaking Sims", ttsInteractor.isInProcessOfSpeakingSims()) })
+
+        //  Assert
+        await().atMost(5, TimeUnit.SECONDS).until { !ttsInteractor.isInProcessOfSpeakingSims() }
     }
 
     @Test

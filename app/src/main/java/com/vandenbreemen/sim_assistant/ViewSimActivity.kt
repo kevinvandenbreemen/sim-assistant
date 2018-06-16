@@ -197,7 +197,7 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         findViewById<ProgressBar>(R.id.dictationProgress).visibility = visibility
     }
 
-    fun setHeadphonesInteractor(headphonesReactionInteractor: HeadphonesReactionInteractor){
+    override fun setHeadphonesInteractor(headphonesReactionInteractor: HeadphonesReactionInteractor) {
         this.headphonesInteractor = headphonesReactionInteractor
     }
 }

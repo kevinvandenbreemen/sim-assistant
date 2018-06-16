@@ -1,12 +1,14 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.viewsim
 
 import com.vandenbreemen.sim_assistant.api.sim.Sim
+import com.vandenbreemen.sim_assistant.mvp.headphones.HeadphonesReactionInteractor
 import com.vandenbreemen.sim_assistant.mvp.tts.SimDictationDetails
 import com.vandenbreemen.sim_assistant.mvp.tts.TTSInteractor
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimPresenter
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimView
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
+import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -303,6 +305,43 @@ class ViewSimPresenterImplTest{
 
         //  Assert
         verify(ttsInteractor).close()
+    }
+
+    @Test
+    fun shouldPauseDictationOnHeadphonesDisconnected() {
+        //  Arrange
+        val headphonesReactionInteractor: HeadphonesReactionInteractor = viewSimPresenter.getHeadphonsReactionInteractor()
+        `when`(ttsInteractor.isInProcessOfSpeakingSims()).thenReturn(true)
+
+        //  Act
+        headphonesReactionInteractor.onHeadphonesDisconnected()
+
+        //  Assert
+        verify(ttsInteractor).pause()
+        verify(viewSimView).setPauseDictationEnabled(false)
+        verify(viewSimView).setDictationProgressEnabled(false)
+        verify(viewSimView).setSimSelectorEnabled(false)
+        verify(viewSimView).setSpeakSimsEnabled(true)
+    }
+
+    @Test
+    fun shouldNotPauseAgainIfHeadphonesDisconnectedWhilePaused() {
+        //  Arrange
+        val headphonesReactionInteractor: HeadphonesReactionInteractor = viewSimPresenter.getHeadphonsReactionInteractor()
+        `when`(ttsInteractor.isInProcessOfSpeakingSims()).thenReturn(true)
+        `when`(ttsInteractor.isPaused()).thenReturn(true)
+
+        //  Act
+        headphonesReactionInteractor.onHeadphonesDisconnected()
+
+        //  Assert
+        verify(ttsInteractor, never()).pause()
+    }
+
+    @Test
+    fun shouldCreateTextToSpeechHeadphonesInteractor() {
+        val headphonesReactionInteractor: HeadphonesReactionInteractor = viewSimPresenter.getHeadphonsReactionInteractor()
+        assertEquals(TextToSpeechHeadphonesInteractor::class, headphonesReactionInteractor::class)
     }
 
 }

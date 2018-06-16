@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.vandenbreemen.sim_assistant.ViewSimActivity.Companion.PARM_SIMS
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.headphones.HeadphonesReactionInteractor
+import com.vandenbreemen.sim_assistant.mvp.impl.viewsim.TextToSpeechHeadphonesInteractor
 import com.vandenbreemen.sim_assistant.shadows.ShadowTTSInteractor
 import com.vandenbreemen.sim_assistant.shadows.spokenSim
 import junit.framework.TestCase.assertTrue
@@ -198,7 +199,27 @@ class ViewSimActivityTest{
                 .resume()
                 .get()
         assertNotNull("Headphone Interactor", activity.getHeadphonesInteractor())
+        assertEquals(
+                "Headphone Interactor",
+                TextToSpeechHeadphonesInteractor::class,
+                activity.getHeadphonesInteractor()!!::class
+        )
 
+    }
+
+    @Test
+    fun shouldGracefullyHandleHeadphoneDisconnectWhenNotDictating() {
+        val intent = Intent(RuntimeEnvironment.application, ViewSimActivity::class.java)
+        intent.putExtra(PARM_SIMS, arrayOf(sim))
+        val activity = buildActivity(ViewSimActivity::class.java, intent)
+                .create()
+                .resume()
+                .get()
+
+        val headphonesBroadcast = Intent()
+        headphonesBroadcast.putExtra("state", 0)
+        headphonesBroadcast.action = Intent.ACTION_HEADSET_PLUG
+        RuntimeEnvironment.systemContext.sendBroadcast(headphonesBroadcast)
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.viewsim
 
+import com.vandenbreemen.sim_assistant.mvp.headphones.HeadphonesReactionInteractor
 import com.vandenbreemen.sim_assistant.mvp.tts.TTSInteractor
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimModel
 import com.vandenbreemen.sim_assistant.mvp.viewsim.ViewSimPresenter
@@ -65,6 +66,10 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
         viewSimView.setSimSelectorEnabled(true)
     }
 
+    override fun getHeadphonsReactionInteractor(): HeadphonesReactionInteractor {
+        return TextToSpeechHeadphonesInteractor(this, ttsInteractor)
+    }
+
     override fun close() {
         ttsInteractor.close()
     }
@@ -82,6 +87,7 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
     }
 
     override fun start() {
+        viewSimView.setHeadphonesInteractor(getHeadphonsReactionInteractor())
         viewSimModel.getSims().forEach { sim->
             viewSimView.displaySim(sim)
         }

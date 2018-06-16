@@ -1,6 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.viewsim
 
 import com.vandenbreemen.sim_assistant.api.sim.Sim
+import com.vandenbreemen.sim_assistant.mvp.headphones.HeadphonesReactionInteractor
 
 interface ViewSimPresenter{
     fun start()
@@ -8,6 +9,7 @@ interface ViewSimPresenter{
     fun pause()
     fun seekTo(index: Int)
     fun close()
+    fun getHeadphonsReactionInteractor(): HeadphonesReactionInteractor
 }
 
 interface ViewSimModel{
@@ -26,4 +28,5 @@ interface ViewSimView{
     fun setSelections(simTitlesToDictationIndexes: List<Pair<String, Int>>)
     fun updateSelectedSim(currentSimTitle: String)
     fun setSimSelectorEnabled(enabled: Boolean)
+    fun setHeadphonesInteractor(headphonesReactionInteractor: HeadphonesReactionInteractor)
 }

@@ -10,5 +10,6 @@ interface TTSInteractor {
     fun isPaused(): Boolean
     fun seekTo(position: Int)
     fun close()
+    fun isInProcessOfSpeakingSims(): Boolean
 
 }

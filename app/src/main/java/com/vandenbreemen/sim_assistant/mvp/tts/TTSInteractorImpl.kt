@@ -37,6 +37,8 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
 
     val shouldExitNow = AtomicBoolean(false)
 
+    val isInTheProcessOfSpeakingSims = AtomicBoolean(false)
+
     val paused = AtomicBoolean(false)
 
     init {
@@ -94,6 +96,8 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
 
         val observable = Observable.create(ObservableOnSubscribe<Int> { emitter ->
 
+            isInTheProcessOfSpeakingSims.set(true)
+
             while (hasMoreStrings()) {
                 waitForTTSCompletion()
                 if(shouldExitNow.get()){
@@ -111,10 +115,15 @@ class TTSInteractorImpl(context: Context) : TTSInteractor {
             waitForTTSCompletion()
             indexOfCurrentStringBeingSpoken.set(-1)
 
+            isInTheProcessOfSpeakingSims.set(false)
             emitter.onComplete()
         }).subscribeOn(computation())
 
         return Pair<SimDictationDetails, Observable<Int>>(SimDictationDetails(stringsToSpeak!!.size, simToStartIndex), observable)
+    }
+
+    override fun isInProcessOfSpeakingSims(): Boolean {
+        return isInTheProcessOfSpeakingSims.get()
     }
 
     private fun doPause(): Boolean {
