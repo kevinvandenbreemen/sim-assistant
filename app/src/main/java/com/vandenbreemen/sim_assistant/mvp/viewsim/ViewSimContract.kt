@@ -10,6 +10,7 @@ interface ViewSimPresenter{
     fun seekTo(index: Int)
     fun close()
     fun getHeadphonsReactionInteractor(): HeadphonesReactionInteractor
+    fun setRepeat(repeat: Boolean)
 }
 
 interface ViewSimModel{

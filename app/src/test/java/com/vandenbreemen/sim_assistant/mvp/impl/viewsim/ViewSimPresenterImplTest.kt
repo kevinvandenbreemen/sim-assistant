@@ -43,7 +43,7 @@ class ViewSimPresenterImplTest{
     @Before
     fun setup(){
 
-        viewSimPresenter = ViewSimPresenterImpl(ViewSimModelImpl(arrayOf(sim1)),
+        viewSimPresenter = ViewSimPresenterImpl(ViewSimModelImpl(arrayOf(sim1)), DictationControlsImpl(),
                 viewSimView, ttsInteractor
                 )
 
@@ -61,6 +61,27 @@ class ViewSimPresenterImplTest{
 
         //  Assert
         verify(ttsInteractor).speakSims(listOf(sim1))
+    }
+
+    @Test
+    fun shouldProvideForRepeatDictateSims(){
+        //  Arrange
+        var cycleTimes =-1
+        `when`(viewSimView.updateProgress(0)).then {
+            cycleTimes++
+            println("Cycled")
+            if(cycleTimes == 2){
+                viewSimPresenter.setRepeat(false)
+            }
+        }
+        viewSimPresenter.setRepeat(true)
+
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        assertEquals("Play Twice", 2, cycleTimes)
+
     }
 
     @Test

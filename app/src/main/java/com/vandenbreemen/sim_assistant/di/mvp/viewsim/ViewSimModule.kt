@@ -2,6 +2,7 @@ package com.vandenbreemen.sim_assistant.di.mvp.viewsim
 
 import com.vandenbreemen.sim_assistant.ViewSimActivity
 import com.vandenbreemen.sim_assistant.api.sim.Sim
+import com.vandenbreemen.sim_assistant.mvp.impl.viewsim.DictationControlsImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.viewsim.ViewSimModelImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.viewsim.ViewSimPresenterImpl
 import com.vandenbreemen.sim_assistant.mvp.tts.TTSInteractor
@@ -18,6 +19,7 @@ class ViewSimModule {
 
         return ViewSimPresenterImpl(
                 ViewSimModelImpl(parcelableArray.map { item -> item as Sim }.toTypedArray()),
+                DictationControlsImpl(),
                 activity,
                 ttsInteractor
         )
