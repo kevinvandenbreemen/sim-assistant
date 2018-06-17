@@ -39,23 +39,12 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
                     .subscribe(
                             {
                                 viewSimView.updateProgress(it)
-
-                                var idx = it
-                                var foundNearestUtteranceIndexToCorrespondingSim = false
-                                while (idx > -1 && !foundNearestUtteranceIndexToCorrespondingSim) {
-                                    positionToSimTitle[idx]?.let { simTitle ->
-                                        viewSimView.updateSelectedSim(simTitle)
-                                        foundNearestUtteranceIndexToCorrespondingSim = true
-                                    }
-                                    idx --
-                                }
+                                updateSelectedSimOnView(it, positionToSimTitle)
 
                             },
                             {},
                             {
-                                viewSimView.setSpeakSimsEnabled(true)
-                                viewSimView.setPauseDictationEnabled(false)
-                                viewSimView.setDictationProgressVisible(false)
+                                updateViewOnDictationComplete()
                             })
         }
 
@@ -64,6 +53,24 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val v
         viewSimView.setDictationProgressVisible(true)
         viewSimView.setDictationProgressEnabled(true)
         viewSimView.setSimSelectorEnabled(true)
+    }
+
+    private fun updateViewOnDictationComplete() {
+        viewSimView.setSpeakSimsEnabled(true)
+        viewSimView.setPauseDictationEnabled(false)
+        viewSimView.setDictationProgressVisible(false)
+    }
+
+    private fun updateSelectedSimOnView(it: Int, positionToSimTitle: Map<Int, String>) {
+        var idx = it
+        var foundNearestUtteranceIndexToCorrespondingSim = false
+        while (idx > -1 && !foundNearestUtteranceIndexToCorrespondingSim) {
+            positionToSimTitle[idx]?.let { simTitle ->
+                viewSimView.updateSelectedSim(simTitle)
+                foundNearestUtteranceIndexToCorrespondingSim = true
+            }
+            idx--
+        }
     }
 
     override fun getHeadphonsReactionInteractor(): HeadphonesReactionInteractor {
