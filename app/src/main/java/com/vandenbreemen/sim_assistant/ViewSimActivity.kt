@@ -193,7 +193,7 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         container.addView(simContent)
     }
 
-    override fun setPauseDictationEnabled(enabled: Boolean) {
+    override fun setDictationControlsEnabled(enabled: Boolean) {
         if (enabled) {
             findViewById<FloatingActionButton>(R.id.pause).visibility = VISIBLE
         } else {

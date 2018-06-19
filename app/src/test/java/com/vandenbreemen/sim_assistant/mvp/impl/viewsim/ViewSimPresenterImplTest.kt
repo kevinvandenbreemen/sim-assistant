@@ -153,16 +153,16 @@ class ViewSimPresenterImplTest{
 
         //  Assert
         verify(viewSimView).setSpeakSimsEnabled(true)
-        verify(viewSimView).setPauseDictationEnabled(false)
+        verify(viewSimView).setDictationControlsEnabled(false)
     }
 
     @Test
-    fun shouldEnablePauseButtonOnceDictationBegins() {
+    fun shouldEnableDictationControlsOnceDictationBegins() {
         //  Act
         viewSimPresenter.speakSims()
 
         //  Assert
-        verify(viewSimView).setPauseDictationEnabled(true)
+        verify(viewSimView).setDictationControlsEnabled(true)
     }
 
     @Test
@@ -188,7 +188,7 @@ class ViewSimPresenterImplTest{
     }
 
     @Test
-    fun shouldDisablePauseButtonWhenPaused() {
+    fun shouldDisableDictationControlsWhenPaused() {
         //  Arrange
         `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(Pair(SimDictationDetails(1, mapOf(Pair<Sim,Int>(sim1, 0))), Observable.create(ObservableOnSubscribe<Int> { })))
         viewSimPresenter.speakSims()
@@ -197,7 +197,7 @@ class ViewSimPresenterImplTest{
         viewSimPresenter.pause()
 
         //  Assert
-        verify(viewSimView).setPauseDictationEnabled(false)
+        verify(viewSimView).setDictationControlsEnabled(false)
     }
 
     @Test
@@ -360,7 +360,7 @@ class ViewSimPresenterImplTest{
 
         //  Assert
         verify(ttsInteractor).pause()
-        verify(viewSimView).setPauseDictationEnabled(false)
+        verify(viewSimView).setDictationControlsEnabled(false)
         verify(viewSimView).setDictationProgressEnabled(false)
         verify(viewSimView).setSimSelectorEnabled(false)
         verify(viewSimView).setSpeakSimsEnabled(true)

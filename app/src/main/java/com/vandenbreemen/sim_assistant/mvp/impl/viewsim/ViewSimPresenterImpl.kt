@@ -62,7 +62,7 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val d
                             })
         }
 
-        viewSimView.setPauseDictationEnabled(true)
+        viewSimView.setDictationControlsEnabled(true)
         viewSimView.setSpeakSimsEnabled(false)
         viewSimView.setDictationProgressVisible(true)
         viewSimView.setDictationProgressEnabled(true)
@@ -71,7 +71,7 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val d
 
     private fun updateViewOnDictationComplete() {
         viewSimView.setSpeakSimsEnabled(true)
-        viewSimView.setPauseDictationEnabled(false)
+        viewSimView.setDictationControlsEnabled(false)
         viewSimView.setDictationProgressVisible(false)
     }
 
@@ -101,7 +101,7 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val d
 
     override fun pause() {
         ttsInteractor.pause()
-        viewSimView.setPauseDictationEnabled(false)
+        viewSimView.setDictationControlsEnabled(false)
         viewSimView.setSpeakSimsEnabled(true)
         viewSimView.setDictationProgressEnabled(false)
         viewSimView.setSimSelectorEnabled(false)
