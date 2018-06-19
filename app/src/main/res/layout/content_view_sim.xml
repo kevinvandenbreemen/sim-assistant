@@ -80,7 +80,7 @@
         tools:visibility="visible" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/toggleRepeatDictation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -93,5 +93,5 @@
         app:layout_constraintStart_toEndOf="@+id/pause"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.96"
-        app:srcCompat="@drawable/repeat" />
+        app:srcCompat="@drawable/repeat_inactive" />
 </android.support.constraint.ConstraintLayout>

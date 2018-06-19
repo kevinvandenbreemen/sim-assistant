@@ -10,7 +10,7 @@ interface ViewSimPresenter{
     fun seekTo(index: Int)
     fun close()
     fun getHeadphonsReactionInteractor(): HeadphonesReactionInteractor
-    fun setRepeat(repeat: Boolean)
+    fun setRepeat()
 }
 
 interface ViewSimModel{
@@ -30,4 +30,6 @@ interface ViewSimView{
     fun updateSelectedSim(currentSimTitle: String)
     fun setSimSelectorEnabled(enabled: Boolean)
     fun setHeadphonesInteractor(headphonesReactionInteractor: HeadphonesReactionInteractor)
+    fun toggleRepeatDictationOn()
+    fun toggleRepeatDictationOff()
 }

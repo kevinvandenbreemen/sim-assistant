@@ -71,10 +71,10 @@ class ViewSimPresenterImplTest{
             cycleTimes++
             println("Cycled")
             if(cycleTimes == 2){
-                viewSimPresenter.setRepeat(false)
+                viewSimPresenter.setRepeat()
             }
         }
-        viewSimPresenter.setRepeat(true)
+        viewSimPresenter.setRepeat()
 
         //  Act
         viewSimPresenter.speakSims()
@@ -82,6 +82,27 @@ class ViewSimPresenterImplTest{
         //  Assert
         assertEquals("Play Twice", 2, cycleTimes)
 
+    }
+
+    @Test
+    fun shouldSetRepeatToActiveWhenRepeatToggledOn() {
+        //  Act
+        viewSimPresenter.setRepeat()
+
+        //  Assert
+        verify(viewSimView).toggleRepeatDictationOn()
+        verify(viewSimView, never()).toggleRepeatDictationOff()
+    }
+
+    @Test
+    fun shouldSetRepeatToOffWhenRepeatToggledOff() {
+        //  Act
+        viewSimPresenter.setRepeat()
+        viewSimPresenter.setRepeat()
+
+        //  Assert
+        verify(viewSimView).toggleRepeatDictationOn()
+        verify(viewSimView).toggleRepeatDictationOff()
     }
 
     @Test

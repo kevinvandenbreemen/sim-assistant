@@ -48,6 +48,16 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
         return this.headphonesInteractor
     }
 
+    override fun toggleRepeatDictationOn() {
+        findViewById<FloatingActionButton>(R.id.toggleRepeatDictation)
+                .setImageDrawable(resources.getDrawable(R.drawable.repeat_active, theme))
+    }
+
+    override fun toggleRepeatDictationOff() {
+        findViewById<FloatingActionButton>(R.id.toggleRepeatDictation)
+                .setImageDrawable(resources.getDrawable(R.drawable.repeat_inactive, theme))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -78,6 +88,10 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
 
         findViewById<FloatingActionButton>(R.id.pause).setOnClickListener(View.OnClickListener { v ->
             presenter.pause()
+        })
+
+        findViewById<FloatingActionButton>(R.id.toggleRepeatDictation).setOnClickListener(View.OnClickListener { v ->
+            presenter.setRepeat()
         })
 
         listenForHeadphoneConnectivity()

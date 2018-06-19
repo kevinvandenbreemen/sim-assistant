@@ -15,8 +15,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
  * @author kevin
  */
 class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val dictationControlsModel: DictationControlsModel, private val viewSimView: ViewSimView, val ttsInteractor: TTSInteractor):ViewSimPresenter {
-    override fun setRepeat(repeat: Boolean) {
-        dictationControlsModel.repeat = repeat
+    override fun setRepeat() {
+        dictationControlsModel.repeat = !dictationControlsModel.repeat
+        if (dictationControlsModel.repeat) {
+            viewSimView.toggleRepeatDictationOn()
+        } else {
+            viewSimView.toggleRepeatDictationOff()
+        }
     }
 
     override fun speakSims() {
