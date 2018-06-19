@@ -3,6 +3,7 @@ package com.vandenbreemen.sim_assistant.mvp.impl.post.google
 import com.vandenbreemen.sim_assistant.api.google.GoogleGroupsApi
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsPost
+import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GooglePostCacheInteractor.Companion.NO_CACHE_HIT
 import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
@@ -34,23 +35,15 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
 
                     var postedSim:Sim
 
-                    if(GooglePostCacheInteractor.NO_CACHE_HIT == cachedSim){
-                        postedSim = Sim(
-                                googleGroupPost.title!!.trim(),
-                                googleGroupPost.author!!.trim(),
-                                SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time,
-                                getPostBody(googleGroupPost)
-                        )
+                    postedSim = Sim(
+                            googleGroupPost.title!!.trim(),
+                            googleGroupPost.author!!.trim(),
+                            SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time,
+                            if (cachedSim == NO_CACHE_HIT) getPostBody(googleGroupPost) else cachedSim.content
+                    )
 
+                    if (cachedSim == NO_CACHE_HIT) {
                         googlePostCacheInteractor.cacheSim(urlKey, postedSim.content)
-                    }
-                    else{
-                        postedSim = Sim(
-                                googleGroupPost.title!!.trim(),
-                                googleGroupPost.author!!.trim(),
-                                SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time,
-                                cachedSim.content
-                        )
                     }
 
                     println("Emitting the sim ${postedSim.title}")

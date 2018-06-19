@@ -14,6 +14,7 @@ import java.util.function.Consumer
  * <h2>Other Details</h2>
  * @author kevin
  */
+@Deprecated(message = "This is a stupid class and should be a repository.")
 class GooglePostCacheInteractor(application: SimAssistantApp) : DatabaseInteractor(application) {
 
     companion object {
