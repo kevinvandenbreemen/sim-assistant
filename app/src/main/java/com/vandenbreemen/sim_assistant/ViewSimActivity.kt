@@ -194,11 +194,11 @@ class ViewSimActivity : AppCompatActivity(), ViewSimView {
     }
 
     override fun setDictationControlsEnabled(enabled: Boolean) {
-        if (enabled) {
-            findViewById<FloatingActionButton>(R.id.pause).visibility = VISIBLE
-        } else {
-            findViewById<FloatingActionButton>(R.id.pause).visibility = GONE
-        }
+
+        val visibility = if (enabled) VISIBLE else GONE
+
+        findViewById<FloatingActionButton>(R.id.pause).visibility = visibility
+        findViewById<FloatingActionButton>(R.id.toggleRepeatDictation).visibility = visibility
     }
 
     override fun setSpeakSimsEnabled(enabled: Boolean) {

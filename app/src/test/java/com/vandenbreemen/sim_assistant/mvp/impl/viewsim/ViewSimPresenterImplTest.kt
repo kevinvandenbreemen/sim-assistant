@@ -341,6 +341,16 @@ class ViewSimPresenterImplTest{
     }
 
     @Test
+    fun shouldTellViewToHideSelectorWhenDoneSpeaking() {
+
+        //  Act
+        viewSimPresenter.speakSims()
+
+        //  Assert
+        verify(viewSimView).setSimSelectorEnabled(false)
+    }
+
+    @Test
     fun shouldProvideClose(){
         //  Act
         viewSimPresenter.close()

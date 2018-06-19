@@ -73,6 +73,7 @@ class ViewSimPresenterImpl(private val viewSimModel: ViewSimModel, private val d
         viewSimView.setSpeakSimsEnabled(true)
         viewSimView.setDictationControlsEnabled(false)
         viewSimView.setDictationProgressVisible(false)
+        viewSimView.setSimSelectorEnabled(false)
     }
 
     private fun updateSelectedSimOnView(it: Int, positionToSimTitle: Map<Int, String>) {
