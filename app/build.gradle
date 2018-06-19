@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'io.objectbox'
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -46,6 +48,7 @@ project.ext {
     baristaVersion = "2.4.0"
     retrofitVersion = "2.3.0"
     supportLibV7Version = "27.1.1"
+    objectboxVersion = '1.5.0'
 }
 
 dependencies {
@@ -60,6 +63,8 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     kapt "android.arch.persistence.room:compiler:$room_version"
+
+    //  ObjectBox
 
     //  Dagger
     implementation "com.google.dagger:dagger:$daggerVersion"
