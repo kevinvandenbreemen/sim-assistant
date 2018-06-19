@@ -33,9 +33,7 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
 
                     val cachedSim = googlePostCacheInteractor.retrieve(urlKey)
 
-                    var postedSim:Sim
-
-                    postedSim = Sim(
+                    val postedSim = Sim(
                             googleGroupPost.title!!.trim(),
                             googleGroupPost.author!!.trim(),
                             SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time,
@@ -46,9 +44,7 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
                         googlePostCacheInteractor.cacheSim(urlKey, postedSim.content)
                     }
 
-                    println("Emitting the sim ${postedSim.title}")
                     observableEmitter.onNext(postedSim)
-
 
                 }
                 observableEmitter.onComplete()
