@@ -10,8 +10,10 @@ import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenPresenterIm
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.UserSettingsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GooglePostCacheInteractor
 import com.vandenbreemen.sim_assistant.mvp.impl.post.simlist.SimListPresenterProviderImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.UserSettingsInteractor
+import com.vandenbreemen.sim_assistant.mvp.usersettings.UserSettingsRepository
 import dagger.Module
 import dagger.Provides
 
@@ -19,8 +21,8 @@ import dagger.Provides
 class MainScreenModule {
 
     @Provides
-    fun providesMainScreenPresenter(activity:MainActivity):MainScreenPresenter{
-        return MainScreenPresenterImpl(MainScreenModelImpl(UserSettingsInteractorImpl(activity.application as SimAssistantApp),
+    fun providesMainScreenPresenter(activity: MainActivity, userSettingsRepository: UserSettingsRepository): MainScreenPresenter {
+        return MainScreenPresenterImpl(MainScreenModelImpl(UserSettingsInteractorImpl(userSettingsRepository),
                 GoogleGroupsInteractorImpl(activity.application as SimAssistantApp)
                 ),
                 activity )
@@ -51,8 +53,13 @@ class MainScreenModule {
     }
 
     @Provides
-    fun providesUserSettingsInteractor(activity: MainActivity):UserSettingsInteractor{
-        return UserSettingsInteractorImpl(activity.application as SimAssistantApp)
+    fun providesUserSettingsRepository(activity: MainActivity): UserSettingsRepository {
+        return UserSettingsRepositoryImpl(activity.application as SimAssistantApp)
+    }
+
+    @Provides
+    fun providesUserSettingsInteractor(userSettingsRepository: UserSettingsRepository): UserSettingsInteractor {
+        return UserSettingsInteractorImpl(userSettingsRepository)
     }
 
 }

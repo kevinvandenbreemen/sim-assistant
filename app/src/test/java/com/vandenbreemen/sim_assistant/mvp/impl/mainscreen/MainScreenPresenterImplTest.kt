@@ -2,6 +2,7 @@ package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsInteractorImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenModel
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
@@ -48,7 +49,7 @@ class MainScreenPresenterImplTest{
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
 
         mainScreenPresenter = MainScreenPresenterImpl(
-                MainScreenModelImpl(UserSettingsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp),
+                MainScreenModelImpl(UserSettingsInteractorImpl(UserSettingsRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)),
                         GoogleGroupsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)
                         ),
                 view

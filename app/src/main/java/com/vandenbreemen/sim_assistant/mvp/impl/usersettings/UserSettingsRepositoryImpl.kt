@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers.io
 
 class UserSettingsRepositoryImpl(private val application: SimAssistantApp) : UserSettingsRepository {
     override fun getUserSettings(): Single<UserSettings> {
-        val objectBox = application.getBoxStore().boxFor(UserSettings::class.java)
+        val objectBox = application.boxStore.boxFor(UserSettings::class.java)
 
         return Single.create(SingleOnSubscribe<UserSettings> { emitter ->
             if (objectBox.all.isEmpty()) {
@@ -23,7 +23,7 @@ class UserSettingsRepositoryImpl(private val application: SimAssistantApp) : Use
     }
 
     override fun updateUserSettings(updatedSettings: UserSettings): Completable {
-        val objectBox = application.getBoxStore().boxFor(UserSettings::class.java)
+        val objectBox = application.boxStore.boxFor(UserSettings::class.java)
         return Completable.create(CompletableOnSubscribe {
             objectBox.put(updatedSettings)
             it.onComplete()

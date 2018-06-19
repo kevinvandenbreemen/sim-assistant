@@ -8,6 +8,7 @@ import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenModelImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenPresenterImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.UserSettingsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GooglePostCacheInteractor
+import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
@@ -80,7 +81,7 @@ class SimListPresenterProviderImplTest{
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
         simListPresenterProvider = SimListPresenterProviderImpl(
                 app,
-                UserSettingsInteractorImpl(app),
+                UserSettingsInteractorImpl(UserSettingsRepositoryImpl(app)),
                 GoogleGroupsInteractorImpl(app),
                 GooglePostCacheInteractor(app)
         )
@@ -90,7 +91,8 @@ class SimListPresenterProviderImplTest{
     fun shouldGeneratePresenterForGoogleGroup(){
 
         val mainScreenPresenter = MainScreenPresenterImpl(
-                MainScreenModelImpl(UserSettingsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp),
+                MainScreenModelImpl(UserSettingsInteractorImpl(
+                        UserSettingsRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)),
                         GoogleGroupsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)
                 ),
                 mock(MainScreenView::class.java)

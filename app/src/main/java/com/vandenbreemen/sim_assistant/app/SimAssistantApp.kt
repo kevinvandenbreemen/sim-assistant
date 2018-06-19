@@ -20,22 +20,17 @@ open class SimAssistantApp : Application(), HasActivityInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
-    private lateinit var boxStore: BoxStore
+    val boxStore: BoxStore by lazy {
+        Log.d(TAG, "Initializing ObjectBox...")
+        MyObjectBox.builder().androidContext(this).build()
+    }
 
     open fun isInUnitTest(): Boolean {
         return false
     }
 
-    fun getBoxStore(): BoxStore {
-        return this.boxStore
-    }
-
     override fun onCreate() {
         super.onCreate()
-
-        Log.d(TAG, "Initializing ObjectBox...")
-        this.boxStore = MyObjectBox.builder().androidContext(this).build()
-        Log.d(TAG, "Succesfully initialized ObjectBox")
 
         DaggerAppComponent.builder()
                 .application(this)

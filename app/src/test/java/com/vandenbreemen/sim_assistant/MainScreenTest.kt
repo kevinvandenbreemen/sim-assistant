@@ -1,11 +1,10 @@
 package com.vandenbreemen.sim_assistant
 
-import android.arch.persistence.room.Room
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import com.vandenbreemen.sim_assistant.data.AppDatabase
-import com.vandenbreemen.sim_assistant.data.DATABASE_NAME
+import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
@@ -71,12 +70,7 @@ class MainScreenFunctionalTest {
         mainActivity.findViewById<EditText>(R.id.googleGroupName).setText("sb118-apollo")
         mainActivity.findViewById<Button>(R.id.ok).performClick()
 
-        val database = Room.databaseBuilder(RuntimeEnvironment.application.applicationContext,
-                AppDatabase::class.java, DATABASE_NAME)
-                .allowMainThreadQueries()
-                .build()
-
-        val userSettings = database.dao().getUserSettings()
+        val userSettings = UserSettingsRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp).getUserSettings().blockingGet()
 
         assertEquals("Data source", SimSource.GOOGLE_GROUP.getId(), userSettings!!.dataSource)
 
