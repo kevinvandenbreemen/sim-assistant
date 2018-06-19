@@ -4,11 +4,11 @@ import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.migration.Migration
-import com.vandenbreemen.sim_assistant.api.sim.CachedSim
+import com.vandenbreemen.sim_assistant.api.sim.CachedGoogleGroupsPost
 
 val DATABASE_NAME = "sims-database"
 
-@Database(entities = [UserSettings::class, GoogleGroup::class, CachedSim::class], version = 3)
+@Database(entities = [UserSettings::class, GoogleGroup::class, CachedGoogleGroupsPost::class], version = 3)
 abstract class AppDatabase : RoomDatabase(){
 
     companion object {

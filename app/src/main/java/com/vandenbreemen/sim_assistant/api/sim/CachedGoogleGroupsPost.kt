@@ -11,7 +11,7 @@ import android.arch.persistence.room.PrimaryKey
  * @author kevin
  */
 @Entity(tableName = "cached_sim")
-data class CachedSim(
+data class CachedGoogleGroupsPost(
         @PrimaryKey(autoGenerate = false)
         @ColumnInfo(name = "key_url")
         val key:String,
