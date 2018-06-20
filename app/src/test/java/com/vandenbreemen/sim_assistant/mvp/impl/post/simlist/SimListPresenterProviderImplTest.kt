@@ -3,11 +3,11 @@ package com.vandenbreemen.sim_assistant.mvp.impl.post.simlist
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsCachedPostRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenModelImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenPresenterImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.UserSettingsInteractorImpl
-import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GooglePostCacheInteractor
 import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
@@ -83,7 +83,7 @@ class SimListPresenterProviderImplTest{
                 app,
                 UserSettingsInteractorImpl(UserSettingsRepositoryImpl(app)),
                 GoogleGroupsInteractorImpl(app),
-                GooglePostCacheInteractor(app)
+                GoogleGroupsCachedPostRepositoryImpl(app)
         )
     }
 

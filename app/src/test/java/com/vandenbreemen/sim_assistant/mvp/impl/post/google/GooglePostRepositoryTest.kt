@@ -1,6 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.post.google
 
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsCachedPostRepositoryImpl
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
 import junit.framework.TestCase.assertFalse
@@ -25,7 +26,7 @@ class GooglePostRepositoryTest {
     @Test
     fun shouldRetrieveListOfPosts() {
         googlePostRepository = GooglePostRepository("sb118-constitution", GooglePostContentLoader(),
-                GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
+                GoogleGroupsCachedPostRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
                 )
 
         googlePostRepository.getPosts(1).firstElement().subscribe({ postedSim->
@@ -37,7 +38,7 @@ class GooglePostRepositoryTest {
     @Test
     fun shouldNotIncludeNewLinesInSimAuthorOrTitle(){
         googlePostRepository = GooglePostRepository("sb118-constitution", GooglePostContentLoader(),
-                GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
+                GoogleGroupsCachedPostRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
         )
         val postedSim = googlePostRepository.getPosts(1).blockingFirst()
         assertFalse("Sim Author newline", postedSim.author.contains("\n"))
@@ -58,7 +59,7 @@ class GooglePostRepositoryTest {
         }
 
         googlePostRepository = GooglePostRepository("sb118-constitution", contentLoader,
-                GooglePostCacheInteractor(RuntimeEnvironment.application as SimAssistantApp)
+                GoogleGroupsCachedPostRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
                 )
 
         var postedSim = googlePostRepository.getPosts(1).blockingFirst()

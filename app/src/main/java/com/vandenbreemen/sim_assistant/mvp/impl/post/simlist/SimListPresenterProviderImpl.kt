@@ -2,8 +2,8 @@ package com.vandenbreemen.sim_assistant.mvp.impl.post.simlist
 
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsCachedPostRepository
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsInteractor
-import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GooglePostCacheInteractor
 import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GooglePostContentLoader
 import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GooglePostRepository
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
@@ -23,8 +23,8 @@ import io.reactivex.schedulers.Schedulers.io
 class SimListPresenterProviderImpl(
         val application:SimAssistantApp,
         private val userSettingsInteractor: UserSettingsInteractor,
-                        private val googleGroupsInteractor: GoogleGroupsInteractor,
-                        private val googleGroupCacheInteractor: GooglePostCacheInteractor
+        private val googleGroupsInteractor: GoogleGroupsInteractor,
+        private val googleGroupsCachedPostRepository: GoogleGroupsCachedPostRepository
                                    ):SimListPresenterProvider {
     override fun getSimListPresenter(): Single<SimListPresenter> {
         return userSettingsInteractor.getUserSettings().subscribeOn(io()).flatMap<SimListPresenter> { userSettings->
@@ -34,7 +34,7 @@ class SimListPresenterProviderImpl(
 
                 if(SimSource.GOOGLE_GROUP.getId() == userSettings.dataSource){
                     val groups = googleGroupsInteractor.getGoogleGroups().blockingGet()
-                    repository = GooglePostRepository(groups[0].groupName, GooglePostContentLoader(), googleGroupCacheInteractor)
+                    repository = GooglePostRepository(groups[0].groupName, GooglePostContentLoader(), googleGroupsCachedPostRepository)
                 }
 
                 repository?.let {
