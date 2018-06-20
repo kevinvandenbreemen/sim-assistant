@@ -18,7 +18,7 @@ import java.util.function.Consumer
 class GooglePostCacheInteractor(application: SimAssistantApp) : DatabaseInteractor(application) {
 
     companion object {
-        val NO_CACHE_HIT = CachedGoogleGroupsPost("", "")
+        val NO_CACHE_HIT = CachedGoogleGroupsPost("", 0L, "")
     }
 
     fun retrieve(simUrl: String): CachedGoogleGroupsPost {
@@ -39,7 +39,7 @@ class GooglePostCacheInteractor(application: SimAssistantApp) : DatabaseInteract
     fun cacheSim(simUrl: String, simContent: String){
         Completable.create(CompletableOnSubscribe {emitter->
             doWithDatabase(Consumer { dao->
-                dao.storeCachedSim(CachedGoogleGroupsPost(simUrl, simContent))
+                dao.storeCachedSim(CachedGoogleGroupsPost(simUrl, 0L, simContent))
                 emitter.onComplete()
             })
         }).subscribeOn(io()).subscribe()

@@ -3,7 +3,7 @@ package com.vandenbreemen.sim_assistant.app
 import android.app.Activity
 import android.app.Application
 import android.util.Log
-import com.vandenbreemen.sim_assistant.data.MyObjectBox
+import com.vandenbreemen.sim_assistant.MyObjectBox
 import com.vandenbreemen.sim_assistant.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
