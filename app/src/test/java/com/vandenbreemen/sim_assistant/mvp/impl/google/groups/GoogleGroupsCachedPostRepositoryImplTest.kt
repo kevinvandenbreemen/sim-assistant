@@ -43,4 +43,10 @@ class GoogleGroupsCachedPostRepositoryImplTest {
 
     }
 
+    @Test
+    fun shouldMissOnNoSuchKey() {
+        googleGroupsCachedPostRepository.cacheSim(SIM_URL, "There once was a man\nnamed Brian")
+        assertNull("Incorrect key", googleGroupsCachedPostRepository.retrieve(SIM_URL + "bb"))
+    }
+
 }
