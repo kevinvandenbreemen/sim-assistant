@@ -2,6 +2,7 @@ package com.com.vandenbreemen.sim_assistant.mvp.impl.google.groups
 
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsInteractor
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsInteractorImpl
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
@@ -27,7 +28,7 @@ class GoogleGroupsInteractorImplTest {
     @Before
     fun setup(){
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
-        googleGroupsInteractor = GoogleGroupsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)
+        googleGroupsInteractor = GoogleGroupsInteractorImpl(GoogleGroupRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp))
     }
 
     @Test

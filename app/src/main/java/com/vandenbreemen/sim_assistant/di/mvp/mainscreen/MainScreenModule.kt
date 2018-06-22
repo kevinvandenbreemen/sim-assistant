@@ -3,8 +3,10 @@ package com.vandenbreemen.sim_assistant.di.mvp.mainscreen
 import com.vandenbreemen.sim_assistant.MainActivity
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupRepository
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsCachedPostRepository
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsInteractor
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsCachedPostRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenModelImpl
@@ -22,9 +24,9 @@ import dagger.Provides
 class MainScreenModule {
 
     @Provides
-    fun providesMainScreenPresenter(activity: MainActivity, userSettingsRepository: UserSettingsRepository): MainScreenPresenter {
+    fun providesMainScreenPresenter(activity: MainActivity, userSettingsRepository: UserSettingsRepository, googleGroupRepository: GoogleGroupRepository): MainScreenPresenter {
         return MainScreenPresenterImpl(MainScreenModelImpl(UserSettingsInteractorImpl(userSettingsRepository),
-                GoogleGroupsInteractorImpl(activity.application as SimAssistantApp)
+                GoogleGroupsInteractorImpl(googleGroupRepository)
                 ),
                 activity )
     }
@@ -44,8 +46,8 @@ class MainScreenModule {
     }
 
     @Provides
-    fun providesGoogleGroupsInteractor(activity:MainActivity):GoogleGroupsInteractor{
-        return GoogleGroupsInteractorImpl(activity.application as SimAssistantApp)
+    fun providesGoogleGroupsInteractor(googleGroupRepository: GoogleGroupRepository): GoogleGroupsInteractor {
+        return GoogleGroupsInteractorImpl(googleGroupRepository)
     }
 
     @Provides
@@ -56,6 +58,11 @@ class MainScreenModule {
     @Provides
     fun providesUserSettingsRepository(activity: MainActivity): UserSettingsRepository {
         return UserSettingsRepositoryImpl(activity.application as SimAssistantApp)
+    }
+
+    @Provides
+    fun providesGoogleGroupsRepository(activity: MainActivity): GoogleGroupRepository {
+        return GoogleGroupRepositoryImpl(activity.application as SimAssistantApp)
     }
 
     @Provides

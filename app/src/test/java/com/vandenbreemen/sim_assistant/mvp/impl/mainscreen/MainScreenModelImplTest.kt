@@ -1,6 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenModel
@@ -26,7 +27,7 @@ class MainScreenModelImplTest {
         ShadowLog.stream = System.out
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
         mainScreenModel = MainScreenModelImpl(UserSettingsInteractorImpl(UserSettingsRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)),
-                GoogleGroupsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)
+                GoogleGroupsInteractorImpl(GoogleGroupRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp))
                 )
     }
 

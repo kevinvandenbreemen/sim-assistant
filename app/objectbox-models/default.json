@@ -38,9 +38,25 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "3:8823322171640775453",
+      "lastPropertyId": "2:607953431770006760",
+      "name": "GoogleGroup",
+      "properties": [
+        {
+          "id": "1:717299508940014922",
+          "name": "id"
+        },
+        {
+          "id": "2:607953431770006760",
+          "name": "groupName"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "2:3321217650158244028",
+  "lastEntityId": "3:8823322171640775453",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

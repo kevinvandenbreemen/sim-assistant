@@ -3,6 +3,7 @@ package com.vandenbreemen.sim_assistant.mvp.impl.post.simlist
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsCachedPostRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenModelImpl
@@ -82,7 +83,7 @@ class SimListPresenterProviderImplTest{
         simListPresenterProvider = SimListPresenterProviderImpl(
                 app,
                 UserSettingsInteractorImpl(UserSettingsRepositoryImpl(app)),
-                GoogleGroupsInteractorImpl(app),
+                GoogleGroupsInteractorImpl(GoogleGroupRepositoryImpl(app)),
                 GoogleGroupsCachedPostRepositoryImpl(app)
         )
     }
@@ -93,7 +94,7 @@ class SimListPresenterProviderImplTest{
         val mainScreenPresenter = MainScreenPresenterImpl(
                 MainScreenModelImpl(UserSettingsInteractorImpl(
                         UserSettingsRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)),
-                        GoogleGroupsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)
+                        GoogleGroupsInteractorImpl(GoogleGroupRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp))
                 ),
                 mock(MainScreenView::class.java)
         )
