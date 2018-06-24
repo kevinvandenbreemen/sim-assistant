@@ -2,6 +2,7 @@ package com.vandenbreemen.sim_assistant.mvp.impl.post.google
 
 import com.vandenbreemen.sim_assistant.api.google.GoogleGroupsApi
 import com.vandenbreemen.sim_assistant.api.sim.Sim
+import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsCachedPostRepository
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsPost
 import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
 import io.reactivex.Observable
@@ -15,7 +16,7 @@ import java.text.SimpleDateFormat
 const val GOOGLE_GROUPS_BASE_URL = "https://groups.google.com/"
 
 class GooglePostRepository(val groupName: String, private val contentLoader: GooglePostContentLoader,
-                           private val googlePostCacheInteractor: GooglePostCacheInteractor
+                           private val googleGroupsCachedPostRepository: GoogleGroupsCachedPostRepository
                            ) : PostRepository {
 
     val googleGroupsApi = Retrofit.Builder().baseUrl(GOOGLE_GROUPS_BASE_URL)
@@ -30,32 +31,20 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
 
                     val urlKey = googleGroupPost.link!!
 
-                    val cachedSim = googlePostCacheInteractor.retrieve(urlKey)
+                    val cachedSim = googleGroupsCachedPostRepository.retrieve(urlKey)
 
-                    var postedSim:Sim
+                    val postedSim = Sim(
+                            googleGroupPost.title!!.trim(),
+                            googleGroupPost.author!!.trim(),
+                            SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time,
+                            if (cachedSim == null) getPostBody(googleGroupPost) else cachedSim!!.content
+                    )
 
-                    if(GooglePostCacheInteractor.NO_CACHE_HIT == cachedSim){
-                        postedSim = Sim(
-                                googleGroupPost.title!!.trim(),
-                                googleGroupPost.author!!.trim(),
-                                SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time,
-                                getPostBody(googleGroupPost)
-                        )
-
-                        googlePostCacheInteractor.cacheSim(urlKey, postedSim.content)
-                    }
-                    else{
-                        postedSim = Sim(
-                                googleGroupPost.title!!.trim(),
-                                googleGroupPost.author!!.trim(),
-                                SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time,
-                                cachedSim.content
-                        )
+                    if (cachedSim == null) {
+                        googleGroupsCachedPostRepository.cacheSim(urlKey, postedSim.content)
                     }
 
-                    println("Emitting the sim ${postedSim.title}")
                     observableEmitter.onNext(postedSim)
-
 
                 }
                 observableEmitter.onComplete()

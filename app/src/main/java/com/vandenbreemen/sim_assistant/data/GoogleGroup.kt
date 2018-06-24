@@ -1,13 +1,11 @@
 package com.vandenbreemen.sim_assistant.data
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
-import android.support.annotation.NonNull
+import io.objectbox.annotation.Id
 
-@Entity(tableName="google_group")
+@io.objectbox.annotation.Entity
 data class GoogleGroup(
-        @PrimaryKey(autoGenerate = false)
+        @Id
+        var id: Long,
         val groupName: String) {
 
 }

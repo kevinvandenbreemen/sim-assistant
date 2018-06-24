@@ -3,11 +3,13 @@ package com.vandenbreemen.sim_assistant.mvp.impl.post.simlist
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupRepositoryImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsCachedPostRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenModelImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenPresenterImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.UserSettingsInteractorImpl
-import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GooglePostCacheInteractor
+import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
@@ -80,9 +82,9 @@ class SimListPresenterProviderImplTest{
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
         simListPresenterProvider = SimListPresenterProviderImpl(
                 app,
-                UserSettingsInteractorImpl(app),
-                GoogleGroupsInteractorImpl(app),
-                GooglePostCacheInteractor(app)
+                UserSettingsInteractorImpl(UserSettingsRepositoryImpl(app)),
+                GoogleGroupsInteractorImpl(GoogleGroupRepositoryImpl(app)),
+                GoogleGroupsCachedPostRepositoryImpl(app)
         )
     }
 
@@ -90,8 +92,9 @@ class SimListPresenterProviderImplTest{
     fun shouldGeneratePresenterForGoogleGroup(){
 
         val mainScreenPresenter = MainScreenPresenterImpl(
-                MainScreenModelImpl(UserSettingsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp),
-                        GoogleGroupsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)
+                MainScreenModelImpl(UserSettingsInteractorImpl(
+                        UserSettingsRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)),
+                        GoogleGroupsInteractorImpl(GoogleGroupRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp))
                 ),
                 mock(MainScreenView::class.java)
         )

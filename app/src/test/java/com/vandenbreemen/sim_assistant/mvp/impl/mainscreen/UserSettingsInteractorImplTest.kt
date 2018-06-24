@@ -1,6 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.mainscreen
 
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.UserSettingsInteractor
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -17,7 +18,8 @@ class UserSettingsInteractorImplTest{
 
     @Before
     fun setup(){
-        userSettingsInteractor = UserSettingsInteractorImpl(RuntimeEnvironment.application as SimAssistantApp)
+        userSettingsInteractor = UserSettingsInteractorImpl(
+                UserSettingsRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp))
     }
 
     @Test
