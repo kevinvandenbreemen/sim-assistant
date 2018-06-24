@@ -1,7 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.google.groups
 
-import com.vandenbreemen.sim_assistant.api.sim.CachedGoogleGroupsPost
-import com.vandenbreemen.sim_assistant.api.sim.CachedGoogleGroupsPost_
+import com.vandenbreemen.sim_assistant.api.sim.*
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsCachedPostRepository
 
@@ -16,10 +15,34 @@ class GoogleGroupsCachedPostRepositoryImpl(private val simAssistantApp: SimAssis
         return null
     }
 
-    override fun cacheSim(simUrl: String, simContent: String) {
+    override fun referenceCachedPostToSim(cachedGoogleGroupsPost: CachedGoogleGroupsPost, sim: Sim) {
+        var cacheRefToSim = GooleGroupsPostToSim()
+        cacheRefToSim.cachedGoogleGroupsPost.target = cachedGoogleGroupsPost
+        cacheRefToSim.sim.target = sim
+        simAssistantApp.boxStore.boxFor(GooleGroupsPostToSim::class.java).put(cacheRefToSim)
+    }
+
+    override fun findCorrespondingSim(cachedGoogleGroupsPost: CachedGoogleGroupsPost):Sim? {
+        var result = simAssistantApp.boxStore.boxFor(GooleGroupsPostToSim::class.java).query()
+                .equal(GooleGroupsPostToSim_.cachedGoogleGroupsPostId, cachedGoogleGroupsPost.id)
+                .eager(GooleGroupsPostToSim_.sim)
+                .build().findUnique()
+
+        result?.let {
+            return it.sim.target
+        }
+
+        return null
+    }
+
+    override fun cacheSim(simUrl: String, simContent: String):CachedGoogleGroupsPost {
+
+        val toStore = CachedGoogleGroupsPost(simUrl, 0L, simContent)
         simAssistantApp.boxStore.boxFor(CachedGoogleGroupsPost::class.java).put(
-                CachedGoogleGroupsPost(simUrl, 0L, simContent)
+                toStore
         )
+
+        return toStore
     }
 
 

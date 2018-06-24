@@ -30,7 +30,12 @@ class GooglePostRepository(val groupName: String,
 
                     val cachedSim = googleGroupsCachedPostRepository.retrieve(urlKey)
 
-                    val postedSim = Sim(
+                    var refToActualSim = if(cachedSim != null)
+                        googleGroupsCachedPostRepository.findCorrespondingSim(cachedSim)
+                    else
+                        null
+
+                    val postedSim = if(refToActualSim != null) refToActualSim else Sim(
                             0L,
                             googleGroupPost.title!!.trim(),
                             googleGroupPost.author!!.trim(),
@@ -39,9 +44,9 @@ class GooglePostRepository(val groupName: String,
                     )
 
                     if (cachedSim == null) {
-                        googleGroupsCachedPostRepository.cacheSim(urlKey, postedSim.content)
+                        var cachedSim = googleGroupsCachedPostRepository.cacheSim(urlKey, postedSim.content)
                         simRepository.store(postedSim).subscribe {
-
+                            googleGroupsCachedPostRepository.referenceCachedPostToSim(cachedSim, postedSim)
                         }
                     }
 

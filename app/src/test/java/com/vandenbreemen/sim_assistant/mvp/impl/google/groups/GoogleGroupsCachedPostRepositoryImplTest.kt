@@ -3,8 +3,7 @@ package com.vandenbreemen.sim_assistant.mvp.impl.google.groups
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsCachedPostRepository
 import junit.framework.TestCase
-import junit.framework.TestCase.assertNotNull
-import junit.framework.TestCase.assertNull
+import junit.framework.TestCase.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,6 +40,12 @@ class GoogleGroupsCachedPostRepositoryImplTest {
         TestCase.assertEquals("Sim content", "There once was a man\nnamed Brian", cachedSim!!.content)
         TestCase.assertEquals("Sim URL", SIM_URL, cachedSim!!.key)
 
+    }
+
+    @Test
+    fun shouldGenerateIdWhenCachingSim(){
+        val cached = googleGroupsCachedPostRepository.cacheSim(SIM_URL, "There once was a man\nnamed Brian")
+        assertEquals("Generated ID", 1L, cached.id)
     }
 
     @Test
