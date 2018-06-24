@@ -16,16 +16,16 @@ class GoogleGroupsCachedPostRepositoryImpl(private val simAssistantApp: SimAssis
     }
 
     override fun referenceCachedPostToSim(cachedGoogleGroupsPost: CachedGoogleGroupsPost, sim: Sim) {
-        var cacheRefToSim = GooleGroupsPostToSim()
+        var cacheRefToSim = GoogleGroupsPostToSim()
         cacheRefToSim.cachedGoogleGroupsPost.target = cachedGoogleGroupsPost
         cacheRefToSim.sim.target = sim
-        simAssistantApp.boxStore.boxFor(GooleGroupsPostToSim::class.java).put(cacheRefToSim)
+        simAssistantApp.boxStore.boxFor(GoogleGroupsPostToSim::class.java).put(cacheRefToSim)
     }
 
     override fun findCorrespondingSim(cachedGoogleGroupsPost: CachedGoogleGroupsPost):Sim? {
-        var result = simAssistantApp.boxStore.boxFor(GooleGroupsPostToSim::class.java).query()
-                .equal(GooleGroupsPostToSim_.cachedGoogleGroupsPostId, cachedGoogleGroupsPost.id)
-                .eager(GooleGroupsPostToSim_.sim)
+        var result = simAssistantApp.boxStore.boxFor(GoogleGroupsPostToSim::class.java).query()
+                .equal(GoogleGroupsPostToSim_.cachedGoogleGroupsPostId, cachedGoogleGroupsPost.id)
+                .eager(GoogleGroupsPostToSim_.sim)
                 .build().findUnique()
 
         result?.let {
