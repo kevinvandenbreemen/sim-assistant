@@ -35,7 +35,7 @@ class ViewSimPresenterImplTest{
     @Mock
     lateinit var ttsInteractor:TTSInteractor
 
-    val sim1 = Sim(
+    val sim1 = Sim(0L,
             "test sim", "Kevin", System.currentTimeMillis(),
             "This is a test"
     )
@@ -109,7 +109,7 @@ class ViewSimPresenterImplTest{
     fun shouldTellViewToCreateSimSelectorWhenDictatingSims() {
 
         //  Arrange
-        val sim2 = Sim(
+        val sim2 = Sim(0L,
                 "Another Sim", "Kevin", 0, "This is a test"
         )
         `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(
@@ -129,7 +129,7 @@ class ViewSimPresenterImplTest{
 
         //  Arrange
         val expectedUtterancesInEachSim = 3
-        val sim2 = Sim(
+        val sim2 = Sim(0L,
                 "Another Sim", "Kevin", 0, "This is a test"
         )
         `when`(ttsInteractor.speakSims(listOf(sim1))).thenReturn(

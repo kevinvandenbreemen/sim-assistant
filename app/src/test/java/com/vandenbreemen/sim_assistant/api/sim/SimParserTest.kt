@@ -10,7 +10,7 @@ class SimParserTest {
     fun shouldRecognizeSettingAsSeparateUtterance() {
 
         //  Arrange
-        val sim = Sim("Test Sim",
+        val sim = Sim(0L,"Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
                 "((Corridor))\n\n::It was a dark and stormy night.::")
@@ -27,7 +27,7 @@ class SimParserTest {
     @Test
     fun shouldStripLeadingAndTrailingColons() {
 //  Arrange
-        val sim = Sim("Test Sim",
+        val sim = Sim(0L,"Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
                 "((Corridor))\n\n::It was a dark and stormy night.::")
@@ -43,7 +43,7 @@ class SimParserTest {
     @Test
     fun shouldHandleLineBreaksMidSentence() {
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -62,7 +62,7 @@ class SimParserTest {
     @Test
     fun shouldHandleEndOfSentenceOnNextLine(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim", "Kevin", System.currentTimeMillis(),
                 "((Corridor - USS Imaginary))\n\nIt was a\ndark and stormy night.  Bill\nhad just arrived."
         )
@@ -79,7 +79,7 @@ class SimParserTest {
     @Test
     fun shouldHandleMultilineSentence(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim", "Kevin", System.currentTimeMillis(),
                 "((Corridor - USS Imaginary))\n\nIt was a\n bleak, dark and\nstormy night.  Bill\nhad just arrived.  His rage was blinding."
         )
@@ -97,7 +97,7 @@ class SimParserTest {
     @Test
     fun shouldHandleIncompleteSentence(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim", "Kevin", System.currentTimeMillis(),
                 "((Corridor - USS Imaginary))\n\nIt was a\n bleak, dark and\nstormy night"
         )
@@ -114,7 +114,7 @@ class SimParserTest {
 
     @Test
     fun shouldCountUtterancesCorrectly(){
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -133,7 +133,7 @@ class SimParserTest {
 
     @Test
     fun shouldNotSkipSentence() {
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -154,7 +154,7 @@ class SimParserTest {
     fun shouldIgnoreBlankLines() {
 
         //  Arrange
-        val sim = Sim("Test Sim", "Kevin",
+        val sim = Sim(0L,"Test Sim", "Kevin",
                 0L,
                 ":: The sound of the QSD disengaging was enough of a shock to the pink haired engineer, that it took her a long moment before she could react.  The work around they'd pulled together was more likely to leave the QSD as scrap rather than to safely shut down.  And it should have been running for a lot longer to arrive.  With a confused look on her face, she began the process of determining what had gone wrong, only to see that the bridge had taken the ship out of slipstream intentionally.  However, before she could ask them why, they called her! ::\n" +
                         " \n" +

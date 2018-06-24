@@ -34,6 +34,7 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
                     val cachedSim = googleGroupsCachedPostRepository.retrieve(urlKey)
 
                     val postedSim = Sim(
+                            0L,
                             googleGroupPost.title!!.trim(),
                             googleGroupPost.author!!.trim(),
                             SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(googleGroupPost.pubDate!!).time,

@@ -54,9 +54,37 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:8075857466880120845",
+      "lastPropertyId": "5:5171477469907553374",
+      "name": "Sim",
+      "properties": [
+        {
+          "id": "1:8429699982671220864",
+          "name": "id"
+        },
+        {
+          "id": "2:8119580024146848714",
+          "name": "title"
+        },
+        {
+          "id": "3:2283022256166904439",
+          "name": "author"
+        },
+        {
+          "id": "4:8879227683364665616",
+          "name": "postedDate"
+        },
+        {
+          "id": "5:5171477469907553374",
+          "name": "content"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "3:8823322171640775453",
+  "lastEntityId": "4:8075857466880120845",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

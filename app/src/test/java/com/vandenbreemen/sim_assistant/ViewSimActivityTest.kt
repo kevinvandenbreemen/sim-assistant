@@ -39,7 +39,7 @@ import java.time.ZoneOffset
 @RunWith(RobolectricTestRunner::class)
 class ViewSimActivityTest{
 
-    val sim = Sim(
+    val sim = Sim(0L,
             "Test Sim Title",
             "Kevin Vandenbreemen",
             LocalDateTime.of(2018, 10, 10, 12,12,12).toEpochSecond(ZoneOffset.UTC)*1000,

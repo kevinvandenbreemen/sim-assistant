@@ -39,7 +39,7 @@ class TTSInteractorImplTest{
     @Test
     fun shouldParseNumberOfUtterances(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -57,7 +57,7 @@ class TTSInteractorImplTest{
     @Test
     fun shouldSpeakMultipleSims(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -75,14 +75,14 @@ class TTSInteractorImplTest{
     @Test
     fun shouldProvidePositionsForBeginningsOfEachSim(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
                 "((Corridor - USS Hypothetical))\n\nIt was a dark and stormy night.  Bill had\njust arrived.\n\nJim:  Bill, I didn't expect you!!!\n\nBill:  Hahaha!"
         )
 
-        val sim1 = Sim(
+        val sim1 = Sim(0L,
                 "Test Sim Again",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -103,7 +103,7 @@ class TTSInteractorImplTest{
     fun shouldSpeakSims() {
         //  Arrange
         simulatedTextToSpeechUtteranceDuration = 100L
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -129,7 +129,7 @@ class TTSInteractorImplTest{
     fun shouldIndicateSpeakingSimsWhenSpeakingSims() {
         //  Arrange
         simulatedTextToSpeechUtteranceDuration = 100L
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -151,7 +151,7 @@ class TTSInteractorImplTest{
     fun shouldBeUsableAfterCompletingDictationOfSims(){
         //  Arrange
         simulatedTextToSpeechUtteranceDuration = 100L
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -185,7 +185,7 @@ class TTSInteractorImplTest{
     @Test
     fun shouldNotSkipSentence() {
         simulatedTextToSpeechUtteranceDuration = 100L
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -211,7 +211,7 @@ class TTSInteractorImplTest{
     @Test
     fun shouldPauseDictation() {
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -243,7 +243,7 @@ class TTSInteractorImplTest{
     @Test
     fun shouldSeekToSpecificSentence() {
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -273,6 +273,7 @@ class TTSInteractorImplTest{
     fun shouldIndicateThatIsPausedWhenDictationPaused() {
 //  Arrange
         val sim = Sim(
+                0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -302,7 +303,7 @@ class TTSInteractorImplTest{
     @Test
     fun shouldProvideClose(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "Test Sim",
                 "Kevin",
                 System.currentTimeMillis(),

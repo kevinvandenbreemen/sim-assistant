@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 @RunWith(AndroidJUnit4::class)
 class TTSInteractorTest {
 
-    val sim = Sim(
+    val sim = Sim(0L,
             "Test Sim",
             "Kevin", System.currentTimeMillis(),
             "This is a test of a sim.  It has two sentences.  Hear it?"

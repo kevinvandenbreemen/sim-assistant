@@ -2,8 +2,13 @@ package com.vandenbreemen.sim_assistant.api.sim
 
 import android.os.Parcel
 import android.os.Parcelable
+import io.objectbox.annotation.Entity
+import io.objectbox.annotation.Id
 
+@Entity
 data class Sim(
+        @Id
+        var id:Long,
         val title:String,
         val author:String,
         val postedDate: Long,
@@ -11,6 +16,7 @@ data class Sim(
 
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+            parcel.readLong(),
             parcel.readString(),
             parcel.readString(),
             parcel.readLong(),
@@ -18,6 +24,7 @@ data class Sim(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeLong(id)
         parcel.writeString(title)
         parcel.writeString(author)
         parcel.writeLong(postedDate)

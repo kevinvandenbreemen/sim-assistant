@@ -46,7 +46,7 @@ class SimListFragmentTest{
     @Test
     fun shouldListSims(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "test sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -69,7 +69,7 @@ class SimListFragmentTest{
     @Test
     fun shouldShowSimTitle(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "test sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -95,7 +95,7 @@ class SimListFragmentTest{
     @Test
     fun shouldShowSimAuthor(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "test sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -128,7 +128,7 @@ class SimListFragmentTest{
         cal.set(Calendar.YEAR, 2018).set(Calendar.MONTH, 0).set(Calendar.DAY_OF_MONTH, 1)
                 .set(Calendar.HOUR_OF_DAY, 20).set(Calendar.MINUTE, 0)
 
-        val sim = Sim(
+        val sim = Sim(0L,
                 "test sim",
                 "Kevin",
                 cal.build().timeInMillis,
@@ -155,7 +155,7 @@ class SimListFragmentTest{
     @Test
     fun shouldStartViewSimOnClickSim(){
         //  Arrange
-        val sim = Sim(
+        val sim = Sim(0L,
                 "test sim",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -186,14 +186,14 @@ class SimListFragmentTest{
     @Test
     fun shouldSupportSelectingMultipleSimsByLongClick() {
         //  Arrange
-        val sim1 = Sim(
+        val sim1 = Sim(0L,
                 "test sim",
                 "Kevin",
                 System.currentTimeMillis(),
                 "This is some test content"
         )
 
-        val sim2 = Sim(
+        val sim2 = Sim(0L,
                 "test sim1",
                 "Kevin",
                 System.currentTimeMillis(),
@@ -225,14 +225,14 @@ class SimListFragmentTest{
     @Test
     fun shouldDisplaySimTextForMultipleSelectedSims() {
         //  Arrange
-        val sim1 = Sim(
+        val sim1 = Sim(0L,
                 "test sim",
                 "Kevin",
                 System.currentTimeMillis(),
                 "This is some test content"
         )
 
-        val sim2 = Sim(
+        val sim2 = Sim(0L,
                 "test sim1",
                 "Kevin",
                 System.currentTimeMillis(),
