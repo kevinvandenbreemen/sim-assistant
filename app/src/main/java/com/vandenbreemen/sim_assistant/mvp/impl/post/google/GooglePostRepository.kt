@@ -5,6 +5,7 @@ import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsCachedPostRepository
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsPost
 import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
+import com.vandenbreemen.sim_assistant.mvp.post.SimRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.schedulers.Schedulers.io
@@ -16,7 +17,8 @@ import java.text.SimpleDateFormat
 const val GOOGLE_GROUPS_BASE_URL = "https://groups.google.com/"
 
 class GooglePostRepository(val groupName: String, private val contentLoader: GooglePostContentLoader,
-                           private val googleGroupsCachedPostRepository: GoogleGroupsCachedPostRepository
+                           private val googleGroupsCachedPostRepository: GoogleGroupsCachedPostRepository,
+                           private val simRepository: SimRepository
                            ) : PostRepository {
 
     val googleGroupsApi = Retrofit.Builder().baseUrl(GOOGLE_GROUPS_BASE_URL)
@@ -43,6 +45,9 @@ class GooglePostRepository(val groupName: String, private val contentLoader: Goo
 
                     if (cachedSim == null) {
                         googleGroupsCachedPostRepository.cacheSim(urlKey, postedSim.content)
+                        simRepository.store(postedSim).subscribe {
+
+                        }
                     }
 
                     observableEmitter.onNext(postedSim)

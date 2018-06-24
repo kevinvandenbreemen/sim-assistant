@@ -12,10 +12,12 @@ import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsIntera
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenModelImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenPresenterImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.UserSettingsInteractorImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.post.SimRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.post.simlist.SimListPresenterProviderImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.UserSettingsInteractor
+import com.vandenbreemen.sim_assistant.mvp.post.SimRepository
 import com.vandenbreemen.sim_assistant.mvp.usersettings.UserSettingsRepository
 import dagger.Module
 import dagger.Provides
@@ -32,16 +34,23 @@ class MainScreenModule {
     }
 
     @Provides
+    fun provideSimRepository(activity: MainActivity):SimRepository{
+        return SimRepositoryImpl(activity.application as SimAssistantApp)
+    }
+
+    @Provides
     fun providesSimListPresenterProvider(activity:MainActivity,
                                          userSettingsInteractor: UserSettingsInteractor,
                                          googleGroupsInteractor: GoogleGroupsInteractor,
-                                         googleGroupCacheInteractor: GoogleGroupsCachedPostRepository
+                                         googleGroupCacheInteractor: GoogleGroupsCachedPostRepository,
+                                         simRepository: SimRepository
                                          ):SimListPresenterProvider{
         return SimListPresenterProviderImpl(
                 activity.application as SimAssistantApp,
                 userSettingsInteractor,
                 googleGroupsInteractor,
-                googleGroupCacheInteractor
+                googleGroupCacheInteractor,
+                simRepository
         )
     }
 

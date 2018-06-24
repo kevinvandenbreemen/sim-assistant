@@ -9,6 +9,7 @@ import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GooglePostRepository
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.UserSettingsInteractor
 import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
+import com.vandenbreemen.sim_assistant.mvp.post.SimRepository
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
@@ -24,7 +25,8 @@ class SimListPresenterProviderImpl(
         val application:SimAssistantApp,
         private val userSettingsInteractor: UserSettingsInteractor,
         private val googleGroupsInteractor: GoogleGroupsInteractor,
-        private val googleGroupsCachedPostRepository: GoogleGroupsCachedPostRepository
+        private val googleGroupsCachedPostRepository: GoogleGroupsCachedPostRepository,
+        private val simRepository: SimRepository
                                    ):SimListPresenterProvider {
     override fun getSimListPresenter(): Single<SimListPresenter> {
         return userSettingsInteractor.getUserSettings().subscribeOn(io()).flatMap<SimListPresenter> { userSettings->
@@ -34,7 +36,9 @@ class SimListPresenterProviderImpl(
 
                 if(SimSource.GOOGLE_GROUP.getId() == userSettings.dataSource){
                     val groups = googleGroupsInteractor.getGoogleGroups().blockingGet()
-                    repository = GooglePostRepository(groups[0].groupName, GooglePostContentLoader(), googleGroupsCachedPostRepository)
+                    repository = GooglePostRepository(groups[0].groupName, GooglePostContentLoader(), googleGroupsCachedPostRepository,
+                            simRepository
+                            )
                 }
 
                 repository?.let {

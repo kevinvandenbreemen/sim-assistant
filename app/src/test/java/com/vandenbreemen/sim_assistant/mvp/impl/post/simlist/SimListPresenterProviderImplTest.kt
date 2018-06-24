@@ -9,6 +9,7 @@ import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsIntera
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenModelImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenPresenterImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.UserSettingsInteractorImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.post.SimRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
@@ -84,7 +85,8 @@ class SimListPresenterProviderImplTest{
                 app,
                 UserSettingsInteractorImpl(UserSettingsRepositoryImpl(app)),
                 GoogleGroupsInteractorImpl(GoogleGroupRepositoryImpl(app)),
-                GoogleGroupsCachedPostRepositoryImpl(app)
+                GoogleGroupsCachedPostRepositoryImpl(app),
+                SimRepositoryImpl(app)
         )
     }
 
