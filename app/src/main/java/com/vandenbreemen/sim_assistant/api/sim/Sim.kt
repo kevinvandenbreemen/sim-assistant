@@ -4,7 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
+import io.objectbox.annotation.Uid
 
+@Uid(8075857466880120845L)
 @Entity
 data class Sim(
         @Id
