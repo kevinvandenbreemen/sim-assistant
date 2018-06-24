@@ -1,6 +1,7 @@
 package com.vandenbreemen.sim_assistant.di.mvp.mainscreen
 
 import com.vandenbreemen.sim_assistant.MainActivity
+import com.vandenbreemen.sim_assistant.api.google.GoogleGroupsApi
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupRepository
@@ -13,6 +14,7 @@ import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenModelImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.MainScreenPresenterImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.UserSettingsInteractorImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.post.SimRepositoryImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GOOGLE_GROUPS_BASE_URL
 import com.vandenbreemen.sim_assistant.mvp.impl.post.simlist.SimListPresenterProviderImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
@@ -21,6 +23,9 @@ import com.vandenbreemen.sim_assistant.mvp.post.SimRepository
 import com.vandenbreemen.sim_assistant.mvp.usersettings.UserSettingsRepository
 import dagger.Module
 import dagger.Provides
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 @Module
 class MainScreenModule {
@@ -39,7 +44,15 @@ class MainScreenModule {
     }
 
     @Provides
+    fun providesGoogleGroupsApi():GoogleGroupsApi{
+        return Retrofit.Builder().baseUrl(GOOGLE_GROUPS_BASE_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(SimpleXmlConverterFactory.create()).build().create(GoogleGroupsApi::class.java)
+    }
+
+    @Provides
     fun providesSimListPresenterProvider(activity:MainActivity,
+                                         googleGroupsApi: GoogleGroupsApi,
                                          userSettingsInteractor: UserSettingsInteractor,
                                          googleGroupsInteractor: GoogleGroupsInteractor,
                                          googleGroupCacheInteractor: GoogleGroupsCachedPostRepository,
@@ -49,6 +62,7 @@ class MainScreenModule {
                 activity.application as SimAssistantApp,
                 userSettingsInteractor,
                 googleGroupsInteractor,
+                googleGroupsApi,
                 googleGroupCacheInteractor,
                 simRepository
         )

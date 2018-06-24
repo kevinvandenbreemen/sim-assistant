@@ -1,9 +1,13 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.post.google
 
+import com.vandenbreemen.sim_assistant.api.google.GoogleGroupsApi
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsCachedPostRepositoryImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsPost
+import com.vandenbreemen.sim_assistant.mvp.impl.google.groups.GoogleGroupsRSSFeed
 import com.vandenbreemen.sim_assistant.mvp.impl.post.SimRepositoryImpl
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
 import junit.framework.TestCase.assertEquals
@@ -20,15 +24,45 @@ class GooglePostRepositoryTest {
 
     lateinit var googlePostRepository: GooglePostRepository
 
+    lateinit var googleGroupsApi: GoogleGroupsApi
+
+    var googlePosts :MutableList<GoogleGroupsPost> = mutableListOf()
+
+    val contentLoader = object:GooglePostContentLoader(){
+        override fun getPostBody(postUrl: String): String {
+            return "Test Body of Post"
+        }
+    }
+
     @Before
     fun setup() {
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
 
+        googlePosts = mutableListOf()
+        googleGroupsApi = object: GoogleGroupsApi{
+            override fun getRssFeed(groupName: String, postCount: Int): Single<GoogleGroupsRSSFeed> {
+
+                var ret = GoogleGroupsRSSFeed()
+                ret.channelTitle = "Test Channel"
+                ret.articleList = googlePosts
+
+                return Single.just(ret)
+            }
+
+        }
+
+        //  Set up basic test article
+        var firstPost = GoogleGroupsPost()
+        firstPost.author = "Kevin"
+        firstPost.link = "http://www.example.com"
+        firstPost.pubDate = "Sun, 24 Jun 2018 14:40:31 UTC"
+        firstPost.title = "This is a Test"
+        googlePosts.add(firstPost)
     }
 
     @Test
     fun shouldRetrieveListOfPosts() {
-        googlePostRepository = GooglePostRepository("sb118-constitution", GooglePostContentLoader(),
+        googlePostRepository = GooglePostRepository("sb118-constitution", googleGroupsApi, contentLoader,
                 GoogleGroupsCachedPostRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp),
                 SimRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
                 )
@@ -41,7 +75,7 @@ class GooglePostRepositoryTest {
 
     @Test
     fun shouldNotIncludeNewLinesInSimAuthorOrTitle(){
-        googlePostRepository = GooglePostRepository("sb118-constitution", GooglePostContentLoader(),
+        googlePostRepository = GooglePostRepository("sb118-constitution", googleGroupsApi, contentLoader,
                 GoogleGroupsCachedPostRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp),
                 SimRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
         )
@@ -59,11 +93,11 @@ class GooglePostRepositoryTest {
                 if(crashOnCall){
                     throw RuntimeException("Fail:  Second load when content should be cached!")
                 }
-                return super.getPostBody(postUrl)
+                return "Test Content"
             }
         }
 
-        googlePostRepository = GooglePostRepository("sb118-constitution", contentLoader,
+        googlePostRepository = GooglePostRepository("sb118-constitution", googleGroupsApi, contentLoader,
                 GoogleGroupsCachedPostRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp),
                 SimRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
                 )
@@ -83,7 +117,7 @@ class GooglePostRepositoryTest {
     fun shouldStoreSimsInDatabase(){
         //  Arrange
         var simRepository = SimRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
-        googlePostRepository = GooglePostRepository("sb118-constitution", GooglePostContentLoader(),
+        googlePostRepository = GooglePostRepository("sb118-constitution", googleGroupsApi, contentLoader,
                 GoogleGroupsCachedPostRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp),
                 simRepository
         )
@@ -100,10 +134,26 @@ class GooglePostRepositoryTest {
     }
 
     @Test
+    fun shouldReturnStoredSimWhenCreating(){
+        //  Arrange
+        var simRepository = SimRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
+        googlePostRepository = GooglePostRepository("sb118-constitution", googleGroupsApi, contentLoader,
+                GoogleGroupsCachedPostRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp),
+                simRepository
+        )
+
+        //  Act
+        val sim = googlePostRepository.getPosts(1).blockingFirst()
+
+        //  Assert
+        assertEquals("Persisted sim", 1L, sim.id)
+    }
+
+    @Test
     fun shouldNotStoreSimAgainIfCached(){
         //  Arrange
         var simRepository = SimRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
-        googlePostRepository = GooglePostRepository("sb118-constitution", GooglePostContentLoader(),
+        googlePostRepository = GooglePostRepository("sb118-constitution", googleGroupsApi, contentLoader,
                 GoogleGroupsCachedPostRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp),
                 simRepository
         )
@@ -117,5 +167,21 @@ class GooglePostRepositoryTest {
         assertEquals("Double Store", 1, app.boxStore.boxFor(Sim::class.java).all.size)
     }
 
+    @Test
+    fun shouldReturnStoredSimWhenCaching(){
+        //  Arrange
+        var simRepository = SimRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
+        googlePostRepository = GooglePostRepository("sb118-constitution", googleGroupsApi, contentLoader,
+                GoogleGroupsCachedPostRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp),
+                simRepository
+        )
+
+        //  Act
+        googlePostRepository.getPosts(1).blockingFirst()
+        val cachedSim = googlePostRepository.getPosts(1).blockingFirst()
+
+        //  Assert
+        assertEquals("ID", 1L, cachedSim.id)
+    }
 
 }

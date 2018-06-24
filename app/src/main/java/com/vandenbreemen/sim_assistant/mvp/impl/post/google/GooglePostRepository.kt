@@ -9,21 +9,16 @@ import com.vandenbreemen.sim_assistant.mvp.post.SimRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.schedulers.Schedulers.io
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.text.SimpleDateFormat
 
 const val GOOGLE_GROUPS_BASE_URL = "https://groups.google.com/"
 
-class GooglePostRepository(val groupName: String, private val contentLoader: GooglePostContentLoader,
+class GooglePostRepository(val groupName: String,
+                           private val googleGroupsApi: GoogleGroupsApi,
+                           private val contentLoader: GooglePostContentLoader,
                            private val googleGroupsCachedPostRepository: GoogleGroupsCachedPostRepository,
                            private val simRepository: SimRepository
                            ) : PostRepository {
-
-    val googleGroupsApi = Retrofit.Builder().baseUrl(GOOGLE_GROUPS_BASE_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(SimpleXmlConverterFactory.create()).build().create(GoogleGroupsApi::class.java)
 
     override fun getPosts(numPosts: Int): Observable<Sim> {
 
