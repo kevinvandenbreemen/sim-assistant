@@ -63,6 +63,12 @@ class SimAdapter() : RecyclerView.Adapter<SimViewHolder>() {
             }
             true
         })
+
+        if (sim.selected) {
+            cardView.setCardBackgroundColor(cardView.context.resources.getColor(R.color.selectedSim, cardView.context.theme))
+        } else {
+            cardView.setCardBackgroundColor(cardView.context.resources.getColor(R.color.defaultSimColor, cardView.context.theme))
+        }
     }
 
 }

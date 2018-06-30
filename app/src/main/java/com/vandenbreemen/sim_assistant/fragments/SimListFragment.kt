@@ -64,11 +64,11 @@ class SimListFragment: Fragment(), SimListView {
     }
 
     override fun selectSim(sim: Sim) {
-
+        this.adapter.notifyDataSetChanged()
     }
 
     override fun deselectSim(sim: Sim) {
-
+        this.adapter.notifyDataSetChanged()
     }
 
     override fun hideViewSelectedSimsOption() {
