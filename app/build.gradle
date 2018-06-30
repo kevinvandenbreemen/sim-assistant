@@ -58,6 +58,8 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     compile group: 'org.apache.commons', name: 'commons-text', version: '1.2'
 
+    //  RecyclerView
+    implementation "com.android.support:recyclerview-v7:$supportLibV7Version"
 
     //  ObjectBox
 

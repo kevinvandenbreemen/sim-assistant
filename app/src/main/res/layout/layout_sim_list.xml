@@ -24,7 +24,7 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@android:drawable/ic_menu_view" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/simList"
         android:layout_width="0dp"
         android:layout_height="0dp"

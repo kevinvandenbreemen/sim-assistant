@@ -4,22 +4,21 @@ import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.CardView
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
 import com.vandenbreemen.sim_assistant.R.id.viewSims
 import com.vandenbreemen.sim_assistant.ViewSimActivity
+import com.vandenbreemen.sim_assistant.adapters.ClickAndLongClickListener
+import com.vandenbreemen.sim_assistant.adapters.SimAdapter
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * <h2>Intro</h2>
@@ -33,7 +32,7 @@ class SimListFragment: Fragment(), SimListView {
 
     lateinit var currentList:MutableList<Sim>
 
-    lateinit var adapter: ArrayAdapter<Sim>
+    lateinit var adapter: SimAdapter
 
     val simToUiComponent: MutableMap<Sim, CardView> = mutableMapOf()
 
@@ -57,8 +56,7 @@ class SimListFragment: Fragment(), SimListView {
     }
 
     override fun addSimItem(sim: Sim) {
-        currentList.add(sim)
-        adapter.notifyDataSetChanged()
+        this.adapter.addSim(sim)
     }
 
     override fun displayViewSelectedSimsOption() {
@@ -66,11 +64,11 @@ class SimListFragment: Fragment(), SimListView {
     }
 
     override fun selectSim(sim: Sim) {
-        simToUiComponent[sim]!!.setCardBackgroundColor(resources.getColor(R.color.selectedSim, context.theme))
+
     }
 
     override fun deselectSim(sim: Sim) {
-        simToUiComponent[sim]!!.setCardBackgroundColor(resources.getColor(R.color.defaultSimColor, context.theme))
+
     }
 
     override fun hideViewSelectedSimsOption() {
@@ -78,35 +76,27 @@ class SimListFragment: Fragment(), SimListView {
     }
 
     private fun createSimListView(inflater: LayoutInflater, layout:ViewGroup){
-        val listView = layout.findViewById<ListView>(R.id.simList)
-        this.adapter = object:ArrayAdapter<Sim>(
-                context,
-                android.R.layout.simple_list_item_1,
-                currentList
-        ){
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-                val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
-                val sim = currentList[position]
-                val cardView = inflater.inflate(R.layout.layout_sim_list_item, parent, false) as CardView
-                cardView.findViewById<TextView>(R.id.simTitle).setText(sim.title)
-                cardView.findViewById<TextView>(R.id.simAuthor).setText(sim.author)
-                cardView.findViewById<TextView>(R.id.simDate).setText(simpleDateFormat.format(Date(sim.postedDate)))
 
-                cardView.setOnClickListener(View.OnClickListener { view ->
+        val viewManager = LinearLayoutManager(context)
+
+        this.adapter = SimAdapter().apply {
+            clickAndLongClickListener = object : ClickAndLongClickListener {
+                override fun onClick(sim: Sim) {
                     presenter.viewSim(sim)
-                })
+                }
 
-                cardView.setOnLongClickListener(View.OnLongClickListener { view ->
+                override fun onLongClick(sim: Sim) {
                     presenter.selectSim(sim)
-                    true
-                })
+                }
 
-                simToUiComponent.put(sim, cardView)
-
-                return cardView
             }
         }
-        listView.adapter = adapter
+
+        layout.findViewById<RecyclerView>(R.id.simList).apply {
+            layoutManager = viewManager
+            adapter = this@SimListFragment.adapter
+        }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
