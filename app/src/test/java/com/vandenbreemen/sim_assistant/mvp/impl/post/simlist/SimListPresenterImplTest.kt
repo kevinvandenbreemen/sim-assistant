@@ -5,6 +5,8 @@ import com.vandenbreemen.sim_assistant.mvp.post.PostRepository
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
 import io.reactivex.Observable
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -66,6 +68,38 @@ class SimListPresenterImplTest{
         //  Assert
         verify(simListView).displayViewSelectedSimsOption()
         verify(simListView).selectSim(sim)
+    }
+
+    @Test
+    fun shouldMarkSimSelectedWhenSelected() {
+
+        //  arrange
+        val testSim = Sim(
+                0,
+                "Test", "Kevin", 0, "This is a test"
+        )
+
+        //  Act
+        presenter.selectSim(testSim)
+
+        //  Assert
+        assertTrue("Sim Selected", testSim.selected)
+    }
+
+    @Test
+    fun shouldMarkSimAsNotSelectedWhenDeselected() {
+        //  arrange
+        val testSim = Sim(
+                0,
+                "Test", "Kevin", 0, "This is a test"
+        )
+
+        //  Act
+        presenter.selectSim(testSim)
+        presenter.selectSim(testSim)
+
+        //  Assert
+        assertFalse("Sim selected", testSim.selected)
     }
 
     @Test
