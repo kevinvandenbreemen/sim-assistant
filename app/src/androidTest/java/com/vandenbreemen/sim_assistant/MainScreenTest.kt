@@ -3,6 +3,7 @@ package com.vandenbreemen.sim_assistant
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.IdlingRegistry
 import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.longClick
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers.*
@@ -12,6 +13,7 @@ import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
 import com.vandenbreemen.sim_assistant.adapters.SimViewHolder
 import com.vandenbreemen.sim_assistant.util.ElapsedTimeIdlingResource
+import com.vandenbreemen.sim_assistant.util.checkItemExists
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -105,6 +107,34 @@ class MainScreenTest {
                     RecyclerViewActions.actionOnItemAtPosition<SimViewHolder>(0, click())
             )
             onView(withId(R.id.simDisplayContent)).check(matches(isDisplayed()))
+        }
+        finally{
+            IdlingRegistry.getInstance().unregister(waitLonger)
+        }
+    }
+
+    @Test
+    fun shouldProvideTopMenuOnSimItem(){
+        activityRule.launchActivity(null)
+
+        onView(withText("Google Group")).perform(click())
+
+        onView(withId(R.id.googleGroupDetails)).check(matches(isDisplayed()))
+
+        writeTo(R.id.googleGroupName, "sb118-apollo")
+        clickOn(R.id.ok)
+
+        val waitLonger = ElapsedTimeIdlingResource(TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS))
+        IdlingRegistry.getInstance().register(waitLonger)
+
+        try {
+            onView(withId(R.id.simList)).perform(
+                    RecyclerViewActions.actionOnItemAtPosition<SimViewHolder>(0, longClick())
+            )
+            onView(withId(R.id.simList)).perform(
+                    RecyclerViewActions.actionOnItemAtPosition<SimViewHolder>(0,
+                            checkItemExists(withId(R.id.simMenu)))
+            )
         }
         finally{
             IdlingRegistry.getInstance().unregister(waitLonger)
