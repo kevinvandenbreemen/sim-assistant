@@ -13,29 +13,11 @@ fun checkItemExists(matcher: Matcher<in View>):ViewAction{
         }
 
         override fun getConstraints(): Matcher<View>? {
-//            return object:Matcher<View>{
-//                override fun describeTo(description: Description?) {
-//
-//                }
-//
-//                override fun describeMismatch(item: Any?, mismatchDescription: Description?) {
-//
-//                }
-//
-//                override fun _dont_implement_Matcher___instead_extend_BaseMatcher_() {
-//
-//                }
-//
-//                override fun matches(item: Any?): Boolean {
-//                    return true
-//                }
-//
-//            }
             return matcher as Matcher<View>
         }
 
         override fun perform(uiController: UiController?, view: View) {
-            if(!findMatch(view, matcher)){
+            if(findMatch(view, matcher) == null){
                 throw NoSuchElementException("Element not found in ${view} matching ${matcher}")
             }
         }
@@ -43,16 +25,16 @@ fun checkItemExists(matcher: Matcher<in View>):ViewAction{
     }
 }
 
-private fun findMatch(view:View, matcher: Matcher<in View>):Boolean{
+private fun findMatch(view:View, matcher: Matcher<in View>):View?{
     if(matcher.matches(view)){
-        return true
+        return view
     }
     if(view is ViewGroup){
         for(i in 0 until view.childCount){
-            if(findMatch(view.getChildAt(i), matcher)){
-                return true
+            findMatch(view.getChildAt(i), matcher)?.let {
+                return it
             }
         }
     }
-    return false
+    return null
 }
