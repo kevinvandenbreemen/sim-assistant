@@ -302,6 +302,73 @@ class SimListFragmentTest{
         assertEquals("Context Menu Vis", INVISIBLE, simItem.findViewById<Button>(R.id.simMenu).visibility)
     }
 
+    @Test
+    fun shouldShowPopupMenuButtonWhenLongPressed(){
+        //  Arrange
+        val sim1 = Sim(0L,
+                "test sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
 
+        val sim2 = Sim(0L,
+                "test sim1",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
+
+        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim1, sim2))
+        val fragment = SimListFragment()
+        fragment.setPresenter(presenter)
+
+        //  Act
+        startFragment(fragment)
+        val listView = fragment.view!!.findViewById<RecyclerView>(R.id.simList)
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
+
+        var simItem = listView.getChildAt(0) as ViewGroup
+        simItem.performLongClick()
+
+        //  Assert
+        assertEquals("Context Menu Vis", VISIBLE, simItem.findViewById<Button>(R.id.simMenu).visibility)
+    }
+
+    @Test
+    fun shouldHidePopupMenuButtonWhenLongPressedAgain(){
+        //  Arrange
+        val sim1 = Sim(0L,
+                "test sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
+
+        val sim2 = Sim(0L,
+                "test sim1",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
+
+        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim1, sim2))
+        val fragment = SimListFragment()
+        fragment.setPresenter(presenter)
+
+        //  Act
+        startFragment(fragment)
+        val listView = fragment.view!!.findViewById<RecyclerView>(R.id.simList)
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
+
+        var simItem = listView.getChildAt(0) as ViewGroup
+        simItem.performLongClick()
+        simItem.performLongClick()
+
+        //  Assert
+        assertEquals("Context Menu Vis", INVISIBLE, simItem.findViewById<Button>(R.id.simMenu).visibility)
+    }
 
 }
