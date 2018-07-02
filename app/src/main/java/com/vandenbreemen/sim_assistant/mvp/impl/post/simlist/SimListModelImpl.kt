@@ -38,9 +38,11 @@ class SimListModelImpl(val postRepository: PostRepository): SimListModel {
 
     override fun deselectSim(sim: Sim) {
         this.selectedSims.remove(sim)
+        sim.selected = false
     }
 
     override fun selectSim(sim: Sim) {
         selectedSims.add(sim)
+        sim.selected = true
     }
 }

@@ -1,9 +1,9 @@
 package com.vandenbreemen.sim_assistant.fragments
 
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.ListView
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
 import com.vandenbreemen.sim_assistant.ViewSimActivity
@@ -58,9 +58,9 @@ class SimListFragmentTest{
 
         //  Act
         startFragment(fragment)
-        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
-        val shadowListView = shadowOf(listView)
-        shadowListView.populateItems()
+        val listView = fragment.view!!.findViewById<RecyclerView>(R.id.simList)
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
 
         //  Assert
         assertEquals("Sim list", 1, listView.childCount)
@@ -81,9 +81,9 @@ class SimListFragmentTest{
 
         //  Act
         startFragment(fragment)
-        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
-        val shadowListView = shadowOf(listView)
-        shadowListView.populateItems()
+        val listView = fragment.view!!.findViewById<RecyclerView>(R.id.simList)
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
         val simItem = listView.getChildAt(0) as ViewGroup
 
         //  Assert
@@ -107,9 +107,9 @@ class SimListFragmentTest{
 
         //  Act
         startFragment(fragment)
-        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
-        val shadowListView = shadowOf(listView)
-        shadowListView.populateItems()
+        val listView = fragment.view!!.findViewById<RecyclerView>(R.id.simList)
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
         val simItem = listView.getChildAt(0) as ViewGroup
 
         //  Assert
@@ -140,9 +140,9 @@ class SimListFragmentTest{
 
         //  Act
         startFragment(fragment)
-        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
-        val shadowListView = shadowOf(listView)
-        shadowListView.populateItems()
+        val listView = fragment.view!!.findViewById<RecyclerView>(R.id.simList)
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
         val simItem = listView.getChildAt(0) as ViewGroup
 
         //  Assert
@@ -167,9 +167,9 @@ class SimListFragmentTest{
 
         //  Act
         startFragment(fragment)
-        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
-        val shadowListView = shadowOf(listView)
-        shadowListView.populateItems()
+        val listView = fragment.view!!.findViewById<RecyclerView>(R.id.simList)
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
         val simItem = listView.getChildAt(0) as ViewGroup
 
         simItem.performClick()
@@ -206,9 +206,9 @@ class SimListFragmentTest{
 
         //  Act
         startFragment(fragment)
-        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
-        val shadowListView = shadowOf(listView)
-        shadowListView.populateItems()
+        val listView = fragment.view!!.findViewById<RecyclerView>(R.id.simList)
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
 
         var simItem = listView.getChildAt(0) as ViewGroup
         simItem.performLongClick()
@@ -245,9 +245,9 @@ class SimListFragmentTest{
 
         //  Act
         startFragment(fragment)
-        val listView = fragment.view!!.findViewById<ListView>(R.id.simList)
-        val shadowListView = shadowOf(listView)
-        shadowListView.populateItems()
+        val listView = fragment.view!!.findViewById<RecyclerView>(R.id.simList)
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
 
         var simItem = listView.getChildAt(0) as ViewGroup
         simItem.performLongClick()

@@ -1,17 +1,17 @@
 package com.vandenbreemen.sim_assistant
 
-import android.support.test.espresso.Espresso.onData
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.IdlingRegistry
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
+import com.vandenbreemen.sim_assistant.adapters.SimViewHolder
 import com.vandenbreemen.sim_assistant.util.ElapsedTimeIdlingResource
-import org.hamcrest.CoreMatchers.anything
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -101,7 +101,9 @@ class MainScreenTest {
         IdlingRegistry.getInstance().register(waitLonger)
 
         try {
-            onData(anything()).inAdapterView(withId(R.id.simList)).atPosition(0).perform(click())
+            onView(withId(R.id.simList)).perform(
+                    RecyclerViewActions.actionOnItemAtPosition<SimViewHolder>(0, click())
+            )
             onView(withId(R.id.simDisplayContent)).check(matches(isDisplayed()))
         }
         finally{
