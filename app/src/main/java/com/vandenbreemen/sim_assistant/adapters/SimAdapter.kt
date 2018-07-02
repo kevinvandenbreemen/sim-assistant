@@ -4,10 +4,10 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.PopupMenu
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
 import com.vandenbreemen.sim_assistant.api.sim.Sim
@@ -46,6 +46,20 @@ class SimAdapter() : RecyclerView.Adapter<SimViewHolder>() {
 
     override fun getItemCount(): Int = simList.size
 
+    private fun setupMenu(view:ViewGroup){
+        val menuButton = view.findViewById<Button>(R.id.simMenu)
+        menuButton.setOnClickListener(View.OnClickListener {
+            val popupMenu = PopupMenu(view.context, menuButton)
+            popupMenu.menuInflater.inflate(R.menu.menu_sim_menu, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener {
+                true
+            }
+
+            popupMenu.show()
+        })
+    }
+
     override fun onBindViewHolder(holder: SimViewHolder, position: Int) {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
         val sim = simList[position]
@@ -53,6 +67,12 @@ class SimAdapter() : RecyclerView.Adapter<SimViewHolder>() {
         cardView.findViewById<TextView>(R.id.simTitle).text = sim.title
         cardView.findViewById<TextView>(R.id.simAuthor).text = sim.author
         cardView.findViewById<TextView>(R.id.simDate).text = simpleDateFormat.format(Date(sim.postedDate))
+
+        if(sim.selected){
+            cardView.findViewById<Button>(R.id.simMenu).visibility = VISIBLE
+        }
+
+        setupMenu(cardView)
 
         cardView.setOnClickListener(View.OnClickListener { view ->
             clickAndLongClickListener?.let {
@@ -62,15 +82,7 @@ class SimAdapter() : RecyclerView.Adapter<SimViewHolder>() {
 
         cardView.setOnLongClickListener(View.OnLongClickListener { view ->
 
-            var visibility = cardView.findViewById<Button>(R.id.simMenu).visibility
-            if(visibility == VISIBLE){
-                visibility = INVISIBLE
-            }
-            else{
-                visibility = VISIBLE
-            }
 
-            cardView.findViewById<Button>(R.id.simMenu).visibility = visibility
             clickAndLongClickListener?.let {
                 it.onLongClick(sim)
             }

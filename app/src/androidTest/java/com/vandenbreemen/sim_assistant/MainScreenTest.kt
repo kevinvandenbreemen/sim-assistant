@@ -6,6 +6,7 @@ import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.longClick
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.matcher.RootMatchers.isPlatformPopup
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
@@ -141,6 +142,10 @@ class MainScreenTest {
                     RecyclerViewActions.actionOnItemAtPosition<SimViewHolder>(0,
                             clickItemMatching(withId(R.id.simMenu)))
             )
+
+            onView(withText("Tags")).inRoot(isPlatformPopup()).check(matches(
+                    withEffectiveVisibility(Visibility.VISIBLE)
+            ))
         }
         finally{
             IdlingRegistry.getInstance().unregister(waitLonger)
