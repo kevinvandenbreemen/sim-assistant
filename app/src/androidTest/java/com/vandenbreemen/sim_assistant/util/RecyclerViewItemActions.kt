@@ -25,6 +25,28 @@ fun checkItemExists(matcher: Matcher<in View>):ViewAction{
     }
 }
 
+fun clickItemMatching(matcher:Matcher<in View>):ViewAction{
+    return object:ViewAction{
+        override fun getDescription(): String {
+            return "Verify match on specific item in RecyclerView"
+        }
+
+        override fun getConstraints(): Matcher<View>? {
+            return matcher as Matcher<View>
+        }
+
+        override fun perform(uiController: UiController?, view: View) {
+
+            findMatch(view, matcher)?.let {
+                it.performClick()
+            }?:run{
+                throw NoSuchElementException("Element not found in ${view} matching ${matcher}")
+            }
+        }
+
+    }
+}
+
 private fun findMatch(view:View, matcher: Matcher<in View>):View?{
     if(matcher.matches(view)){
         return view

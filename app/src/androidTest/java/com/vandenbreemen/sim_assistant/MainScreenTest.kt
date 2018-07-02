@@ -14,6 +14,7 @@ import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.write
 import com.vandenbreemen.sim_assistant.adapters.SimViewHolder
 import com.vandenbreemen.sim_assistant.util.ElapsedTimeIdlingResource
 import com.vandenbreemen.sim_assistant.util.checkItemExists
+import com.vandenbreemen.sim_assistant.util.clickItemMatching
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -134,6 +135,11 @@ class MainScreenTest {
             onView(withId(R.id.simList)).perform(
                     RecyclerViewActions.actionOnItemAtPosition<SimViewHolder>(0,
                             checkItemExists(withId(R.id.simMenu)))
+            )
+
+            onView(withId(R.id.simList)).perform(
+                    RecyclerViewActions.actionOnItemAtPosition<SimViewHolder>(0,
+                            clickItemMatching(withId(R.id.simMenu)))
             )
         }
         finally{
