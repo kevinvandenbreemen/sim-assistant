@@ -2,8 +2,10 @@ package com.vandenbreemen.sim_assistant.fragments
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
 import com.vandenbreemen.sim_assistant.ViewSimActivity
@@ -265,6 +267,39 @@ class SimListFragmentTest{
 
         val shadowIntent = shadowOf(intent)
         assertEquals("View Sim Activity", ViewSimActivity::class.java, shadowIntent.intentClass)
+    }
+
+    @Test
+    fun shouldHidePopupMenuButtonByDefault(){
+        //  Arrange
+        val sim1 = Sim(0L,
+                "test sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
+
+        val sim2 = Sim(0L,
+                "test sim1",
+                "Kevin",
+                System.currentTimeMillis(),
+                "This is some test content"
+        )
+
+        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim1, sim2))
+        val fragment = SimListFragment()
+        fragment.setPresenter(presenter)
+
+        //  Act
+        startFragment(fragment)
+        val listView = fragment.view!!.findViewById<RecyclerView>(R.id.simList)
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
+
+        var simItem = listView.getChildAt(0) as ViewGroup
+
+        //  Assert
+        assertEquals("Context Menu Vis", INVISIBLE, simItem.findViewById<Button>(R.id.simMenu).visibility)
     }
 
 
