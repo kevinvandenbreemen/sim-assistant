@@ -116,7 +116,7 @@ class MainScreenTest {
     }
 
     @Test
-    fun shouldProvideTopMenuOnSimItem(){
+    fun shouldOpenTagManagerOnSelectTags() {
         activityRule.launchActivity(null)
 
         onView(withText("Google Group")).perform(click())
@@ -146,6 +146,13 @@ class MainScreenTest {
             onView(withText("Tags")).inRoot(isPlatformPopup()).check(matches(
                     withEffectiveVisibility(Visibility.VISIBLE)
             ))
+
+            Thread.sleep(200)
+
+            onView(withText("Tags")).inRoot(isPlatformPopup()).perform(click())
+
+            //  tagAddSelect
+            onView(withId(R.id.tagAddSelect)).check(matches(isDisplayed()))
         }
         finally{
             IdlingRegistry.getInstance().unregister(waitLonger)
