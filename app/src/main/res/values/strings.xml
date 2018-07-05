@@ -9,4 +9,5 @@
     <string name="speak_sim">Speak</string>
     <string name="currentSim">Current Sim</string>
     <string name="sim_tags">Tags</string>
+    <string name="addTag">Create New Tag</string>
 </resources>
