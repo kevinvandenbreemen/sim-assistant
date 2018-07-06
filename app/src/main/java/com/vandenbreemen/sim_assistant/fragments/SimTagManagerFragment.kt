@@ -5,6 +5,7 @@ import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import com.vandenbreemen.sim_assistant.R
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 
@@ -27,6 +28,12 @@ class SimTagManagerFragment() : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val tagManagerContainer: ViewGroup = inflater.inflate(R.layout.layout_tag_create_select, container) as ViewGroup
         return tagManagerContainer
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog.window.setLayout(MATCH_PARENT, MATCH_PARENT);
+
     }
 
 }
