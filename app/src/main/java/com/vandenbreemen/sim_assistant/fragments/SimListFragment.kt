@@ -19,6 +19,8 @@ import com.vandenbreemen.sim_assistant.adapters.SimAdapter
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
 /**
  * <h2>Intro</h2>
@@ -32,6 +34,7 @@ class SimListFragment: Fragment(), SimListView {
 
     lateinit var currentList:MutableList<Sim>
 
+    @Inject
     lateinit var adapter: SimAdapter
 
     val simToUiComponent: MutableMap<Sim, CardView> = mutableMapOf()
@@ -79,7 +82,7 @@ class SimListFragment: Fragment(), SimListView {
 
         val viewManager = LinearLayoutManager(context)
 
-        this.adapter = SimAdapter().apply {
+        adapter.apply {
             clickAndLongClickListener = object : ClickAndLongClickListener {
                 override fun onClick(sim: Sim) {
                     presenter.viewSim(sim)
@@ -100,6 +103,9 @@ class SimListFragment: Fragment(), SimListView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
+        AndroidInjection.inject(this)
+
         val layout = inflater.inflate(R.layout.layout_sim_list, container, false) as ViewGroup
         createSimListView(inflater, layout)
 

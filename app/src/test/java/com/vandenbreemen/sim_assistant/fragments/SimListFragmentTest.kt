@@ -331,6 +331,8 @@ class SimListFragmentTest{
 
         var simItem = listView.getChildAt(0) as ViewGroup
         simItem.performLongClick()
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
 
         //  Assert
         assertEquals("Context Menu Vis", VISIBLE, simItem.findViewById<Button>(R.id.simMenu).visibility)
@@ -366,6 +368,9 @@ class SimListFragmentTest{
         var simItem = listView.getChildAt(0) as ViewGroup
         simItem.performLongClick()
         simItem.performLongClick()
+
+        listView.measure(0, 0)
+        listView.layout(0, 0, 100, 10000)
 
         //  Assert
         assertEquals("Context Menu Vis", INVISIBLE, simItem.findViewById<Button>(R.id.simMenu).visibility)
