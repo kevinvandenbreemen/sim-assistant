@@ -42,9 +42,12 @@ class SimListFragment : Fragment(), SimListView, SimItemView {
 
     val simToUiComponent: MutableMap<Sim, CardView> = mutableMapOf()
 
-    override fun showSimTagsDialog() {
+    override fun showSimTagsDialog(sim: Sim) {
         val fragActivity = activity as FragmentActivity
         val dialog = SimTagManagerFragment()
+        val args = Bundle()
+        args.putParcelable(SimTagManagerFragment.ARG_SIM, sim)
+        dialog.arguments = args
         dialog.show(fragActivity.supportFragmentManager, "SIM_TAGS")
     }
 

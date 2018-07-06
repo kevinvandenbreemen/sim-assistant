@@ -10,6 +10,6 @@ interface SimItemPresenter {
 
 interface SimItemView {
 
-    fun showSimTagsDialog()
+    fun showSimTagsDialog(sim: Sim)
 
 }

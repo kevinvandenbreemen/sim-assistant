@@ -35,7 +35,7 @@ class SimItemPresenterImplTest {
         presenter.openTags(sim)
 
         //  Assert
-        verify(view).showSimTagsDialog()
+        verify(view).showSimTagsDialog(sim)
     }
 
 }

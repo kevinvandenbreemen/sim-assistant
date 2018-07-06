@@ -6,6 +6,6 @@ import com.vandenbreemen.sim_assistant.mvp.simitem.SimItemView
 
 class SimItemPresenterImpl(val view: SimItemView) : SimItemPresenter {
     override fun openTags(sim: Sim) {
-        view.showSimTagsDialog()
+        view.showSimTagsDialog(sim)
     }
 }
