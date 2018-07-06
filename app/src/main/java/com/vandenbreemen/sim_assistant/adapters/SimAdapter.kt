@@ -10,7 +10,9 @@ import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
+import com.vandenbreemen.sim_assistant.R.id.tags
 import com.vandenbreemen.sim_assistant.api.sim.Sim
+import com.vandenbreemen.sim_assistant.mvp.simitem.SimItemPresenter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,7 +27,7 @@ interface ClickAndLongClickListener {
 
 }
 
-class SimAdapter() : RecyclerView.Adapter<SimViewHolder>() {
+class SimAdapter(val simItemPresenter: SimItemPresenter) : RecyclerView.Adapter<SimViewHolder>() {
 
     private val simList: MutableList<Sim> = mutableListOf()
 
@@ -46,13 +48,16 @@ class SimAdapter() : RecyclerView.Adapter<SimViewHolder>() {
 
     override fun getItemCount(): Int = simList.size
 
-    private fun setupMenu(view:ViewGroup){
+    private fun setupMenu(sim: Sim, view: ViewGroup) {
         val menuButton = view.findViewById<Button>(R.id.simMenu)
         menuButton.setOnClickListener(View.OnClickListener {
             val popupMenu = PopupMenu(view.context, menuButton)
             popupMenu.menuInflater.inflate(R.menu.menu_sim_menu, popupMenu.menu)
 
             popupMenu.setOnMenuItemClickListener {
+                if (it.itemId == tags) {
+                    simItemPresenter.openTags(sim)
+                }
                 true
             }
 
@@ -72,7 +77,7 @@ class SimAdapter() : RecyclerView.Adapter<SimViewHolder>() {
             cardView.findViewById<Button>(R.id.simMenu).visibility = VISIBLE
         }
 
-        setupMenu(cardView)
+        setupMenu(sim, cardView)
 
         cardView.setOnClickListener(View.OnClickListener { view ->
             clickAndLongClickListener?.let {

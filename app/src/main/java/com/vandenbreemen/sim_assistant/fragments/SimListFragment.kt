@@ -19,6 +19,7 @@ import com.vandenbreemen.sim_assistant.adapters.SimAdapter
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListPresenter
 import com.vandenbreemen.sim_assistant.mvp.post.simlist.SimListView
+import com.vandenbreemen.sim_assistant.mvp.simitem.SimItemView
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -28,7 +29,10 @@ import javax.inject.Inject
  * <h2>Other Details</h2>
  * @author kevin
  */
-class SimListFragment: Fragment(), SimListView {
+class SimListFragment : Fragment(), SimListView, SimItemView {
+    override fun showSimTagsDialog() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private lateinit var presenter:SimListPresenter
 
