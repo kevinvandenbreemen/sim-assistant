@@ -3,6 +3,7 @@ package com.vandenbreemen.sim_assistant.fragments
 import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -30,9 +31,7 @@ import javax.inject.Inject
  * @author kevin
  */
 class SimListFragment : Fragment(), SimListView, SimItemView {
-    override fun showSimTagsDialog() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+
 
     private lateinit var presenter:SimListPresenter
 
@@ -42,6 +41,12 @@ class SimListFragment : Fragment(), SimListView, SimItemView {
     lateinit var adapter: SimAdapter
 
     val simToUiComponent: MutableMap<Sim, CardView> = mutableMapOf()
+
+    override fun showSimTagsDialog() {
+        val fragActivity = activity as FragmentActivity
+        val dialog = SimTagManagerFragment()
+        dialog.show(fragActivity.supportFragmentManager, "SIM_TAGS")
+    }
 
     fun setPresenter(presenter: SimListPresenter){
         this.presenter = presenter
