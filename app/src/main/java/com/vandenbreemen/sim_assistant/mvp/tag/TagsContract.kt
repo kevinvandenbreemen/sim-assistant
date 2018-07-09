@@ -7,7 +7,7 @@ import io.reactivex.Single
 
 interface SimTagManagerPresenter {
     fun addTag(name: String)
-
+    fun start()
 }
 
 interface SimTagManagerView {

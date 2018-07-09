@@ -10,10 +10,12 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasFragmentInjector
+import dagger.android.support.HasSupportFragmentInjector
 import io.objectbox.BoxStore
 import javax.inject.Inject
 
-open class SimAssistantApp : Application(), HasActivityInjector, HasFragmentInjector {
+open class SimAssistantApp : Application(), HasActivityInjector, HasFragmentInjector, HasSupportFragmentInjector {
+
 
 
     companion object {
@@ -25,6 +27,9 @@ open class SimAssistantApp : Application(), HasActivityInjector, HasFragmentInje
 
     @Inject
     lateinit var dispatchingFragmentINjector: DispatchingAndroidInjector<Fragment>
+
+    @Inject
+    lateinit var dispatchingSupportFragmentInjector: DispatchingAndroidInjector<android.support.v4.app.Fragment>
 
     val boxStore: BoxStore by lazy {
         Log.d(TAG, "Initializing ObjectBox...")
@@ -50,5 +55,9 @@ open class SimAssistantApp : Application(), HasActivityInjector, HasFragmentInje
 
     override fun fragmentInjector(): AndroidInjector<Fragment> {
         return dispatchingFragmentINjector
+    }
+
+    override fun supportFragmentInjector(): AndroidInjector<android.support.v4.app.Fragment> {
+        return dispatchingSupportFragmentInjector
     }
 }
