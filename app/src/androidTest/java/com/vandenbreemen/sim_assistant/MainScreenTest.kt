@@ -2,8 +2,7 @@ package com.vandenbreemen.sim_assistant
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.IdlingRegistry
-import android.support.test.espresso.action.ViewActions.click
-import android.support.test.espresso.action.ViewActions.longClick
+import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.RootMatchers.isPlatformPopup
@@ -16,6 +15,7 @@ import com.vandenbreemen.sim_assistant.adapters.SimViewHolder
 import com.vandenbreemen.sim_assistant.util.ElapsedTimeIdlingResource
 import com.vandenbreemen.sim_assistant.util.checkItemExists
 import com.vandenbreemen.sim_assistant.util.clickItemMatching
+import com.vandenbreemen.sim_assistant.util.hasItemCount
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -153,6 +153,12 @@ class MainScreenTest {
 
             //  tagAddSelect
             onView(withId(R.id.tagAddSelect)).check(matches(isDisplayed()))
+
+            onView(withId(R.id.addInput)).perform(typeText("New Tag"))
+
+            //  Verify tag now present
+            onView(withId(R.id.tagSelector)).check(hasItemCount(1))
+
         }
         finally{
             IdlingRegistry.getInstance().unregister(waitLonger)
