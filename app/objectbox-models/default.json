@@ -104,9 +104,25 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "7:177119141243165986",
+      "lastPropertyId": "2:7729550976287095931",
+      "name": "Tag",
+      "properties": [
+        {
+          "id": "1:5883319230480487136",
+          "name": "id"
+        },
+        {
+          "id": "2:7729550976287095931",
+          "name": "name"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "6:7115613438066029554",
+  "lastEntityId": "7:177119141243165986",
   "lastIndexId": "4:7358204498378277556",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
