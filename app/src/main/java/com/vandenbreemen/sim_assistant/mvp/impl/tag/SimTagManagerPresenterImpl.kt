@@ -2,13 +2,16 @@ package com.vandenbreemen.sim_assistant.mvp.impl.tag
 
 import com.vandenbreemen.sim_assistant.mvp.tag.SimTagManagerPresenter
 import com.vandenbreemen.sim_assistant.mvp.tag.SimTagManagerView
+import com.vandenbreemen.sim_assistant.mvp.tag.TagInteractor
 
 /**
  *
  * @author kevin
  */
-class SimTagManagerPresenterImpl(view: SimTagManagerView) :SimTagManagerPresenter {
+class SimTagManagerPresenterImpl(val tagInteractor: TagInteractor, val view: SimTagManagerView) :SimTagManagerPresenter {
     override fun addTag(name: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        tagInteractor.addTag(name).subscribe {
+            tagInteractor.getTags().subscribe { tags->view.listTags(tags) }
+        }
     }
 }
