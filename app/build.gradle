@@ -41,6 +41,7 @@ project.ext {
     espressoVersion = "3.0.2"
     daggerVersion = "2.11"
     robolectricVersion = "3.8"
+    robolectricSupportVersion = "3.3.2"
     awaitilityVersion = "3.1.0"
     rxAndroidVersion = "2.0.2"
     mockitoVersion = "2.18.0"
@@ -97,6 +98,9 @@ dependencies {
 
     //  Robolectric
     testCompile "org.robolectric:robolectric:$robolectricVersion"
+    testCompile "org.robolectric:shadows-support-v4:$robolectricSupportVersion"
+
+
 
     //  Awaitility
     testCompile "org.awaitility:awaitility:$awaitilityVersion"
