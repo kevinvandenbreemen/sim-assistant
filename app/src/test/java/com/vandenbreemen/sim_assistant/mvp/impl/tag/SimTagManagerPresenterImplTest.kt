@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.tag
 
+import com.vandenbreemen.sim_assistant.api.message.ApplicationError
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.Tag
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
@@ -52,6 +53,15 @@ class SimTagManagerPresenterImplTest{
 
         //  Assert
         verify(view).listTags(listOf(Tag(1, "Test")))
+    }
+
+    @Test
+    fun shouldShowErrorIfAddedBadTag(){
+        //  Act
+        simTagManagerPresenter.addTag("")
+
+        //  Assert
+        verify(view).showError(ApplicationError("Tag must have a name"))
     }
 
 }
