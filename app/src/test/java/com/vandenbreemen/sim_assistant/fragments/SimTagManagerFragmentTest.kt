@@ -34,7 +34,7 @@ class SimTagManagerFragmentTest {
     fun shouldShowTagsOnInitialLoad() {
 
         //  Arrange
-        app.boxStore.boxFor(Tag::class.java).put(Tag(0, "Test"))
+        app.boxStore.boxFor(Tag::class.java).put(Tag(0, "Test", false))
 
         //  Act
         val fragment = SimTagManagerFragment()
@@ -53,7 +53,7 @@ class SimTagManagerFragmentTest {
     @Test
     fun shouldAddTagToSim(){
         //  Arrange
-        app.boxStore.boxFor(Tag::class.java).put(Tag(0, "Test"))
+        app.boxStore.boxFor(Tag::class.java).put(Tag(0, "Test", false))
         val sim = Sim(0, "Kevin", "Test", 0,"")
         app.boxStore.boxFor(Sim::class.java).put(sim)
 

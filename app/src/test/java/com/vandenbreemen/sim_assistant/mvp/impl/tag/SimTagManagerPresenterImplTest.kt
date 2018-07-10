@@ -31,6 +31,8 @@ class SimTagManagerPresenterImplTest{
 
     lateinit var sim : Sim
 
+    lateinit var app:SimAssistantApp
+
     @Mock
     lateinit var view: SimTagManagerView
 
@@ -43,6 +45,11 @@ class SimTagManagerPresenterImplTest{
         this.simTagManagerPresenter = SimTagManagerPresenterImpl(
                 TagInteractorImpl(TagRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)),
                 view)
+
+        app = RuntimeEnvironment.application as SimAssistantApp
+
+        //  Persist the sim
+        app.boxStore.boxFor(Sim::class.java).put(sim)
     }
 
     @Test
@@ -52,7 +59,7 @@ class SimTagManagerPresenterImplTest{
         simTagManagerPresenter.addTag("Test")
 
         //  Assert
-        verify(view).listTags(listOf(Tag(1, "Test")))
+        verify(view).listTags(listOf(Tag(1, "Test", false)))
     }
 
     @Test
@@ -62,6 +69,20 @@ class SimTagManagerPresenterImplTest{
 
         //  Assert
         verify(view).showError(ApplicationError("Tag must have a name"))
+    }
+
+    @Test
+    fun shouldTagSim(){
+        //  Arrange
+        val tag = Tag(0, "Test", false)
+        app.boxStore.boxFor(Tag::class.java).put(tag)
+
+        //  Act
+        simTagManagerPresenter.addTag(sim, tag)
+
+        //  Assert
+        val expectedTag = Tag(1, "Test", true)
+        verify(view).listTags(listOf(expectedTag))
     }
 
 }

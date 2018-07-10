@@ -1,6 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.tag
 
 import com.vandenbreemen.sim_assistant.api.message.ApplicationError
+import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.Tag
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -8,6 +9,7 @@ import io.reactivex.Single
 interface SimTagManagerPresenter {
     fun addTag(name: String)
     fun start()
+    fun addTag(sim: Sim, tag: Tag)
 }
 
 interface SimTagManagerView {

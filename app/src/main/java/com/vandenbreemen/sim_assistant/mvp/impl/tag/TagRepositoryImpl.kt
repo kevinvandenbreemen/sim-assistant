@@ -24,7 +24,7 @@ class TagRepositoryImpl(val app: SimAssistantApp):TagRepository {
             throw ApplicationError("Tag '$name' already exists")
         }
 
-        val tag = Tag(0, name)
+        val tag = Tag(0, name, false)
         app.boxStore.boxFor(Tag::class.java).put(tag)
     }
 

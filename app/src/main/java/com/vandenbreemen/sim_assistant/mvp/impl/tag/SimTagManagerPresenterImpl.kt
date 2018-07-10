@@ -1,6 +1,8 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.tag
 
 import com.vandenbreemen.sim_assistant.api.message.ApplicationError
+import com.vandenbreemen.sim_assistant.api.sim.Sim
+import com.vandenbreemen.sim_assistant.api.sim.Tag
 import com.vandenbreemen.sim_assistant.mvp.tag.SimTagManagerPresenter
 import com.vandenbreemen.sim_assistant.mvp.tag.SimTagManagerView
 import com.vandenbreemen.sim_assistant.mvp.tag.TagInteractor
@@ -25,5 +27,9 @@ class SimTagManagerPresenterImpl(val tagInteractor: TagInteractor, val view: Sim
                 view.showError(error)
             }
         })
+    }
+
+    override fun addTag(sim: Sim, tag: Tag) {
+
     }
 }
