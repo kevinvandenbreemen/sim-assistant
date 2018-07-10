@@ -3,11 +3,16 @@ package com.vandenbreemen.sim_assistant.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.Toast
 import com.vandenbreemen.sim_assistant.R
+import com.vandenbreemen.sim_assistant.R.id.tagSelector
+import com.vandenbreemen.sim_assistant.adapters.TagAdapter
 import com.vandenbreemen.sim_assistant.api.message.ApplicationError
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.Tag
@@ -28,6 +33,8 @@ class SimTagManagerFragment() : DialogFragment(), SimTagManagerView {
     @Inject
     lateinit var tagManagemerPresenter: SimTagManagerPresenter
 
+    val tagAdapter = TagAdapter()
+
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
 
@@ -38,6 +45,12 @@ class SimTagManagerFragment() : DialogFragment(), SimTagManagerView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val tagManagerContainer: ViewGroup = inflater.inflate(R.layout.layout_tag_create_select, container) as ViewGroup
+
+        tagManagerContainer.findViewById<RecyclerView>(tagSelector).apply {
+            layoutManager = LinearLayoutManager(this@SimTagManagerFragment.context)
+            adapter = tagAdapter
+        }
+
         return tagManagerContainer
     }
 
@@ -54,11 +67,11 @@ class SimTagManagerFragment() : DialogFragment(), SimTagManagerView {
     }
 
     override fun listTags(tags: List<Tag>) {
-
+        tagAdapter.tagList = tags
     }
 
     override fun showError(applicationError: ApplicationError) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(context, applicationError.localizedMessage, Toast.LENGTH_SHORT).show()
     }
 
 }

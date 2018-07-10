@@ -1,6 +1,8 @@
 package com.vandenbreemen.sim_assistant.fragments
 
 import android.support.v7.widget.RecyclerView
+import android.view.ViewGroup
+import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
 import com.vandenbreemen.sim_assistant.api.sim.Tag
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
@@ -39,6 +41,8 @@ class SimTagManagerFragmentTest {
 
         //  Assert
         assertEquals("Tag List", 1, tagsList.childCount)
+        val item = tagsList.getChildAt(0) as ViewGroup
+        assertEquals("Test", item.findViewById<TextView>(R.id.tagName).text)
 
     }
 
