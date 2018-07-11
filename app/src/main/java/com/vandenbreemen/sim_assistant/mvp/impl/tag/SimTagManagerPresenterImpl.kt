@@ -31,6 +31,8 @@ class SimTagManagerPresenterImpl(val tagInteractor: TagInteractor, val simTagInt
     }
 
     override fun addTag(sim: Sim, tag: Tag) {
-
+        simTagInteractor.addTag(sim, tag).subscribe({
+            simTagInteractor.getTags(sim).subscribe({ tags -> view.listTags(tags) })
+        })
     }
 }

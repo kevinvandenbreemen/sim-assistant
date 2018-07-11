@@ -40,6 +40,8 @@ class SimTagManagerPresenterImplTest{
     @Before
     fun setup(){
 
+        app = RuntimeEnvironment.application as SimAssistantApp
+
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
 
         sim = Sim(0, "kevin", "Kevin", 123L,"b")
@@ -48,7 +50,6 @@ class SimTagManagerPresenterImplTest{
                 SimTagInteractorImpl(TagRepositoryImpl(app), SimRepositoryImpl(app)),
                 view)
 
-        app = RuntimeEnvironment.application as SimAssistantApp
 
         //  Persist the sim
         app.boxStore.boxFor(Sim::class.java).put(sim)
