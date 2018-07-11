@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import com.vandenbreemen.sim_assistant.R
+import com.vandenbreemen.sim_assistant.R.drawable.tag
 import com.vandenbreemen.sim_assistant.R.drawable.tag_blue
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.SimTag
@@ -39,6 +40,7 @@ class SimTagManagerFragmentTest {
         //  Arrange
         app.boxStore.boxFor(Tag::class.java).put(Tag(0, "Test", false))
         val sim = Sim(0, "Kevin", "Test", 0, "")
+        app.boxStore.boxFor(Sim::class.java).put(sim)
 
         //  Act
         val fragment = SimTagManagerFragment()
@@ -56,6 +58,9 @@ class SimTagManagerFragmentTest {
         val item = tagsList.getChildAt(0) as ViewGroup
         assertEquals("Test", item.findViewById<TextView>(R.id.tagName).text)
 
+        val imageIconButton = item.findViewById<ImageButton>(R.id.tagIconButton)
+        val shadowDrawable = shadowOf(imageIconButton.drawable)
+        assertEquals("Non-selected Tag", tag, shadowDrawable.createdFromResId)
     }
 
     @Test
