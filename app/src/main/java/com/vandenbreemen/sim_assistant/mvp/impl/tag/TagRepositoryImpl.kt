@@ -1,8 +1,7 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.tag
 
 import com.vandenbreemen.sim_assistant.api.message.ApplicationError
-import com.vandenbreemen.sim_assistant.api.sim.Tag
-import com.vandenbreemen.sim_assistant.api.sim.Tag_
+import com.vandenbreemen.sim_assistant.api.sim.*
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.tag.TagRepository
 
@@ -11,6 +10,13 @@ import com.vandenbreemen.sim_assistant.mvp.tag.TagRepository
  * @author kevin
  */
 class TagRepositoryImpl(val app: SimAssistantApp):TagRepository {
+
+
+    override fun tagSim(sim: Sim, tag: Tag) {
+        val newTag = SimTag(0, sim.id, tag.id)
+        app.boxStore.boxFor(SimTag::class.java).put(newTag)
+    }
+
     override fun getTags(): List<Tag> {
         return app.boxStore.boxFor(Tag::class.java).all
     }
@@ -28,10 +34,21 @@ class TagRepositoryImpl(val app: SimAssistantApp):TagRepository {
         app.boxStore.boxFor(Tag::class.java).put(tag)
     }
 
+    private fun load(id: Long): Tag {
+        return app.boxStore.boxFor(Tag::class.java).query().equal(Tag_.id, id).build().findFirst()!!
+    }
+
     fun findTag(name:String):Tag?{
         return app.boxStore.boxFor(Tag::class.java).query().equal(Tag_.name, name)
                 .build().findFirst()?.let {
                     return it
                 }?:run{ return null }
+    }
+
+    override fun getTags(sim: Sim): List<Tag> {
+        return app.boxStore.boxFor(SimTag::class.java).query().equal(SimTag_.simId, sim.id).build().find()
+                .map { simTag ->
+                    return@map load(simTag.id)
+                }
     }
 }

@@ -4,6 +4,7 @@ import com.vandenbreemen.sim_assistant.api.message.ApplicationError
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.Tag
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.mvp.impl.post.SimRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.tag.SimTagManagerPresenter
 import com.vandenbreemen.sim_assistant.mvp.tag.SimTagManagerView
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
@@ -44,6 +45,7 @@ class SimTagManagerPresenterImplTest{
         sim = Sim(0, "kevin", "Kevin", 123L,"b")
         this.simTagManagerPresenter = SimTagManagerPresenterImpl(
                 TagInteractorImpl(TagRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)),
+                SimTagInteractorImpl(TagRepositoryImpl(app), SimRepositoryImpl(app)),
                 view)
 
         app = RuntimeEnvironment.application as SimAssistantApp

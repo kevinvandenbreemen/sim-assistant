@@ -19,4 +19,8 @@ data class Tag(
     constructor():
         this(0,"")
 
+    fun copy(selected: Boolean): Tag {
+        return Tag(id, name, selected)
+    }
+
 }

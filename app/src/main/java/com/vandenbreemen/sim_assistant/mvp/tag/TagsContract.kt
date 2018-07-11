@@ -22,7 +22,14 @@ interface TagInteractor{
     fun getTags():Single<List<Tag>>
 }
 
+interface SimTagInteractor {
+    fun addTag(sim: Sim, tag: Tag): Completable
+    fun getTags(sim: Sim): Single<List<Tag>>
+}
+
 interface TagRepository{
     fun addTag(name:String)
     fun getTags():List<Tag>
+    fun tagSim(sim: Sim, tag: Tag)
+    fun getTags(sim: Sim): List<Tag>
 }

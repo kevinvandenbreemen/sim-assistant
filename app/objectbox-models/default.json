@@ -120,11 +120,31 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "8:5723340812229247551",
+      "lastPropertyId": "3:4485888565014575665",
+      "name": "SimTag",
+      "properties": [
+        {
+          "id": "1:3850663140971976082",
+          "name": "id"
+        },
+        {
+          "id": "2:4047850643202661922",
+          "name": "simId"
+        },
+        {
+          "id": "3:4485888565014575665",
+          "name": "tagId"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "7:177119141243165986",
-  "lastIndexId": "4:7358204498378277556",
-  "lastRelationId": "0:0",
+  "lastEntityId": "8:5723340812229247551",
+  "lastIndexId": "6:3344157417175643184",
+  "lastRelationId": "2:8786187204101308507",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
@@ -133,13 +153,18 @@
   ],
   "retiredIndexUids": [
     7046077816884497283,
-    4603309886083200783
+    4603309886083200783,
+    1566805753540489721,
+    3344157417175643184
   ],
   "retiredPropertyUids": [
     8822773234404790302,
     4166500502172837808,
     3177706483884386590
   ],
-  "retiredRelationUids": [],
+  "retiredRelationUids": [
+    5270369695492362754,
+    8786187204101308507
+  ],
   "version": 1
 }
