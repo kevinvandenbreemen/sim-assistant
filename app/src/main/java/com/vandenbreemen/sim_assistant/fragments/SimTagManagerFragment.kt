@@ -33,7 +33,7 @@ class SimTagManagerFragment() : DialogFragment(), SimTagManagerView {
     @Inject
     lateinit var tagManagemerPresenter: SimTagManagerPresenter
 
-    val tagAdapter = TagAdapter()
+    lateinit var tagAdapter: TagAdapter
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
@@ -46,6 +46,7 @@ class SimTagManagerFragment() : DialogFragment(), SimTagManagerView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val tagManagerContainer: ViewGroup = inflater.inflate(R.layout.layout_tag_create_select, container) as ViewGroup
 
+        tagAdapter = TagAdapter(tagManagemerPresenter, sim)
         tagManagerContainer.findViewById<RecyclerView>(tagSelector).apply {
             layoutManager = LinearLayoutManager(this@SimTagManagerFragment.context)
             adapter = tagAdapter

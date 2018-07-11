@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.fragments
 
+import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.ImageButton
@@ -9,6 +10,7 @@ import com.vandenbreemen.sim_assistant.R.drawable.tag_blue
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.Tag
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
+import com.vandenbreemen.sim_assistant.fragments.SimTagManagerFragment.Companion.ARG_SIM
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
 import org.junit.Assert.assertEquals
@@ -35,9 +37,14 @@ class SimTagManagerFragmentTest {
 
         //  Arrange
         app.boxStore.boxFor(Tag::class.java).put(Tag(0, "Test", false))
+        val sim = Sim(0, "Kevin", "Test", 0, "")
 
         //  Act
         val fragment = SimTagManagerFragment()
+        val args = Bundle()
+        args.putParcelable(ARG_SIM, sim)
+        fragment.arguments = args
+
         startFragment(fragment)
         val tagsList = fragment.view!!.findViewById<RecyclerView>(R.id.tagSelector)
         tagsList.measure(0, 0)
@@ -59,6 +66,10 @@ class SimTagManagerFragmentTest {
 
         //  Act
         val fragment = SimTagManagerFragment()
+        val args = Bundle()
+        args.putParcelable(ARG_SIM, sim)
+        fragment.arguments = args
+
         startFragment(fragment)
         val tagsList = fragment.view!!.findViewById<RecyclerView>(R.id.tagSelector)
         tagsList.measure(0, 0)
