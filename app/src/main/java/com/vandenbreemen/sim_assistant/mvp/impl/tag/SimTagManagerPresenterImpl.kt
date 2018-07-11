@@ -14,8 +14,8 @@ import com.vandenbreemen.sim_assistant.mvp.tag.TagInteractor
  */
 //
 class SimTagManagerPresenterImpl(val tagInteractor: TagInteractor, val simTagInteractor: SimTagInteractor, val view: SimTagManagerView) : SimTagManagerPresenter {
-    override fun start() {
-        tagInteractor.getTags().subscribe { tags ->
+    override fun start(sim: Sim) {
+        simTagInteractor.getTags(sim).subscribe { tags ->
             view.listTags(tags)
         }
     }

@@ -62,7 +62,7 @@ class SimTagManagerFragment() : DialogFragment(), SimTagManagerView {
 
     override fun onStart() {
         super.onStart()
-        tagManagemerPresenter.start()
+        tagManagemerPresenter.start(sim)
         dialog.window.setLayout(MATCH_PARENT, MATCH_PARENT);
 
     }
