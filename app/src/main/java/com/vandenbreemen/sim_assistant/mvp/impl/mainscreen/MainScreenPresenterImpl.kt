@@ -33,7 +33,7 @@ class MainScreenPresenterImpl(val mainScreenModelImpl: MainScreenModel, val view
     }
 
     override fun setGoogleGroupName(name: String) {
-        mainScreenModelImpl.addGoogleGroup(name)
+        mainScreenModelImpl.addGoogleGroup(name).observeOn(mainThread())
                 .doOnError(Consumer { err->
                     if(err is ApplicationError){
                         view.showError(err.localizedMessage)
