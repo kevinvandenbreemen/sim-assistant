@@ -7,6 +7,7 @@ import com.vandenbreemen.sim_assistant.mvp.tag.SimTagInteractor
 import com.vandenbreemen.sim_assistant.mvp.tag.SimTagManagerPresenter
 import com.vandenbreemen.sim_assistant.mvp.tag.SimTagManagerView
 import com.vandenbreemen.sim_assistant.mvp.tag.TagInteractor
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 
 /**
  *
@@ -20,9 +21,9 @@ class SimTagManagerPresenterImpl(val tagInteractor: TagInteractor, val simTagInt
         }
     }
 
-    override fun toggleSimTag(name: String) {
+    override fun addTag(name: String) {
         tagInteractor.addTag(name).subscribe({
-            tagInteractor.getTags().subscribe { tags->view.listTags(tags) }
+            tagInteractor.getTags().observeOn(mainThread()).subscribe { tags -> view.listTags(tags) }
         },{error->
             if(error is ApplicationError){
                 view.showError(error)

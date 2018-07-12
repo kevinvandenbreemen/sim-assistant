@@ -59,7 +59,7 @@ class SimTagManagerPresenterImplTest{
     fun shouldAddTag(){
 
         //  Act
-        simTagManagerPresenter.toggleSimTag("Test")
+        simTagManagerPresenter.addTag("Test")
 
         //  Assert
         verify(view).listTags(listOf(Tag(1, "Test", false)))
@@ -68,7 +68,7 @@ class SimTagManagerPresenterImplTest{
     @Test
     fun shouldShowErrorIfAddedBadTag(){
         //  Act
-        simTagManagerPresenter.toggleSimTag("")
+        simTagManagerPresenter.addTag("")
 
         //  Assert
         verify(view).showError(ApplicationError("Tag must have a name"))

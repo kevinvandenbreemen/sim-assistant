@@ -9,8 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import com.vandenbreemen.sim_assistant.R
+import com.vandenbreemen.sim_assistant.R.id.addTag
 import com.vandenbreemen.sim_assistant.R.id.tagSelector
 import com.vandenbreemen.sim_assistant.adapters.TagAdapter
 import com.vandenbreemen.sim_assistant.api.message.ApplicationError
@@ -50,6 +53,12 @@ class SimTagManagerFragment() : DialogFragment(), SimTagManagerView {
         tagManagerContainer.findViewById<RecyclerView>(tagSelector).apply {
             layoutManager = LinearLayoutManager(this@SimTagManagerFragment.context)
             adapter = tagAdapter
+        }
+
+        tagManagerContainer.findViewById<ImageButton>(addTag).setOnClickListener { v ->
+            tagManagemerPresenter.addTag(
+                    tagManagerContainer.findViewById<TextView>(R.id.addInput).text.toString()
+            )
         }
 
         return tagManagerContainer

@@ -7,7 +7,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface SimTagManagerPresenter {
-    fun toggleSimTag(name: String)
+    fun addTag(name: String)
     fun start(sim: Sim)
     fun toggleSimTag(sim: Sim, tag: Tag)
 }
