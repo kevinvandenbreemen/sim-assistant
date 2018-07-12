@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.tag
 
+import android.util.Log
 import com.vandenbreemen.sim_assistant.api.message.ApplicationError
 import com.vandenbreemen.sim_assistant.api.sim.*
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
@@ -10,6 +11,11 @@ import com.vandenbreemen.sim_assistant.mvp.tag.TagRepository
  * @author kevin
  */
 class TagRepositoryImpl(val app: SimAssistantApp):TagRepository {
+
+    companion object {
+        const val TAG = "TagRepository"
+    }
+
     override fun hasTag(sim: Sim, tag: Tag): Boolean {
         return app.boxStore.boxFor(SimTag::class.java).query()
                 .equal(SimTag_.simId, sim.id).equal(SimTag_.tagId, tag.id)
@@ -59,7 +65,8 @@ class TagRepositoryImpl(val app: SimAssistantApp):TagRepository {
     override fun getTags(sim: Sim): List<Tag> {
         return app.boxStore.boxFor(SimTag::class.java).query().equal(SimTag_.simId, sim.id).build().find()
                 .map { simTag ->
-                    return@map load(simTag.id)
+                    Log.d(TAG, "Load simTag:  $simTag")
+                    return@map load(simTag.tagId)
                 }
     }
 }

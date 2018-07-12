@@ -22,6 +22,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
+import org.robolectric.shadows.ShadowLog
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment
 
 @RunWith(RobolectricTestRunner::class)
@@ -31,6 +32,7 @@ class SimTagManagerFragmentTest {
 
     @Before
     fun setup() {
+        ShadowLog.stream = System.out
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
     }
 
@@ -67,7 +69,7 @@ class SimTagManagerFragmentTest {
     fun shouldDisplaySimAsTaggedOnInitialLoad() {
         //  Arrange
         val tag = Tag(0, "Test")
-        app.boxStore.boxFor(Tag::class.java).put(Tag(0, "Test", false))
+        app.boxStore.boxFor(Tag::class.java).put(tag)
         val sim = Sim(0, "Kevin", "Test", 0, "")
         app.boxStore.boxFor(Sim::class.java).put(sim)
         app.boxStore.boxFor(SimTag::class.java).put(SimTag(0, sim.id, tag.id))

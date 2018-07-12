@@ -33,7 +33,8 @@ class SimTagManagerPresenterImpl(val tagInteractor: TagInteractor, val simTagInt
 
     override fun toggleSimTag(sim: Sim, tag: Tag) {
         simTagInteractor.toggleTag(sim, tag).subscribe({
-            simTagInteractor.getTags(sim).subscribe({ tags -> view.listTags(tags) })
+            simTagInteractor.getTags(sim).observeOn(mainThread())
+                    .subscribe({ tags -> view.listTags(tags) })
         })
     }
 }
