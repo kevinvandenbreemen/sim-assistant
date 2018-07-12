@@ -79,6 +79,23 @@ class TagRepositoryImplTest{
     }
 
     @Test
+    fun shouldNotAllowAddingTagWithSameNameDifferentCase() {
+        //  Arrange
+        repository.addTag("test")
+
+        //  Act
+        try {
+            repository.addTag("TEST")
+            fail("Should not have allowed this")
+        } catch (error: ApplicationError) {
+
+        }
+
+        //  Assert
+        assertEquals("Single Tag", 1, repository.getTags().size)
+    }
+
+    @Test
     fun shouldRecognizeWhenSimHasTag() {
         //  Arrange
         val sim = Sim(0, "Kevin", "Test", 0, "Content")

@@ -22,7 +22,7 @@ class SimTagManagerPresenterImpl(val tagInteractor: TagInteractor, val simTagInt
     }
 
     override fun addTag(name: String) {
-        tagInteractor.addTag(name).subscribe({
+        tagInteractor.addTag(name).observeOn(mainThread()).subscribe({
             tagInteractor.getTags().observeOn(mainThread()).subscribe { tags -> view.listTags(tags) }
         },{error->
             if(error is ApplicationError){

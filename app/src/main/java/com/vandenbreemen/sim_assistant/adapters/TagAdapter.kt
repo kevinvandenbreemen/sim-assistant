@@ -40,6 +40,8 @@ class TagAdapter(val simTagManagerPresenter: SimTagManagerPresenter, val sim: Si
 
         if (tag.selected) {
             holder.container.findViewById<ImageButton>(tagIconButton).setImageResource(R.drawable.tag_blue)
+        } else {
+            holder.container.findViewById<ImageButton>(tagIconButton).setImageResource(R.drawable.tag)
         }
     }
 
