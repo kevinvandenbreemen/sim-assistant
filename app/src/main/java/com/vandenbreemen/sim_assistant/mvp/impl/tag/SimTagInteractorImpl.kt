@@ -12,8 +12,14 @@ import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers.io
 
 class SimTagInteractorImpl(val tagRepository: TagRepository, val simRepository: SimRepository) : SimTagInteractor {
-    override fun addTag(sim: Sim, tag: Tag): Completable {
+
+    override fun toggleTag(sim: Sim, tag: Tag): Completable {
         return Completable.create(CompletableOnSubscribe {
+            if (tagRepository.hasTag(sim, tag)) {
+                tagRepository.removeTag(sim, tag)
+                it.onComplete()
+                return@CompletableOnSubscribe
+            }
             tagRepository.tagSim(sim, tag)
             it.onComplete()
         }).subscribeOn(io())

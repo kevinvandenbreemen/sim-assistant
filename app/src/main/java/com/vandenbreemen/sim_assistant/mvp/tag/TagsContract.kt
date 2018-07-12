@@ -7,9 +7,9 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface SimTagManagerPresenter {
-    fun addTag(name: String)
+    fun toggleSimTag(name: String)
     fun start(sim: Sim)
-    fun addTag(sim: Sim, tag: Tag)
+    fun toggleSimTag(sim: Sim, tag: Tag)
 }
 
 interface SimTagManagerView {
@@ -23,7 +23,7 @@ interface TagInteractor{
 }
 
 interface SimTagInteractor {
-    fun addTag(sim: Sim, tag: Tag): Completable
+    fun toggleTag(sim: Sim, tag: Tag): Completable
     fun getTags(sim: Sim): Single<List<Tag>>
 }
 

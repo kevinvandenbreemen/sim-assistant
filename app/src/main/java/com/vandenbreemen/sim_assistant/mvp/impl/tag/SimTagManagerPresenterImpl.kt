@@ -20,7 +20,7 @@ class SimTagManagerPresenterImpl(val tagInteractor: TagInteractor, val simTagInt
         }
     }
 
-    override fun addTag(name: String) {
+    override fun toggleSimTag(name: String) {
         tagInteractor.addTag(name).subscribe({
             tagInteractor.getTags().subscribe { tags->view.listTags(tags) }
         },{error->
@@ -30,8 +30,8 @@ class SimTagManagerPresenterImpl(val tagInteractor: TagInteractor, val simTagInt
         })
     }
 
-    override fun addTag(sim: Sim, tag: Tag) {
-        simTagInteractor.addTag(sim, tag).subscribe({
+    override fun toggleSimTag(sim: Sim, tag: Tag) {
+        simTagInteractor.toggleTag(sim, tag).subscribe({
             simTagInteractor.getTags(sim).subscribe({ tags -> view.listTags(tags) })
         })
     }

@@ -59,7 +59,7 @@ class SimTagManagerPresenterImplTest{
     fun shouldAddTag(){
 
         //  Act
-        simTagManagerPresenter.addTag("Test")
+        simTagManagerPresenter.toggleSimTag("Test")
 
         //  Assert
         verify(view).listTags(listOf(Tag(1, "Test", false)))
@@ -68,7 +68,7 @@ class SimTagManagerPresenterImplTest{
     @Test
     fun shouldShowErrorIfAddedBadTag(){
         //  Act
-        simTagManagerPresenter.addTag("")
+        simTagManagerPresenter.toggleSimTag("")
 
         //  Assert
         verify(view).showError(ApplicationError("Tag must have a name"))
@@ -81,10 +81,25 @@ class SimTagManagerPresenterImplTest{
         app.boxStore.boxFor(Tag::class.java).put(tag)
 
         //  Act
-        simTagManagerPresenter.addTag(sim, tag)
+        simTagManagerPresenter.toggleSimTag(sim, tag)
 
         //  Assert
         val expectedTag = Tag(1, "Test", true)
+        verify(view).listTags(listOf(expectedTag))
+    }
+
+    @Test
+    fun shouldUnTagSim() {
+        //  Arrange
+        val tag = Tag(0, "Test", false)
+        app.boxStore.boxFor(Tag::class.java).put(tag)
+
+        //  Act
+        simTagManagerPresenter.toggleSimTag(sim, tag)
+        simTagManagerPresenter.toggleSimTag(sim, tag)
+
+        //  Assert
+        val expectedTag = Tag(1, "Test", false)
         verify(view).listTags(listOf(expectedTag))
     }
 

@@ -35,7 +35,7 @@ class TagAdapter(val simTagManagerPresenter: SimTagManagerPresenter, val sim: Si
 
         val tag = tagList[position]
         holder.container.findViewById<ImageButton>(tagIconButton).setOnClickListener { v ->
-            simTagManagerPresenter.addTag(sim, tag)
+            simTagManagerPresenter.toggleSimTag(sim, tag)
         }
 
         if (tag.selected) {
