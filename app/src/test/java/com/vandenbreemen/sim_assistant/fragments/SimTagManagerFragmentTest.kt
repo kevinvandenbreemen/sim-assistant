@@ -120,4 +120,33 @@ class SimTagManagerFragmentTest {
 
     }
 
+    @Test
+    fun shouldUnTagSim() {
+        //  Arrange
+        app.boxStore.boxFor(Tag::class.java).put(Tag(0, "Test", false))
+        val sim = Sim(0, "Kevin", "Test", 0, "")
+        app.boxStore.boxFor(Sim::class.java).put(sim)
+
+        //  Act
+        val fragment = SimTagManagerFragment()
+        val args = Bundle()
+        args.putParcelable(ARG_SIM, sim)
+        fragment.arguments = args
+
+        startFragment(fragment)
+        val tagsList = fragment.view!!.findViewById<RecyclerView>(R.id.tagSelector)
+        tagsList.measure(0, 0)
+        tagsList.layout(0, 0, 100, 10000)
+        val item = tagsList.getChildAt(0) as ViewGroup
+        item.findViewById<ImageButton>(R.id.tagIconButton).performClick()
+        item.findViewById<ImageButton>(R.id.tagIconButton).performClick()
+        tagsList.measure(0, 0)
+        tagsList.layout(0, 0, 100, 10000)
+
+        //  Assert
+        val imageIconButton = item.findViewById<ImageButton>(R.id.tagIconButton)
+        val shadowDrawable = shadowOf(imageIconButton.drawable)
+        assertEquals("Selected Tag", tag, shadowDrawable.createdFromResId)
+    }
+
 }
