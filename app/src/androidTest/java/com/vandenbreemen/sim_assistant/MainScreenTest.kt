@@ -156,6 +156,8 @@ class MainScreenTest {
 
             onView(withId(R.id.addInput)).perform(typeText("New Tag"))
 
+            onView(withId(R.id.addTag)).perform(click())
+
             //  Verify tag now present
             onView(withId(R.id.tagSelector)).check(hasItemCount(1))
 
