@@ -1,8 +1,13 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.tag
 
 import com.vandenbreemen.sim_assistant.api.message.ApplicationError
+import com.vandenbreemen.sim_assistant.api.sim.Sim
+import com.vandenbreemen.sim_assistant.api.sim.SimTag
+import com.vandenbreemen.sim_assistant.api.sim.Tag
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.tag.TagRepository
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Before
@@ -18,10 +23,12 @@ import org.robolectric.RuntimeEnvironment
 class TagRepositoryImplTest{
 
     lateinit var repository:TagRepository
+    lateinit var app: SimAssistantApp
 
     @Before
     fun setup(){
         this.repository = TagRepositoryImpl(RuntimeEnvironment.application as SimAssistantApp)
+        app = RuntimeEnvironment.application as SimAssistantApp
     }
 
     @Test
@@ -69,6 +76,65 @@ class TagRepositoryImplTest{
 
         //  Assert
         assertEquals("Single Tag", 1, repository.getTags().size)
+    }
+
+    @Test
+    fun shouldRecognizeWhenSimHasTag() {
+        //  Arrange
+        val sim = Sim(0, "Kevin", "Test", 0, "Content")
+        app.boxStore.boxFor(Sim::class.java).put(sim)
+
+        val tag = Tag(0, "Test")
+        app.boxStore.boxFor(Tag::class.java).put(tag)
+
+        val simTag = SimTag(0, sim.id, tag.id)
+        app.boxStore.boxFor(SimTag::class.java).put(simTag)
+
+        //  Act/assert
+        assertTrue("Has Tag", repository.hasTag(sim, tag))
+    }
+
+    @Test
+    fun shouldRemoveTag() {
+        //  Arrange
+        val sim = Sim(0, "Kevin", "Test", 0, "Content")
+        app.boxStore.boxFor(Sim::class.java).put(sim)
+
+        val tag = Tag(0, "Test")
+        app.boxStore.boxFor(Tag::class.java).put(tag)
+
+        val simTag = SimTag(0, sim.id, tag.id)
+        app.boxStore.boxFor(SimTag::class.java).put(simTag)
+
+        //  Act
+        repository.removeTag(sim, tag)
+
+        //  Assert
+        assertFalse("Has Tag", repository.hasTag(sim, tag))
+    }
+
+    @Test
+    fun shouldRemoveOnlySelectedTag() {
+        //  Arrange
+        val sim = Sim(0, "Kevin", "Test", 0, "Content")
+        app.boxStore.boxFor(Sim::class.java).put(sim)
+
+        val tag = Tag(0, "Test")
+        app.boxStore.boxFor(Tag::class.java).put(tag)
+        val anotherTag = Tag(0, "Another")
+        app.boxStore.boxFor(Tag::class.java).put(anotherTag)
+
+        val simTag = SimTag(0, sim.id, tag.id)
+        app.boxStore.boxFor(SimTag::class.java).put(simTag)
+        val newSimTag = SimTag(0, sim.id, anotherTag.id)
+        app.boxStore.boxFor(SimTag::class.java).put(newSimTag)
+
+        //  Act
+        repository.removeTag(sim, anotherTag)
+
+        //  Assert
+        assertFalse("Has Tag", repository.hasTag(sim, anotherTag))
+        assertTrue("Has Tag", repository.hasTag(sim, tag))
     }
 
 }

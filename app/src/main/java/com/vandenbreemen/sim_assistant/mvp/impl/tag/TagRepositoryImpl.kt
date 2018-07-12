@@ -10,6 +10,17 @@ import com.vandenbreemen.sim_assistant.mvp.tag.TagRepository
  * @author kevin
  */
 class TagRepositoryImpl(val app: SimAssistantApp):TagRepository {
+    override fun hasTag(sim: Sim, tag: Tag): Boolean {
+        return app.boxStore.boxFor(SimTag::class.java).query()
+                .equal(SimTag_.simId, sim.id).equal(SimTag_.tagId, tag.id)
+                .build().count() == 1L
+    }
+
+    override fun removeTag(sim: Sim, tag: Tag) {
+        app.boxStore.boxFor(SimTag::class.java).query()
+                .equal(SimTag_.simId, sim.id).equal(SimTag_.tagId, tag.id)
+                .build().remove()
+    }
 
 
     override fun tagSim(sim: Sim, tag: Tag) {

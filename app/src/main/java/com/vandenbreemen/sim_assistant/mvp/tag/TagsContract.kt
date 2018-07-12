@@ -32,4 +32,6 @@ interface TagRepository{
     fun getTags():List<Tag>
     fun tagSim(sim: Sim, tag: Tag)
     fun getTags(sim: Sim): List<Tag>
+    fun hasTag(sim: Sim, tag: Tag): Boolean
+    fun removeTag(sim: Sim, tag: Tag)
 }
