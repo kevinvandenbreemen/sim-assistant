@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.app.Fragment
 import android.util.Log
+import com.squareup.leakcanary.LeakCanary
 import com.vandenbreemen.sim_assistant.MyObjectBox
 import com.vandenbreemen.sim_assistant.di.DaggerAppComponent
 import dagger.android.AndroidInjector
@@ -42,6 +43,10 @@ open class SimAssistantApp : Application(), HasActivityInjector, HasFragmentInje
 
     override fun onCreate() {
         super.onCreate()
+
+        if(!isInUnitTest() && !LeakCanary.isInAnalyzerProcess(this)){
+            LeakCanary.install(this)
+        }
 
         DaggerAppComponent.builder()
                 .application(this)

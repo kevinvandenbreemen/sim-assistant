@@ -55,6 +55,7 @@ project.ext {
     retrofitVersion = "2.3.0"
     supportLibV7Version = "27.1.1"
     objectboxVersion = '1.5.0'
+    leakCanaryVersion='1.5.4'
 }
 
 dependencies {
@@ -90,6 +91,8 @@ dependencies {
 
     //  Testing Code
     //  =============
+
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"

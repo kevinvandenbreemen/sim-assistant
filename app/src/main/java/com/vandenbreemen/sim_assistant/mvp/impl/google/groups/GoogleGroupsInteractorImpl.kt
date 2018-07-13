@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.google.groups
 
+import android.util.Log
 import com.vandenbreemen.sim_assistant.api.google.GoogleGroupsApi
 import com.vandenbreemen.sim_assistant.api.message.ApplicationError
 import com.vandenbreemen.sim_assistant.data.GoogleGroup
@@ -33,11 +34,14 @@ class GoogleGroupsInteractorImpl(private val googleGroupRepository: GoogleGroupR
         val googleGroupsApi = Retrofit.Builder().baseUrl(GOOGLE_GROUPS_BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(SimpleXmlConverterFactory.create()).build().create(GoogleGroupsApi::class.java)
-        return googleGroupsApi.getRssFeed(groupName, 1).subscribeOn(io()).flatMap(Function { googleGroup ->
-            SingleSource { observer ->
+        return googleGroupsApi.getRssFeed(groupName, 1).subscribeOn(io()).flatMap(Function<GoogleGroupsRSSFeed, SingleSource<Boolean>> { googleGroup ->
+            SingleSource<Boolean> { observer ->
                 observer.onSuccess(true)
             }
-        })
+        }).onErrorResumeNext { error->
+            Log.e(TAG, "Failed to determine if $groupName Group Exists", error)
+            Single.just(false)
+        }
     }
 
     override fun addGoogleGroup(groupName: String): Completable {
