@@ -53,6 +53,10 @@ class SimListPresenterProviderImplTest{
         simList = mutableListOf()
 
         simListView = object:SimListView{
+            override fun hideProgressSpinner() {
+
+            }
+
             override fun deselectSim(sim: Sim) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }

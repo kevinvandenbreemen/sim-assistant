@@ -27,6 +27,7 @@ interface SimListView {
     fun selectSim(sim: Sim)
     fun hideViewSelectedSimsOption()
     fun deselectSim(sim: Sim)
+    fun hideProgressSpinner()
 }
 
 interface SimListModel{

@@ -24,7 +24,7 @@ class SimListPresenterImpl(private val simListModel: SimListModel):SimListPresen
         },{
 
         },{
-
+            view.hideProgressSpinner()
         })
     }
 

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import com.vandenbreemen.sim_assistant.R
 import com.vandenbreemen.sim_assistant.R.id.viewSims
 import com.vandenbreemen.sim_assistant.ViewSimActivity
@@ -114,6 +115,10 @@ class SimListFragment : Fragment(), SimListView, SimItemView {
 
     }
 
+    override fun hideProgressSpinner() {
+        view.findViewById<ProgressBar>(R.id.progressSpinner).visibility = GONE
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         AndroidInjection.inject(this)
@@ -127,6 +132,8 @@ class SimListFragment : Fragment(), SimListView, SimItemView {
         })
 
         presenter.start(this)
+
+        layout.findViewById<ProgressBar>(R.id.progressSpinner).visibility = VISIBLE
 
         return layout
     }

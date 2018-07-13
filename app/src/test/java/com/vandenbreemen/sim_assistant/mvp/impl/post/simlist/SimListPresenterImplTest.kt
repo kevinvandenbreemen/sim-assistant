@@ -12,8 +12,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnit
 import org.robolectric.RobolectricTestRunner
 
@@ -58,6 +57,16 @@ class SimListPresenterImplTest{
         //  Assert
         verify(simListView).viewSim(sim)
 
+    }
+
+    @Test
+    fun shouldTellViewToHideProgressBarWhenDone() {
+
+        //  Act
+        presenter.start(simListView)
+
+        //  Assert
+        verify(simListView, times(2) /*This will happen a second time due to setup() */).hideProgressSpinner()
     }
 
     @Test
