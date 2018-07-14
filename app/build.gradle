@@ -70,6 +70,9 @@ dependencies {
     //  RecyclerView
     implementation "com.android.support:recyclerview-v7:$supportLibV7Version"
 
+    //  Flutter Stuff
+    implementation project(':flutter')
+
     //  ObjectBox
 
     //  Dagger

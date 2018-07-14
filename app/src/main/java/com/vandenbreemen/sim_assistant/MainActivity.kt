@@ -1,8 +1,8 @@
 package com.vandenbreemen.sim_assistant
 
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
+import com.vandenbreemen.sim_assistant.fragments.AboutFragment
 import com.vandenbreemen.sim_assistant.fragments.SimListFragment
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
@@ -30,6 +31,12 @@ class MainActivity : AppCompatActivity(), MainScreenView {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        findViewById<FloatingActionButton>(R.id.help).setOnClickListener({ v ->
+            val popupContainer = findViewById<ViewGroup>(R.id.popupContainer)
+            val helpAndAbout = AboutFragment()
+            supportFragmentManager.beginTransaction().add(R.id.popupContainer, helpAndAbout).commit()
+        })
     }
 
     override fun onResume() {
