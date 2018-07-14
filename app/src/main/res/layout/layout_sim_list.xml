@@ -39,7 +39,6 @@
         android:id="@+id/progressSpinner"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        style="?android:attr/indeterminateProgressStyle"
         android:progress="10" />
 
 </android.support.constraint.ConstraintLayout>
