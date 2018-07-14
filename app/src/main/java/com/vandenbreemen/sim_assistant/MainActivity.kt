@@ -11,15 +11,17 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
 import com.vandenbreemen.sim_assistant.fragments.AboutFragment
+import com.vandenbreemen.sim_assistant.fragments.AboutListener
 import com.vandenbreemen.sim_assistant.fragments.SimListFragment
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.SimSource
 import dagger.android.AndroidInjection
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainScreenView {
+class MainActivity : AppCompatActivity(), MainScreenView, AboutListener {
 
     @Inject
     lateinit var presenter:MainScreenPresenter
@@ -87,5 +89,10 @@ class MainActivity : AppCompatActivity(), MainScreenView {
 
             fragmentManager.beginTransaction().add(R.id.popupContainer, fragment).commit()
         }
+    }
+
+    override fun onReturnToMain() {
+        popupContainer.removeAllViews()
+        presenter.start().subscribe()
     }
 }
