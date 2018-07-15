@@ -18,6 +18,14 @@ allprojects {
     }
 }
 
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/android_gen"
+}
+subprojects {
+    project.evaluationDependsOn(':flutter')
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

@@ -17,13 +17,3 @@ plugins.each { name, path ->
     gradle.include ":$name"
     gradle.project(":$name").projectDir = pluginDirectory
 }
-
-gradle.getGradle().projectsLoaded { g ->
-    g.rootProject.afterEvaluate { p ->
-        p.subprojects { sp ->
-            if (sp.name != 'flutter') {
-                sp.evaluationDependsOn(':flutter')
-            }
-        }
-    }
-}

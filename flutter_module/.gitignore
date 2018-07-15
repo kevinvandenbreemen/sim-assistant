@@ -39,3 +39,8 @@ build/
 .android/
 .ios/
 .flutter-plugins
+
+# These need to be excluded as they will correspond to flutter
+# setups on individual dev machines
+.android
+.ios
