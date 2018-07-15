@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?><!--Pallette based on http://paletton.com/palette.php?uid=72M080k5YqL8KRl5iDx4FkV20f8 -->
 <resources>
-    <color name="colorPrimary">#94B090</color>
-    <color name="colorPrimaryDark">#809E89</color>
-    <color name="colorAccent">#BFDFBA</color>
+    <color name="colorPrimary">#0A0A0A</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="selectedSim">@color/colorAccent</color>
-    <color name="defaultSimColor">#ACCEB7</color>
-    <color name="mainCard">#ACCEB7</color>
-    <color name="textColorDefault">#ABEBBE</color>
-    <color name="textColorDark">#545955</color>
+    <color name="defaultSimColor">#808080</color>
+    <color name="mainCard">#0f0f0f</color>
+    <color name="textColorDefault">#C0C0C0</color>
+    <color name="textColorDark">#000000</color>
     <color name="errorBackground">#FFDBD5</color>
     <color name="errorText">#756E6F</color>
 </resources>
