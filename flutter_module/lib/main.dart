@@ -24,7 +24,7 @@ class Router extends StatelessWidget {
       case 'helpScreen':
         return Container(
           child: new HelpScreenWidget(),
-          color: Colors.white30,
+          color: Colors.black,
         );
 
       default:
