@@ -1,5 +1,6 @@
 package com.vandenbreemen.sim_assistant.mvp.impl.tag
 
+import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.Tag
 import com.vandenbreemen.sim_assistant.mvp.tag.TagRepository
 import com.vandenbreemen.sim_assistant.mvp.tag.TagSimSearchPresenter
@@ -32,10 +33,14 @@ class TagSearchPresenterImplTest {
     val tag1 = Tag(1, "tag 1")
     val tag2 = Tag(2, "tag 2")
 
+    val sim1 = Sim(1, "Kevin", "Test", 0, "Content")
+
     @Before
     fun setup() {
         RxJavaPlugins.setIoSchedulerHandler { trampoline() }
-        tagSearchPresenter = TagSearchPresenterImpl(TagInteractorImpl(tagRepository), tagSimSearchView, tagSimSearchRouter)
+        tagSearchPresenter = TagSearchPresenterImpl(TagInteractorImpl(tagRepository),
+                SimTagInteractorImpl(tagRepository),
+                tagSimSearchView, tagSimSearchRouter)
     }
 
     @Test
@@ -60,6 +65,18 @@ class TagSearchPresenterImplTest {
 
         //  Assert
         verify(tagSimSearchView).displayTags(emptyList())
+    }
+
+    @Test
+    fun shouldGoToSimListOnceTagSelected() {
+        //  Arrange
+        `when`(tagRepository.getSims(tag1)).thenReturn(listOf(sim1))
+
+        //  Act
+        tagSearchPresenter.selectTag(tag1)
+
+        //  Assert
+        tagSimSearchRouter.gotoSimList(listOf(sim1))
     }
 
 }

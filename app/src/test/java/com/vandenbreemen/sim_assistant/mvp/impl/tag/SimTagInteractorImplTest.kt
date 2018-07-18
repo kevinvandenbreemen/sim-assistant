@@ -3,7 +3,6 @@ package com.vandenbreemen.sim_assistant.mvp.impl.tag
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.Tag
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
-import com.vandenbreemen.sim_assistant.mvp.impl.post.SimRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.tag.SimTagInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.plugins.RxJavaPlugins
@@ -27,7 +26,7 @@ class SimTagInteractorImplTest {
     fun setup() {
         RxJavaPlugins.setIoSchedulerHandler { mainThread() }
         app = RuntimeEnvironment.application as SimAssistantApp
-        interactor = SimTagInteractorImpl(TagRepositoryImpl(app), SimRepositoryImpl(app))
+        interactor = SimTagInteractorImpl(TagRepositoryImpl(app))
         sim = Sim(0, "Test Sim", "Kevin", 0, "Test Content")
         app.boxStore.boxFor(Sim::class.java).put(sim)
     }

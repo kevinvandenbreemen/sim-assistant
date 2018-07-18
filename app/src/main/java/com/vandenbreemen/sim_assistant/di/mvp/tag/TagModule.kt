@@ -34,8 +34,8 @@ class TagModule {
     }
 
     @Provides
-    fun providesSimTagInteractor(tagRepository: TagRepository, simRepository: SimRepository): SimTagInteractor {
-        return SimTagInteractorImpl(tagRepository, simRepository)
+    fun providesSimTagInteractor(tagRepository: TagRepository): SimTagInteractor {
+        return SimTagInteractorImpl(tagRepository)
     }
 
     @Provides

@@ -2,7 +2,6 @@ package com.vandenbreemen.sim_assistant.mvp.impl.tag
 
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.Tag
-import com.vandenbreemen.sim_assistant.mvp.post.SimRepository
 import com.vandenbreemen.sim_assistant.mvp.tag.SimTagInteractor
 import com.vandenbreemen.sim_assistant.mvp.tag.TagRepository
 import io.reactivex.Completable
@@ -11,7 +10,12 @@ import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers.io
 
-class SimTagInteractorImpl(val tagRepository: TagRepository, val simRepository: SimRepository) : SimTagInteractor {
+class SimTagInteractorImpl(val tagRepository: TagRepository) : SimTagInteractor {
+    override fun getSims(tag: Tag): Single<List<Sim>> {
+        return Single.create(SingleOnSubscribe<List<Sim>> {
+            it.onSuccess(tagRepository.getSims(tag))
+        }).subscribeOn(io())
+    }
 
     override fun toggleTag(sim: Sim, tag: Tag): Completable {
         return Completable.create(CompletableOnSubscribe {
