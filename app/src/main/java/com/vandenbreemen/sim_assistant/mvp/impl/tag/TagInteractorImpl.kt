@@ -12,6 +12,11 @@ import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers.io
 
 class TagInteractorImpl(val repository: TagRepository) : TagInteractor{
+    override fun searchTags(tagNameCriteria: String): Single<List<Tag>> {
+        return Single.create(SingleOnSubscribe<List<Tag>> {
+            it.onSuccess(repository.searchTag(tagNameCriteria))
+        }).subscribeOn(io())
+    }
 
     companion object {
         val TAG = TagInteractorImpl::class.java.simpleName

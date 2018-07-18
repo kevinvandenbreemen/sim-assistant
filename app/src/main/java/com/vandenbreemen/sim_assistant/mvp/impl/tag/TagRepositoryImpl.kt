@@ -11,6 +11,9 @@ import com.vandenbreemen.sim_assistant.mvp.tag.TagRepository
  * @author kevin
  */
 class TagRepositoryImpl(val app: SimAssistantApp):TagRepository {
+    override fun searchTag(tagNameCriteria: String): List<Tag> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     companion object {
         const val TAG = "TagRepository"

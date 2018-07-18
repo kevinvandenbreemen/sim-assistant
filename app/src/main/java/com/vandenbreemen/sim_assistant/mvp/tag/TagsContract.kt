@@ -20,6 +20,7 @@ interface SimTagManagerView {
 interface TagInteractor{
     fun addTag(name:String): Completable
     fun getTags():Single<List<Tag>>
+    fun searchTags(tagNameCriteria: String): Single<List<Tag>>
 }
 
 interface SimTagInteractor {
@@ -34,4 +35,5 @@ interface TagRepository{
     fun getTags(sim: Sim): List<Tag>
     fun hasTag(sim: Sim, tag: Tag): Boolean
     fun removeTag(sim: Sim, tag: Tag)
+    fun searchTag(tagNameCriteria: String): List<Tag>
 }
