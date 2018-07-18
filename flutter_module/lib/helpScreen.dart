@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'channels.dart';
 
 const String ACTIONS = "actions";
+const String CHANNEL_ABOUT = "about";
 
 const TextStyle defaultTextStyle = TextStyle(
     color: Colors.white,
@@ -27,6 +28,16 @@ class _State extends State<HelpScreenWidget> {
 
   BasicMessageChannel<String> _actionsChannel = new BasicMessageChannel(
       ACTIONS, StringCodec());
+
+  MethodChannel _aboutChannel = new MethodChannel(CHANNEL_HELP);
+
+  @override
+  void initState() {
+    super.initState();
+    _aboutChannel.invokeMethod(GET_VERSION).then((version) {
+      setState(() => _version = version);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

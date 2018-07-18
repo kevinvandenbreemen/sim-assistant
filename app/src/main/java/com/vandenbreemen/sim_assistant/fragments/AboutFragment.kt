@@ -8,11 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.vandenbreemen.sim_assistant.R
-import com.vandenbreemen.sim_assistant.flutter.CHANNEL_ACTIONS
-import com.vandenbreemen.sim_assistant.flutter.HELP_SCREEN
-import com.vandenbreemen.sim_assistant.flutter.RETURN_TO_MAIN
+import com.vandenbreemen.sim_assistant.flutter.*
 import io.flutter.facade.Flutter
 import io.flutter.plugin.common.BasicMessageChannel
+import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.StringCodec
 
 interface AboutListener {
@@ -39,6 +38,17 @@ class AboutFragment : Fragment() {
                 aboutListener.onReturnToMain()
             }
         })
+
+        MethodChannel(
+                flutterView,
+                CHANNEL_HELP
+        ).setMethodCallHandler(MethodChannel.MethodCallHandler({ call, result ->
+
+            if (call.method.equals(GET_VERSION)) {
+                result.success("1.0.2x")
+            }
+
+        }))
 
         return view
     }
