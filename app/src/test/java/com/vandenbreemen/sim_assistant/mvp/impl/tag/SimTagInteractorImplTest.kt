@@ -62,5 +62,24 @@ class SimTagInteractorImplTest {
         assertFalse("Tag Selected", tags[0].selected)
     }
 
+    @Test
+    fun shouldFilterTagsThatHaveNoSims() {
+        //  Arrange
+        val tag1 = Tag(0, "tag1")
+        app.boxStore.boxFor(Tag::class.java).put(tag1)
+        val tag2 = Tag(0, "tag2")
+        app.boxStore.boxFor(Tag::class.java).put(tag2)
+
+        interactor.toggleTag(sim, tag1).subscribe()
+        val tags = listOf(tag1, tag2)
+
+        //  Act
+        val filtered = interactor.filterEmptyTags(tags).blockingGet()
+
+        //  Assert
+        assertEquals("Single Tag", 1, filtered.size)
+        assertEquals("Non-empty Tag", tag1, filtered[0])
+    }
+
 
 }

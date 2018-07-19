@@ -32,7 +32,9 @@ class TagRepositoryImpl(val app: SimAssistantApp):TagRepository {
     }
 
     override fun hasSims(tag: Tag): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return app.boxStore.boxFor(SimTag::class.java).query()
+                .equal(SimTag_.tagId, tag.id)
+                .build().count() > 0L
     }
 
     override fun removeTag(sim: Sim, tag: Tag) {
