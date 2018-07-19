@@ -11,6 +11,14 @@ import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers.io
 
 class SimTagInteractorImpl(val tagRepository: TagRepository) : SimTagInteractor {
+    override fun filterEmptyTags(tags: List<Tag>): Single<List<Tag>> {
+        return Single.create(SingleOnSubscribe<List<Tag>> { emitter ->
+            emitter.onSuccess(
+                    tags.filter { tag -> tagRepository.hasSims(tag) }
+            )
+        }).subscribeOn(io())
+    }
+
     override fun getSims(tag: Tag): Single<List<Sim>> {
         return Single.create(SingleOnSubscribe<List<Sim>> {
             it.onSuccess(tagRepository.getSims(tag))

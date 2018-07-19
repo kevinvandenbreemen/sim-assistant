@@ -47,12 +47,28 @@ class TagSearchPresenterImplTest {
     fun shouldSearchAndDisplayTags() {
         //  Arrange
         `when`(tagRepository.searchTag("tag")).thenReturn(listOf(tag1, tag2))
+        `when`(tagRepository.hasSims(tag1)).thenReturn(true)
+        `when`(tagRepository.hasSims(tag2)).thenReturn(true)
 
         //  Act
         tagSearchPresenter.searchTag("tag")
 
         //  Assert
         verify(tagSimSearchView).displayTags(listOf(tag1, tag2))
+    }
+
+    @Test
+    fun shouldExcludeTagsThatAreUnUsedInSearchResults() {
+        //  Arrange
+        `when`(tagRepository.searchTag("tag")).thenReturn(listOf(tag1, tag2))
+        `when`(tagRepository.hasSims(tag1)).thenReturn(true)
+        `when`(tagRepository.hasSims(tag2)).thenReturn(false)
+
+        //  Act
+        tagSearchPresenter.searchTag("tag")
+
+        //  Assert
+        verify(tagSimSearchView).displayTags(listOf(tag1))
     }
 
     @Test

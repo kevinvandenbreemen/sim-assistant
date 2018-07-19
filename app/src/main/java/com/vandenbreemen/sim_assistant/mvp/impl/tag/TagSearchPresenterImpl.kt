@@ -10,7 +10,11 @@ class TagSearchPresenterImpl(val tagInteractor: TagInteractor, val simTagInterac
     }
 
     override fun searchTag(tagNameCriteria: String) {
-        tagInteractor.searchTags(tagNameCriteria).subscribe { tags ->
+        tagInteractor.searchTags(tagNameCriteria)
+                .flatMap { tags ->
+                    simTagInteractor.filterEmptyTags(tags)
+                }
+                .subscribe { tags ->
             tagSimSearchView.displayTags(tags)
         }
     }

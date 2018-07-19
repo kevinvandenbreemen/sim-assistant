@@ -27,6 +27,7 @@ interface SimTagInteractor {
     fun toggleTag(sim: Sim, tag: Tag): Completable
     fun getTags(sim: Sim): Single<List<Tag>>
     fun getSims(tag: Tag): Single<List<Sim>>
+    fun filterEmptyTags(tags: List<Tag>): Single<List<Tag>>
 }
 
 interface TagRepository{
@@ -38,4 +39,5 @@ interface TagRepository{
     fun removeTag(sim: Sim, tag: Tag)
     fun searchTag(tagNameCriteria: String): List<Tag>
     fun getSims(tag: Tag): List<Sim>
+    fun hasSims(tag: Tag): Boolean
 }
