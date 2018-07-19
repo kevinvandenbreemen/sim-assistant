@@ -168,4 +168,46 @@ class TagRepositoryImplTest{
         assertEquals("First Tag", tag, tags[0])
     }
 
+    @Test
+    fun shouldSearchTagIgnoringCase() {
+        //  Arrange
+        val tag = Tag(0, "Test")
+        app.boxStore.boxFor(Tag::class.java).put(tag)
+
+        //  Act
+        val tags = repository.searchTag("test")
+
+        //  Assert
+        assertEquals("Single Tag", 1, tags.size)
+        assertEquals("First Tag", tag, tags[0])
+    }
+
+    @Test
+    fun shouldSearchSubstrings() {
+        //  Arrange
+        val tag = Tag(0, "Test")
+        app.boxStore.boxFor(Tag::class.java).put(tag)
+
+        //  Act
+        val tags = repository.searchTag("te")
+
+        //  Assert
+        assertEquals("Single Tag", 1, tags.size)
+        assertEquals("First Tag", tag, tags[0])
+    }
+
+    @Test
+    fun shouldSearchForTextWithinTagName() {
+        //  Arrange
+        val tag = Tag(0, "Test Tag")
+        app.boxStore.boxFor(Tag::class.java).put(tag)
+
+        //  Act
+        val tags = repository.searchTag("tag")
+
+        //  Assert
+        assertEquals("Single Tag", 1, tags.size)
+        assertEquals("First Tag", tag, tags[0])
+    }
+
 }

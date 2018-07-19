@@ -13,7 +13,7 @@ import com.vandenbreemen.sim_assistant.mvp.tag.TagRepository
 class TagRepositoryImpl(val app: SimAssistantApp):TagRepository {
     override fun searchTag(tagNameCriteria: String): List<Tag> {
         return app.boxStore.boxFor(Tag::class.java).query()
-                .equal(Tag_.name, tagNameCriteria)
+                .contains(Tag_.name, tagNameCriteria)
                 .build().find()
     }
 
