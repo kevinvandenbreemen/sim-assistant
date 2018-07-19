@@ -154,4 +154,18 @@ class TagRepositoryImplTest{
         assertTrue("Has Tag", repository.hasTag(sim, tag))
     }
 
+    @Test
+    fun shouldSearchTag() {
+        //  Arrange
+        val tag = Tag(0, "Test")
+        app.boxStore.boxFor(Tag::class.java).put(tag)
+
+        //  Act
+        val tags = repository.searchTag("Test")
+
+        //  Assert
+        assertEquals("Single Tag", 1, tags.size)
+        assertEquals("First Tag", tag, tags[0])
+    }
+
 }
