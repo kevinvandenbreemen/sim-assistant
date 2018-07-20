@@ -18,7 +18,13 @@ class TagRepositoryImpl(val app: SimAssistantApp):TagRepository {
     }
 
     override fun getSims(tag: Tag): List<Sim> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val simTags = app.boxStore.boxFor(SimTag::class.java).query()
+                .equal(SimTag_.tagId, tag.id)
+                .build().find()
+
+        return simTags.map { simTag ->
+            app.boxStore.boxFor(Sim::class.java).get(simTag.simId)
+        }
     }
 
     companion object {

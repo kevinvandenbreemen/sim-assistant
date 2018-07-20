@@ -210,4 +210,29 @@ class TagRepositoryImplTest{
         assertEquals("First Tag", tag, tags[0])
     }
 
+    @Test
+    fun shouldFindSimsForTag() {
+        //  Arrange
+        val tag = Tag(0, "Test Tag")
+        app.boxStore.boxFor(Tag::class.java).put(tag)
+        val sim = Sim(0, "Kevin", "Test", 0, "Content")
+        app.boxStore.boxFor(Sim::class.java).put(sim)
+        val sim1 = Sim(0, "Kevin", "Test", 0, "Content11")
+        app.boxStore.boxFor(Sim::class.java).put(sim1)
+
+        val sim2 = Sim(0, "Kevin", "Test", 0, "Not Included")
+        app.boxStore.boxFor(Sim::class.java).put(sim2)
+
+        repository.tagSim(sim, tag)
+        repository.tagSim(sim1, tag)
+
+        //  Act
+        val sims = repository.getSims(tag)
+
+        //  Assert
+        assertEquals("2 Sims", 2, sims.size)
+        assertTrue("First Sim", sims.contains(sim))
+        assertTrue("Second Sim", sims.contains(sim1))
+    }
+
 }
