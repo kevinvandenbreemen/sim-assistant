@@ -3,6 +3,7 @@ package com.vandenbreemen.sim_assistant
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity(), MainScreenView, AboutListener {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val toolBar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolBar)
 
         findViewById<FloatingActionButton>(R.id.help).setOnClickListener({ v ->
             val popupContainer = findViewById<ViewGroup>(R.id.popupContainer)
