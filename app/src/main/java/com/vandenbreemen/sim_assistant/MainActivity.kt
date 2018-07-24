@@ -1,9 +1,12 @@
 package com.vandenbreemen.sim_assistant
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -49,6 +52,20 @@ class MainActivity : AppCompatActivity(), MainScreenView, AboutListener {
         super.onResume()
         presenter.start()
                 .subscribe()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        getMenuInflater().inflate(R.menu.menu_main_activity, menu)
+
+        //  Set up search action
+        //  See also https://www.dev2qa.com/android-actionbar-searchview-autocomplete-example/
+        val searchView = menu!!.findItem(R.id.app_bar_search).actionView as SearchView
+        val autoComplete = searchView.findViewById<SearchView.SearchAutoComplete>(
+                R.id.search_src_text
+        )
+        autoComplete.setTextColor(Color.WHITE)
+
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun promptForGoogleGroupDetails() {
