@@ -22,6 +22,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.shadows.ShadowLog
@@ -122,6 +123,30 @@ class SimListPresenterProviderImplTest{
 
         await().atMost(5, TimeUnit.SECONDS).until { !simList.isEmpty() }
         println("Sim List:  $simList")
+    }
+
+    @Test
+    fun shouldGeneratePresenterForKnownListOfSims() {
+
+        //  Arrange
+        val simListView = mock(SimListView::class.java)
+
+        val sim1 = Sim(
+                1, "test sim 1", "Kevin", 1, "This is a test"
+        )
+        val sim2 = Sim(
+                2, "test sim 2", "Kevin", 2, "This is another test"
+        )
+        simList.addAll(listOf(sim1, sim2))
+        val simListPresenter = simListPresenterProvider.getSimListPresenter(simList)
+
+        //  Act
+        simListPresenter.start(simListView)
+
+        //  Assert
+        verify(simListView).addSimItem(sim1)
+        verify(simListView).addSimItem(sim2)
+
     }
 
 }
