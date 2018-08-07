@@ -64,6 +64,16 @@ class MainActivity : AppCompatActivity(), MainScreenView, AboutListener {
                 R.id.search_src_text
         )
         autoComplete.setTextColor(Color.WHITE)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Toast.makeText(this@MainActivity, "Submitted $query", LENGTH_SHORT).show()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
 
         return super.onCreateOptionsMenu(menu)
     }
