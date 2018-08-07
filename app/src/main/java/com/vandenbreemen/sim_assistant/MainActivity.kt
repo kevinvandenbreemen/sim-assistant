@@ -145,8 +145,14 @@ class MainActivity : AppCompatActivity(), MainScreenView, AboutListener, TagSimS
                 val tag = tags[position]
                 val view = layoutInflater.inflate(R.layout.layout_tag_item, parent, false)
                 view.findViewById<TextView>(R.id.tagName).text = tag.name
+
+                view.setOnClickListener { v ->
+                    tagSearchPresenter.selectTag(tag)
+                }
+
                 return view
             }
+
         }
 
         searchAutoComplete.setAdapter(adapter)
@@ -154,6 +160,12 @@ class MainActivity : AppCompatActivity(), MainScreenView, AboutListener, TagSimS
     }
 
     override fun gotoSimList(sims: List<Sim>) {
+        val popupContainer = findViewById<ViewGroup>(R.id.popupContainer)
+        val presenter = presenterProvider.getSimListPresenter(sims)
+        val fragment = SimListFragment()
+        fragment.setPresenter(presenter)
+        popupContainer.removeAllViews()
 
+        fragmentManager.beginTransaction().add(R.id.popupContainer, fragment).commit()
     }
 }
