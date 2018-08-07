@@ -16,10 +16,15 @@ import com.vandenbreemen.sim_assistant.mvp.impl.mainscreen.UserSettingsInteracto
 import com.vandenbreemen.sim_assistant.mvp.impl.post.SimRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.post.google.GOOGLE_GROUPS_BASE_URL
 import com.vandenbreemen.sim_assistant.mvp.impl.post.simlist.SimListPresenterProviderImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.tag.SimTagInteractorImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.tag.TagInteractorImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.tag.TagRepositoryImpl
+import com.vandenbreemen.sim_assistant.mvp.impl.tag.TagSearchPresenterImpl
 import com.vandenbreemen.sim_assistant.mvp.impl.usersettings.UserSettingsRepositoryImpl
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.UserSettingsInteractor
 import com.vandenbreemen.sim_assistant.mvp.post.SimRepository
+import com.vandenbreemen.sim_assistant.mvp.tag.*
 import com.vandenbreemen.sim_assistant.mvp.usersettings.UserSettingsRepository
 import dagger.Module
 import dagger.Provides
@@ -91,6 +96,37 @@ class MainScreenModule {
     @Provides
     fun providesUserSettingsInteractor(userSettingsRepository: UserSettingsRepository): UserSettingsInteractor {
         return UserSettingsInteractorImpl(userSettingsRepository)
+    }
+
+    @Provides
+    fun providesTagSimSearchView(activity: MainActivity): TagSimSearchView {
+        return activity
+    }
+
+    @Provides
+    fun providesTagRepository(activity: MainActivity): TagRepository {
+        return TagRepositoryImpl(activity.application as SimAssistantApp)
+    }
+
+    @Provides
+    fun providesTagInteractor(tagRepository: TagRepository): TagInteractor {
+        return TagInteractorImpl(tagRepository)
+    }
+
+    @Provides
+    fun providesSimTagInteractor(tagRepository: TagRepository): SimTagInteractor {
+        return SimTagInteractorImpl(tagRepository)
+    }
+
+    @Provides
+    fun providesTagSimSearchRouter(activity: MainActivity): TagSimSearchRouter {
+        return activity
+    }
+
+    @Provides
+    fun providesTagSearchPresenter(tagInteractor: TagInteractor, simTagInteractor: SimTagInteractor,
+                                   simTagSimSearchView: TagSimSearchView, simTagSimSearchRouter: TagSimSearchRouter): TagSimSearchPresenter {
+        return TagSearchPresenterImpl(tagInteractor, simTagInteractor, simTagSimSearchView, simTagSimSearchRouter)
     }
 
 }
