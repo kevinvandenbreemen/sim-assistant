@@ -2,6 +2,7 @@ package com.vandenbreemen.sim_assistant.mvp.impl.post.simlist
 
 import com.vandenbreemen.sim_assistant.api.google.GoogleGroupsApi
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
+import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.app.SimAssistantApp
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsCachedPostRepository
 import com.vandenbreemen.sim_assistant.mvp.google.groups.GoogleGroupsInteractor
@@ -53,6 +54,10 @@ class SimListPresenterProviderImpl(
 
 
         }.subscribeOn(io())
+    }
+
+    override fun getSimListPresenter(simList: List<Sim>): SimListPresenter {
+        return SimListPresenterImpl(KnownSimListModel(simList))
     }
 
 

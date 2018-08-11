@@ -9,15 +9,20 @@ import com.vandenbreemen.sim_assistant.mvp.tag.TagSimSearchView
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers.trampoline
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.MockitoJUnit
+import org.robolectric.RobolectricTestRunner
 
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(RobolectricTestRunner::class)
 class TagSearchPresenterImplTest {
+
+    @get:Rule
+    val rule = MockitoJUnit.rule()
 
     @Mock
     lateinit var tagRepository: TagRepository
