@@ -19,6 +19,7 @@ class KnownSimListModel(val list: List<Sim>) : SimListModel {
 
     override fun selectSim(sim: Sim) {
         selectedSims.add(sim)
+        sim.selected = true
     }
 
     override fun hasSelectedSims(): Boolean {
@@ -31,5 +32,6 @@ class KnownSimListModel(val list: List<Sim>) : SimListModel {
 
     override fun deselectSim(sim: Sim) {
         this.selectedSims.remove(sim)
+        sim.selected = false
     }
 }
