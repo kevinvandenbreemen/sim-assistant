@@ -15,7 +15,7 @@ import java.util.*
 class SimListModelImpl(val postRepository: PostRepository): SimListModel {
 
     companion object {
-        val DEFAULT_NUM_POSTS = 15
+        val DEFAULT_NUM_POSTS = 100
     }
 
     val selectedSims = mutableListOf<Sim>()
