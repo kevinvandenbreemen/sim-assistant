@@ -30,7 +30,7 @@ class SimParser(val sim: Sim) {
             val sentenceRegex = "[.!]+".toRegex()
             if (sentenceRegex.containsMatchIn(line)) {
                 var betweenBreaks = sentenceRegex.split(line).filter { str -> !str.isBlank() }
-                if (sentence != null) {
+                if (sentence != null && betweenBreaks.isNotEmpty()) {
                     sentence = "$sentence ${betweenBreaks.get(0)}"
                     utterances.add(sentence!!)
                     sentence = null
