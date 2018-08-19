@@ -128,6 +128,21 @@ class SimParserTest {
     }
 
     @Test
+    fun shouldBeAbleToDetectSingleWordOnLine(){
+        val sim = Sim(0L,
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Imaginary))\n\nIt was a\n\tdark\nstormy night"
+        )
+
+        //  Act
+        val parser = SimParser(sim)
+        assertEquals("Number of Utterances", 4, parser.toUtterances().size)
+        assertEquals("It was a dark stormy night", parser.toUtterances()[3])
+    }
+
+    @Test
     fun shouldCountUtterancesCorrectly(){
         val sim = Sim(0L,
                 "Test Sim",
