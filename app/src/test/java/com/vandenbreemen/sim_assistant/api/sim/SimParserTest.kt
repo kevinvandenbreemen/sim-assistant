@@ -113,6 +113,21 @@ class SimParserTest {
     }
 
     @Test
+    fun shouldHandleLineWithTabsAndNoBreaks(){
+        //  ....................................................
+        val sim = Sim(0L,
+                "Test Sim",
+                "Kevin",
+                System.currentTimeMillis(),
+                "((Corridor - USS Imaginary))\n\nIt was a\n\t.............................\nstormy night"
+        )
+
+        //  Act
+        val parser = SimParser(sim)
+        parser.toUtterances()
+    }
+
+    @Test
     fun shouldCountUtterancesCorrectly(){
         val sim = Sim(0L,
                 "Test Sim",
