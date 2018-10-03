@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/cardview_dark_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="150dp"
@@ -11,7 +12,9 @@
 
 
     <TextView
+        android:textColor="@color/cardview_light_background"
         android:id="@+id/simTitle"
+        android:textSize="8pt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -27,6 +30,7 @@
         tools:text="Sim Title" />
 
     <TextView
+        android:textColor="@color/cardview_light_background"
         android:id="@+id/simAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,6 +40,7 @@
         tools:text="By John Smith" />
 
     <TextView
+        android:textColor="@color/cardview_light_background"
         android:id="@+id/simContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
