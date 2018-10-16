@@ -25,7 +25,8 @@ class SimListModelImpl(val postRepository: PostRepository): SimListModel {
     }
 
     override fun selectedSims(): List<Sim> {
-        return Collections.unmodifiableList(selectedSims)
+        val copyOfSelected = ArrayList<Sim>(selectedSims)
+        return Collections.unmodifiableList(copyOfSelected.sortedBy { sim->sim.postedDate })
     }
 
     override fun hasSelectedSims(): Boolean {

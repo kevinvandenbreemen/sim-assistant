@@ -43,6 +43,33 @@ class SimListModelImplTest {
     }
 
     @Test
+    fun selectedSimsShouldBeSortedInAscendingOrderOfDate(){
+        //  Arrange
+
+        sim = Sim(
+                1,
+                "Test", "Kevin", 444333, "This is a test"
+        )
+
+        var sim1 = Sim(
+                2,
+                "Test", "Kevin", 1231, "This is a test"
+        )
+
+        val simListModel = SimListModelImpl(postRepository)
+
+        //  Act
+        simListModel.selectSim(sim)
+        simListModel.selectSim(sim1)
+
+        //  Assert
+        val selectedSims = simListModel.selectedSims()
+        assertEquals(sim1, selectedSims[0])
+        assertEquals(sim, selectedSims[1])
+
+    }
+
+    @Test
     fun shouldDetermineIfSimsSelected() {
         //  Arrange
         val simListModel = SimListModelImpl(postRepository)

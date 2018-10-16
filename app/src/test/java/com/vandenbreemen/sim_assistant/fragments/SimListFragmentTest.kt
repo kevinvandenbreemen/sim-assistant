@@ -54,7 +54,7 @@ class SimListFragmentTest{
                 System.currentTimeMillis(),
                 "This is some test content"
         )
-        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim))
+        `when`(postRepository.getPosts(100)).thenReturn(Observable.just(sim))
         val fragment = SimListFragment()
         fragment.setPresenter(presenter)
 
@@ -77,7 +77,7 @@ class SimListFragmentTest{
                 System.currentTimeMillis(),
                 "This is some test content"
         )
-        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim))
+        `when`(postRepository.getPosts(100)).thenReturn(Observable.just(sim))
         val fragment = SimListFragment()
         fragment.setPresenter(presenter)
 
@@ -103,7 +103,7 @@ class SimListFragmentTest{
                 System.currentTimeMillis(),
                 "This is some test content"
         )
-        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim))
+        `when`(postRepository.getPosts(100)).thenReturn(Observable.just(sim))
         val fragment = SimListFragment()
         fragment.setPresenter(presenter)
 
@@ -136,7 +136,7 @@ class SimListFragmentTest{
                 cal.build().timeInMillis,
                 "This is some test content"
         )
-        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim))
+        `when`(postRepository.getPosts(100)).thenReturn(Observable.just(sim))
         val fragment = SimListFragment()
         fragment.setPresenter(presenter)
 
@@ -163,7 +163,7 @@ class SimListFragmentTest{
                 System.currentTimeMillis(),
                 "This is some test content"
         )
-        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim))
+        `when`(postRepository.getPosts(100)).thenReturn(Observable.just(sim))
         val fragment = SimListFragment()
         fragment.setPresenter(presenter)
 
@@ -202,7 +202,7 @@ class SimListFragmentTest{
                 "This is some test content"
         )
 
-        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim1, sim2))
+        `when`(postRepository.getPosts(100)).thenReturn(Observable.just(sim1, sim2))
         val fragment = SimListFragment()
         fragment.setPresenter(presenter)
 
@@ -241,7 +241,7 @@ class SimListFragmentTest{
                 "This is some test content"
         )
 
-        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim1, sim2))
+        `when`(postRepository.getPosts(100)).thenReturn(Observable.just(sim1, sim2))
         val fragment = SimListFragment()
         fragment.setPresenter(presenter)
 
@@ -286,7 +286,7 @@ class SimListFragmentTest{
                 "This is some test content"
         )
 
-        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim1, sim2))
+        `when`(postRepository.getPosts(100)).thenReturn(Observable.just(sim1, sim2))
         val fragment = SimListFragment()
         fragment.setPresenter(presenter)
 
@@ -319,7 +319,7 @@ class SimListFragmentTest{
                 "This is some test content"
         )
 
-        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim1, sim2))
+        `when`(postRepository.getPosts(100)).thenReturn(Observable.just(sim1, sim2))
         val fragment = SimListFragment()
         fragment.setPresenter(presenter)
 
@@ -355,7 +355,7 @@ class SimListFragmentTest{
                 "This is some test content"
         )
 
-        `when`(postRepository.getPosts(15)).thenReturn(Observable.just(sim1, sim2))
+        `when`(postRepository.getPosts(100)).thenReturn(Observable.just(sim1, sim2))
         val fragment = SimListFragment()
         fragment.setPresenter(presenter)
 
