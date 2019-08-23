@@ -2,7 +2,6 @@ package com.vandenbreemen.sim_assistant
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
@@ -14,8 +13,6 @@ import android.widget.Toast.LENGTH_SHORT
 import com.vandenbreemen.sim_assistant.api.presenter.SimListPresenterProvider
 import com.vandenbreemen.sim_assistant.api.sim.Sim
 import com.vandenbreemen.sim_assistant.api.sim.Tag
-import com.vandenbreemen.sim_assistant.fragments.AboutFragment
-import com.vandenbreemen.sim_assistant.fragments.AboutListener
 import com.vandenbreemen.sim_assistant.fragments.SimListFragment
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenPresenter
 import com.vandenbreemen.sim_assistant.mvp.mainscreen.MainScreenView
@@ -25,10 +22,9 @@ import com.vandenbreemen.sim_assistant.mvp.tag.TagSimSearchRouter
 import com.vandenbreemen.sim_assistant.mvp.tag.TagSimSearchView
 import dagger.android.AndroidInjection
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
-import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainScreenView, AboutListener, TagSimSearchView, TagSimSearchRouter {
+class MainActivity : AppCompatActivity(), MainScreenView, TagSimSearchView, TagSimSearchRouter {
 
 
     @Inject
@@ -49,12 +45,6 @@ class MainActivity : AppCompatActivity(), MainScreenView, AboutListener, TagSimS
 
         val toolBar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolBar)
-
-        findViewById<FloatingActionButton>(R.id.help).setOnClickListener({ v ->
-            val popupContainer = findViewById<ViewGroup>(R.id.popupContainer)
-            val helpAndAbout = AboutFragment()
-            supportFragmentManager.beginTransaction().add(R.id.popupContainer, helpAndAbout).commit()
-        })
     }
 
     override fun onResume() {
@@ -132,11 +122,6 @@ class MainActivity : AppCompatActivity(), MainScreenView, AboutListener, TagSimS
 
             fragmentManager.beginTransaction().add(R.id.popupContainer, fragment).commit()
         }
-    }
-
-    override fun onReturnToMain() {
-        popupContainer.removeAllViews()
-        presenter.start().subscribe()
     }
 
     override fun displayTags(tags: List<Tag>) {
