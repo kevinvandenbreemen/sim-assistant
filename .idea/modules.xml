@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/flutter_module/.android/Flutter/flutter.iml" filepath="$PROJECT_DIR$/flutter_module/.android/Flutter/flutter.iml" />
       <module fileurl="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/package_info-0.3.2/android/package_info.iml" filepath="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/package_info-0.3.2/android/package_info.iml" />
       <module fileurl="file://$PROJECT_DIR$/sim-assistant.iml" filepath="$PROJECT_DIR$/sim-assistant.iml" />
     </modules>
